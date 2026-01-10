@@ -1,14 +1,18 @@
-
-// Variables y Constantes
-//const nombre:string = "Juan Pablo";
-//let edad: number = 21;
-
-//console.log(nombre, typeof(nombre));
-//console.log(edad, typeof(edad));
-
+import { Texto } from "./components/Texto";
+import { Counter } from "./components/Counter";
 
 const App = () => {
-    return <div>Hola dsm 52</div>;
+    return (
+        <div>
+                <h1>Hola dsm 52</h1>
+                <Texto
+                    texto="Alejandra"
+                />
+                <Counter
+                    valor={10}
+                />
+        </div>
+    );
 }
 
 export default App;

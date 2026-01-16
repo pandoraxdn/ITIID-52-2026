@@ -21,7 +21,7 @@ export const useApiGif = (): UseApiGif => {
         setIsLoading(true);
         const response = await pandoraApi.get<GIFTrendingResponse>( `${apiUrl}/trending`,{
             params:{
-                api_key: "qGC2Zueq8FIIx9HOOtBVltVo7RHuHETf",
+                api_key: "GobRdwqjnW0rNlTM5qYeGxQ7Rh8bcICy",
                 limit: 10
             }
         });
@@ -46,7 +46,7 @@ export const useApiGif = (): UseApiGif => {
         setIsLoading(true);
         const response = await pandoraApi.get<GIFTrendingResponse>( `${apiUrl}/search`,{
             params:{
-                api_key:    "qGC2Zueq8FIIx9HOOtBVltVo7RHuHETf",
+                api_key:    "GobRdwqjnW0rNlTM5qYeGxQ7Rh8bcICy",
                 q:          data.query,
                 limit:      10
             }

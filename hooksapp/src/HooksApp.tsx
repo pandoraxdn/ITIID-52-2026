@@ -1,15 +1,17 @@
-import { Container } from "./components/Container";
-import { CustomForm } from "./components/CustomForm";
+//import { Container } from "./components/Container";
+//import { CustomForm } from "./components/CustomForm";
+//import { TrafficLight } from "./01-useState/TrafficLight";
+//import { TrafficLightEffect } from "./02-useEffect/TrafficLightEffect";
+import { PokemonPage } from "./03-examples/PokemonPage";
 
 const HooksApp = () => {
   return (
     <div
-        style={{
-            alignContent: "center",
-            alignItems: "center",
-            flex: 1
-        }}
+        className="bg-gradient"
     >
+      <PokemonPage />
+      {/*
+        <TrafficLight />
         <Container>
             <h1
                 style={{
@@ -24,6 +26,7 @@ const HooksApp = () => {
             </h1>
             <CustomForm/>
         </Container>
+      */}
     </div>
   );
 };

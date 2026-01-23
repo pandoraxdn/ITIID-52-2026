@@ -2,15 +2,17 @@
 //import { CustomForm } from "./components/CustomForm";
 //import { TrafficLight } from "./01-useState/TrafficLight";
 //import { TrafficLightEffect } from "./02-useEffect/TrafficLightEffect";
-import { PokemonPage } from "./03-examples/PokemonPage";
+//import { PokemonPage } from "./03-examples/PokemonPage";
+import { TaskApp } from "./04-useReducer/TaskApp";
 
 const HooksApp = () => {
   return (
     <div
         className="bg-gradient"
     >
-      <PokemonPage />
+      <TaskApp/> 
       {/*
+        <PokemonPage />
         <TrafficLight />
         <Container>
             <h1

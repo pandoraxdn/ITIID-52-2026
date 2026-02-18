@@ -1,7 +1,6 @@
 # ITIID-52-2026
 
 ## Crear proyecto react ts
-``````
 ```bash
 npm create vite
 ```

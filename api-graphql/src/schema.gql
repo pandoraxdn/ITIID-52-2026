@@ -1,0 +1,913 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Materia {
+  id_materia: ID!
+  clave_oficial: String!
+  nombre: String!
+  creditos: Int!
+  tipo: TipoMateria!
+  descripcion: String!
+}
+
+enum TipoMateria {
+  OBLIGATORIA
+  OPTATIVA
+  TALLER
+}
+
+type JornadaLaboral {
+  id_jornada: ID!
+  empleado_id: Int!
+  dia_semana: String!
+  horaEntrada: DateTime!
+  horaSalida: String!
+  tolerancia_minutos: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type AsistenciaEmpleado {
+  id_asistencia_emp: ID!
+  empleado_id: Int!
+  fecha: DateTime!
+  hora_entrada_real: DateTime!
+  hora_salida_real: DateTime!
+  estado_asistencia: EstadoAsistencia!
+  minutos_retardo: Int!
+  observaciones: String!
+}
+
+enum EstadoAsistencia {
+  ASISTENCIA
+  FALTA
+  RETARDO
+  JUSTIFICADO
+}
+
+type JustificanteEmpleado {
+  id_justificante_emp: ID!
+  empleado_id: Int!
+  tipo_justificante: TipoJustificante!
+  fecha_inicio: DateTime!
+  fecha_fin: DateTime!
+  motivo: String!
+  estado_aprobacion: EstadoAprobacion!
+  documento_url: String!
+}
+
+enum TipoJustificante {
+  ENFERMEDAD
+  VACACIONES
+  PERSONAL
+}
+
+enum EstadoAprobacion {
+  PENDIENTE
+  APROBADO
+  RECHAZADO
+}
+
+type AlumnoTutor {
+  id_de_al_tutor: ID!
+  alumno_id: Int!
+  tutor_id: Int!
+  es_tutor_financiero: Boolean!
+}
+
+type Tutor {
+  id_tutor: ID!
+  nombre: String!
+  apellido_p: String!
+  apellido_m: String!
+  relacion: TipoRelacion!
+  telefono_principal: String!
+  telefono_emergencia: String!
+  email: String!
+}
+
+enum TipoRelacion {
+  PADRE
+  MADRE
+  TIO
+  ABUELO
+}
+
+type Rol {
+  id_rol: ID!
+  nombre: String!
+  descripcion: String!
+}
+
+type AuditoriaLog {
+  id_log: ID!
+  usuario_id: Int!
+  accion: String!
+  tabla_afectada: String!
+  registro_id: Int!
+  valor_anterior: String!
+  valor_nuevo: String!
+  fecha: DateTime!
+  ip: String!
+}
+
+type Usuario {
+  id_usuario: ID!
+  username: String!
+  password_hash: String!
+  rol_id: Int!
+  empleado_id: Int
+  alumno_id: Int
+  tutor_id: Int
+  avatar_url: String!
+  ultimo_acceso: DateTime!
+  activo: Boolean!
+}
+
+type Empleado {
+  id_empleado: ID!
+  numero_empleado: String!
+  nombre: String!
+  apellido_p: String!
+  apellido_m: String!
+  email_personal: String!
+  email_institucional: String!
+  telefono: String!
+  tipo_empleado: TipoEmpleado!
+  puesto: TipoPuesto!
+  departamento: String!
+  fecha_contratacion: DateTime!
+  activo: Boolean!
+}
+
+enum TipoEmpleado {
+  DOCENTE
+  ADMINISTRATIVO
+  OPERATIVO
+}
+
+enum TipoPuesto {
+  MAESTRO
+  DIRECTOR
+  LIMPIEZA
+  SEGURIDAD
+}
+
+type Profesor {
+  id_profesor: ID!
+  empleado_id: Int!
+  especialidad: String!
+  nivel_estudios: TipoNivelEstudio!
+  cedula_profesional: String!
+}
+
+enum TipoNivelEstudio {
+  LICENCIATURA
+  MAESTRIA
+  DOCTORADO
+}
+
+type HorarioClase {
+  id_horario_clase: ID!
+  det_grupo_materia_id: Int!
+  dia_semana: String!
+  hora_inicio: DateTime!
+  hora_fin: DateTime!
+}
+
+type AsistenciaAlumno {
+  id_asistencia_al: ID!
+  inscripcion_id: Int!
+  det_grupo_materia_id: Int!
+  fecha: DateTime!
+  estado_asistencia: EstadoAsistenciaAl!
+  observaciones: String!
+}
+
+enum EstadoAsistenciaAl {
+  ASISTENCIA
+  FALTA
+  RETARDO
+  JUSTIFICADO
+}
+
+type DetGrupoMateria {
+  id_det_grupo_materia: ID!
+  grupo_id: Int!
+  materia_id: Int!
+  profesor_id: Int!
+  salon_asignado: String
+}
+
+type Calificacion {
+  id_calificacion: ID!
+  inscripcion_id: Int!
+  det_grupo_materia_id: Int!
+  periodo_id: Int!
+  valor: Float!
+  faltas_periodo: Int!
+  observaciones: String!
+}
+
+type Periodo {
+  id_periodo: ID!
+  nombre: String!
+  tipo: String!
+  fecha_inicio: DateTime!
+  fecha_fin: DateTime!
+  fecha_limite_captura: DateTime!
+  ciclo_id: Int!
+}
+
+type ConsumoComedor {
+  id_consumo: ID!
+  alumno_id: Int!
+  fecha: DateTime!
+  tipo_consumo: TipoConsumo!
+  menu_id: Int!
+  observaciones: String!
+  reporte_incidencia: String!
+}
+
+enum TipoConsumo {
+  MENUESCOLAR
+  COMIDACASA
+  NOCOMIO
+}
+
+type MenuComedor {
+  id_menu: ID!
+  fecha: DateTime!
+  titulo: String!
+  descripcion: String!
+  alergenos: String!
+  costo: Float!
+  ciclo_id: Int!
+}
+
+type CicloEscolar {
+  id_ciclo: ID!
+  nombre: String!
+  fecha_inicio: DateTime!
+  fecha_fin: DateTime!
+  activo: Boolean!
+}
+
+type Grupo {
+  id_grupo: ID!
+  nombre: String!
+  grupo: String!
+  turno: TipoTurno!
+  nivel: TipoNivel!
+  cupo_maximo: Int!
+  aula: String!
+  ciclo_id: Int!
+}
+
+enum TipoTurno {
+  MATUTINO
+  VESPERTINO
+}
+
+enum TipoNivel {
+  INICIAL
+  PRIMARIA
+  SECUNDARIA
+  BACHILLERATO
+}
+
+type Inscripcion {
+  id_inscripcion: ID!
+  alumno_id: Int!
+  grupo_id: Int!
+  ciclo_id: Int!
+  fecha_inscripcion: DateTime!
+  beca_porcentaje: Float!
+}
+
+type ConceptoPago {
+  id_concepto: ID!
+  nombre: String!
+  monto: Float!
+  es_recurrente: Boolean!
+}
+
+type Pago {
+  id_pago: ID!
+  alumno_id: Int!
+  concepto_id: Int!
+  monto_pagado: Float!
+  fecha_pago: DateTime!
+  metodo_pago: TipoPago!
+  estado: EstadoPago!
+  referencia_bancaria: String
+}
+
+enum TipoPago {
+  EFECTIVO
+  TRANSFERENCIA
+  TARJETA
+}
+
+enum EstadoPago {
+  PAGADO
+  PENDIENTE
+  CANCELADO
+}
+
+type Alumno {
+  id_alumno: ID!
+  matricula: String!
+  nombre: String!
+  apellido_p: String!
+  apellido_m: String!
+  genero: String!
+  curp: String!
+  email_institucional: String!
+  direccion: String!
+  tipo_sangre: String!
+  alergias: String!
+  condiciones_medicas: String!
+  fecha_ingreso: DateTime!
+  activo: Boolean!
+}
+
+type Query {
+  """Hola mundo es lo que retorna"""
+  hello: String!
+  alumnos: [Alumno!]!
+  alumno(id: Int!): Alumno!
+  findAll: [AlumnoTutor!]!
+  alumnosTutores(id: Int!): AlumnoTutor!
+  asistenciasAlumnos: [AsistenciaAlumno!]!
+  asistenciaAlumno(id: Int!): AsistenciaAlumno!
+  asistenciasEmpleados: [AsistenciaEmpleado!]!
+  asistenciaEmpleado(id: Int!): AsistenciaEmpleado!
+  auditoriasLog: [AuditoriaLog!]!
+  auditoriaLog(id: Int!): AuditoriaLog!
+  calificaciones: [Calificacion!]!
+  calificacion(id: Int!): Calificacion!
+  ciclosEscolares: [CicloEscolar!]!
+  cicloEscolar(id: Int!): CicloEscolar!
+  concetosPago: [ConceptoPago!]!
+  conceptoPago(id: Int!): ConceptoPago!
+  consumosComedor: [ConsumoComedor!]!
+  consumoComedor(id: Int!): ConsumoComedor!
+  detGruposMaterias: [DetGrupoMateria!]!
+  detGrupoMateria(id: Int!): DetGrupoMateria!
+  empleados: [Empleado!]!
+  empleado(id: Int!): Empleado!
+  grupos: [Grupo!]!
+  grupo(id: Int!): Grupo!
+  horariosClase: [HorarioClase!]!
+  horarioClase(id: Int!): HorarioClase!
+  inscripciones: [Inscripcion!]!
+  inscripcion(id: Int!): Inscripcion!
+  jornadasLaborales: [JornadaLaboral!]!
+  jornadaLaboral(id: Int!): JornadaLaboral!
+  justificantesEmpleado: [JustificanteEmpleado!]!
+  justificanteEmpleado(id: Int!): JustificanteEmpleado!
+  materias: [Materia!]!
+  materia(id: Int!): Materia!
+  menusComedor: [MenuComedor!]!
+  menuComedor(id: Int!): MenuComedor!
+  pagos: [Pago!]!
+  pago(id: Int!): Pago!
+  periodos: [Periodo!]!
+  periodo(id: Int!): Periodo!
+  profesores: [Profesor!]!
+  profesor(id: Int!): Profesor!
+  roles: [Rol!]!
+  rol(id: Int!): Rol!
+  tutores: [Tutor!]!
+  tutor(id: Int!): Tutor!
+  usuarios: [Usuario!]!
+  usuario(id: Int!): Usuario!
+}
+
+type Mutation {
+  createAlumno(input: CreateAlumnoInput!): Alumno!
+  updateAlumno(id: Int!, input: UpdateAlumnoInput!): Alumno!
+  deleteAlumno(id: Int!): Boolean!
+  alumnoTutor(input: CreateAlumnoTutorInput!): AlumnoTutor!
+  updateAlumnoTutor(id: Int!, input: UpdateAlumnoTutorInput!): AlumnoTutor!
+  alumnoTutorDelete(id: Int!): Boolean!
+  createAsitenciaAlumno(input: CreateAsistenciaAlumnoInput!): AsistenciaAlumno!
+  updateAsistenciaAlumno(id: Int!, input: UpdateAsistenciaAlumnoInput!): AsistenciaAlumno!
+  removeAsitenciaAlumno(id: Int!): Boolean!
+  createAsistenciaEmpleado(input: CreateAsistenciaEmpleadoInput!): AsistenciaEmpleado!
+  updateAsistenciaEmpleado(id: Int!, input: UpdateAsistenciaEmpleadoInput!): AsistenciaEmpleado!
+  deleteAsistenciaEmpleado(id: Int!): Boolean!
+  createAuditoriaLog(input: CreateAuditoriaLogInput!): AuditoriaLog!
+  updateAuditoriaLog(id: Int!, input: UpdateAuditoriaLogInput!): AuditoriaLog!
+  deleteAuditoriaLog(id: Int!): Boolean!
+  createCalificacion(input: CreateCalificacionInput!): Calificacion!
+  updateCalificacion(id: Int!, input: UpdateCalificacionInput!): Calificacion!
+  removeCalificacion(id: Int!): Boolean!
+  createCicloEscolar(input: CreateCicloEscolarInput!): CicloEscolar!
+  updateCicloEscolar(id: Int!, input: UpdateCicloEscolarInput!): CicloEscolar!
+  deleteCicloEscolar(id: Int!): Boolean!
+  createConceptoPago(input: CreateConceptoPagoInput!): ConceptoPago!
+  updateConceptoPago(id: Int!, input: UpdateConsumoComedorInput!): ConsumoComedor!
+  removeConceptoPago(id: Int!): Boolean!
+  createConsumoComedor(input: CreateConsumoComedorInput!): ConsumoComedor!
+  deleteConceptoPago(id: Int!): Boolean!
+  createDetGrupoMateria(input: CreateDetGrupoMateriaInput!): DetGrupoMateria!
+  updateDetGrupoMateria(id: Int!, input: UpdateDetGrupoMateriaInput!): DetGrupoMateria!
+  deleteDetGrupoMateria(id: Int!): Boolean!
+  createEmpleado(input: CreateEmpleadoInput!): Empleado!
+  updateEmpleado(id: Int!, input: UpdateEmpleadoInput!): Empleado!
+  deleteEmpleado(id: Int!): Boolean!
+  createGrupo(input: CreateGrupoInput!): Grupo!
+  updateGrupo(id: Int!, input: UpdateGrupoInput!): Grupo!
+  deleteGrupo(id: Int!): Boolean!
+  createHorarioClase(input: CreateHorarioClaseInput!): HorarioClase!
+  updateHorarioClase(id: Int!, input: UpdateHorarioClaseInput!): HorarioClase!
+  deleteHorarioClase(id: Int!): Boolean!
+  createInscripcion(input: CreateInscripcionInput!): Inscripcion!
+  updateInscripcion(id: Int!, input: UpdateInscripcionInput!): Inscripcion!
+  deleteInscripcion(id: Int!): Boolean!
+  createJornadaLaboral(input: CreateJornadaLaboralInput!): JornadaLaboral!
+  updateJornadaLaboral(id: Int!, input: UpdateJornadaLaboralInput!): JornadaLaboral!
+  deleteJornadaLaboral(id: Int!): Boolean!
+  createJustificanteEmpleado(input: CreateJustificanteEmpleadoInput!): JustificanteEmpleado!
+  updateJustificanteEmpleado(id: Int!, input: UpdateJustificanteEmpleadoInput!): JustificanteEmpleado!
+  deleteJustificanteEmpleado(id: Int!): JustificanteEmpleado!
+  createMateria(input: CreateMateriaInput!): Materia!
+  updateMateria(id: Int!, input: UpdateMateriaInput!): Materia!
+  deleteMateria(id: Int!): Boolean!
+  createMenuComedor(input: CreateMenuComedorInput!): MenuComedor!
+  updateMenuComedor(id: Int!, input: UpdateMenuComedorInput!): MenuComedor!
+  deleteMenucComedor(id: Int!): Boolean!
+  createPago(input: CreatePagoInput!): Pago!
+  updatePago(id: Int!, input: UpdatePagoInput!): Pago!
+  deletePago(id: Int!): Boolean!
+  createPeriodo(input: CreatePeriodoInput!): Periodo!
+  updatePeriodo(id: Int!, input: UpdatePeriodoInput!): Periodo!
+  deletePeriodo(id: Int!): Boolean!
+  createProfesor(input: CreateProfesorInput!): Profesor!
+  updateProfesor(id: Int!, input: UpdateProfesorInput!): Profesor!
+  deleteProfesor(id: Int!): Boolean!
+  createRol(input: CreateRolInput!): Rol!
+  updateRol(id: Int!, input: UpdateRolInput!): Rol!
+  deleteRol(id: Int!): Boolean!
+  createTutor(input: CreateTutorInput!): Tutor!
+  updateTutor(id: Int!, input: UpdateTutorInput!): Tutor!
+  deleteTutor(id: Int!): Tutor!
+  createUsuario(input: CreateUsuarioInput!): Usuario!
+  updateUsuario(id: Int!, input: UpdateUsuarioInput!): Usuario!
+  deleteUsuario(id: Int!): Boolean!
+}
+
+input CreateAlumnoInput {
+  matricula: String!
+  nombre: String!
+  apellido_p: String!
+  apellido_m: String!
+  genero: String!
+  curp: String!
+  email_institucional: String!
+  direccion: String!
+  tipo_sangre: String!
+  alergias: String!
+  condiciones_medicas: String!
+  fecha_ingreso: DateTime!
+  activo: String!
+}
+
+input UpdateAlumnoInput {
+  matricula: String
+  nombre: String
+  apellido_p: String
+  apellido_m: String
+  genero: String
+  curp: String
+  email_institucional: String
+  direccion: String
+  tipo_sangre: String
+  alergias: String
+  condiciones_medicas: String
+  fecha_ingreso: DateTime
+  activo: String
+  id_alumno: ID!
+}
+
+input CreateAlumnoTutorInput {
+  alumno_id: Int!
+  tutor_id: Int!
+  es_tutor_financiero: Boolean!
+}
+
+input UpdateAlumnoTutorInput {
+  alumno_id: Int
+  tutor_id: Int
+  es_tutor_financiero: Boolean
+  id_de_al_tutor: ID!
+}
+
+input CreateAsistenciaAlumnoInput {
+  inscripcion_id: Int!
+  det_grupo_materia_id: Int!
+  fecha: DateTime!
+  estado_asistencia: EstadoAsistenciaAl!
+  observaciones: String!
+}
+
+input UpdateAsistenciaAlumnoInput {
+  inscripcion_id: Int
+  det_grupo_materia_id: Int
+  fecha: DateTime
+  estado_asistencia: EstadoAsistenciaAl
+  observaciones: String
+  id_asistencia_al: ID!
+}
+
+input CreateAsistenciaEmpleadoInput {
+  empleado_id: Int!
+  fecha: DateTime!
+  hora_entrada_real: DateTime!
+  hora_salida_real: DateTime!
+  estado_asistencia: String!
+  minutos_retardo: Int!
+  observaciones: String!
+}
+
+input UpdateAsistenciaEmpleadoInput {
+  empleado_id: Int
+  fecha: DateTime
+  hora_entrada_real: DateTime
+  hora_salida_real: DateTime
+  estado_asistencia: String
+  minutos_retardo: Int
+  observaciones: String
+  id_asistencia_emp: ID!
+}
+
+input CreateAuditoriaLogInput {
+  usuario_id: Int!
+  accion: String!
+  tabla_afectada: String!
+  valor_anterior: String!
+  valor_nuevo: String!
+  fecha: DateTime!
+  ip: String!
+}
+
+input UpdateAuditoriaLogInput {
+  usuario_id: Int
+  accion: String
+  tabla_afectada: String
+  valor_anterior: String
+  valor_nuevo: String
+  fecha: DateTime
+  ip: String
+  id_log: ID!
+}
+
+input CreateCalificacionInput {
+  inscripcion_id: Int!
+  det_grupo_materia_id: Int!
+  periodo_id: Int!
+  valor: Int!
+  faltas_periodo: Int!
+  observaciones: String!
+}
+
+input UpdateCalificacionInput {
+  inscripcion_id: Int
+  det_grupo_materia_id: Int
+  periodo_id: Int
+  valor: Int
+  faltas_periodo: Int
+  observaciones: String
+  id_calificacion: ID!
+}
+
+input CreateCicloEscolarInput {
+  nombre: String!
+  fecha_inicio: DateTime!
+  fecha_fin: DateTime!
+  activo: String!
+}
+
+input UpdateCicloEscolarInput {
+  nombre: String
+  fecha_inicio: DateTime
+  fecha_fin: DateTime
+  activo: String
+  id_ciclo: ID!
+}
+
+input CreateConceptoPagoInput {
+  nombre: String!
+  monto: Int!
+  es_recurrente: Boolean!
+}
+
+input UpdateConsumoComedorInput {
+  alumno_id: Int
+  fecha: DateTime
+  tipo_consumo: String
+  menu_id: Int
+  observaciones: String
+  reporte_incidencia: String
+  id_consumo: ID!
+}
+
+input CreateConsumoComedorInput {
+  alumno_id: Int!
+  fecha: DateTime!
+  tipo_consumo: String!
+  menu_id: Int!
+  observaciones: String!
+  reporte_incidencia: String!
+}
+
+input CreateDetGrupoMateriaInput {
+  grupo_id: Int!
+  materia_id: Int!
+  profesor_id: Int!
+  salon_asignado: String
+}
+
+input UpdateDetGrupoMateriaInput {
+  grupo_id: Int
+  materia_id: Int
+  profesor_id: Int
+  salon_asignado: String
+  id_det_grupo_materia: ID!
+}
+
+input CreateEmpleadoInput {
+  numero_empleado: String!
+  nombre: String!
+  apellido_p: String!
+  apellido_m: String!
+  email_personal: String!
+  email_institucional: String!
+  telefono: String!
+  tipo_empleado: String!
+  puesto: String!
+  departamento: String!
+  fecha_contratacion: DateTime!
+  activo: String!
+}
+
+input UpdateEmpleadoInput {
+  numero_empleado: String
+  nombre: String
+  apellido_p: String
+  apellido_m: String
+  email_personal: String
+  email_institucional: String
+  telefono: String
+  tipo_empleado: String
+  puesto: String
+  departamento: String
+  fecha_contratacion: DateTime
+  activo: String
+  id_empleado: ID!
+}
+
+input CreateGrupoInput {
+  nombre: String!
+  grupo: String!
+  turno: String!
+  nivel: String!
+  cupo_maximo: Int
+  aula: String!
+  ciclo_id: Int!
+}
+
+input UpdateGrupoInput {
+  nombre: String
+  grupo: String
+  turno: String
+  nivel: String
+  cupo_maximo: Int
+  aula: String
+  ciclo_id: Int
+  id_grupo: ID!
+}
+
+input CreateHorarioClaseInput {
+  det_grupo_materia_id: Int!
+  dia_semana: String!
+  hora_inicio: DateTime!
+  hora_fin: DateTime!
+}
+
+input UpdateHorarioClaseInput {
+  det_grupo_materia_id: Int
+  dia_semana: String
+  hora_inicio: DateTime
+  hora_fin: DateTime
+  id_horario_clase: ID!
+}
+
+input CreateInscripcionInput {
+  alumno_id: Int!
+  grupo_id: Int!
+  ciclo_id: Int!
+  fecha_inscripcion: DateTime!
+  beca_porcentaje: Int!
+}
+
+input UpdateInscripcionInput {
+  alumno_id: Int
+  grupo_id: Int
+  ciclo_id: Int
+  fecha_inscripcion: DateTime
+  beca_porcentaje: Int
+  id_inscripcion: ID!
+}
+
+input CreateJornadaLaboralInput {
+  empleado_id: Int!
+  dia_semana: String!
+  horaEntrada: DateTime!
+  horaSalida: String!
+  tolerancia_minutos: Int!
+}
+
+input UpdateJornadaLaboralInput {
+  empleado_id: Int
+  dia_semana: String
+  horaEntrada: DateTime
+  horaSalida: String
+  tolerancia_minutos: Int
+  id_jornada: ID!
+}
+
+input CreateJustificanteEmpleadoInput {
+  empleado_id: Int!
+  tipo_justificante: String!
+  fecha_inicio: DateTime!
+  fecha_fin: DateTime!
+  motivo: String!
+  estado_aprobacion: String!
+  documento_url: String!
+}
+
+input UpdateJustificanteEmpleadoInput {
+  empleado_id: Int
+  tipo_justificante: String
+  fecha_inicio: DateTime
+  fecha_fin: DateTime
+  motivo: String
+  estado_aprobacion: String
+  documento_url: String
+  id_justificante: ID!
+}
+
+input CreateMateriaInput {
+  clave_oficial: String!
+  nombre: String!
+  creditos: Int!
+  tipo: String!
+  descripcion: String!
+}
+
+input UpdateMateriaInput {
+  clave_oficial: String
+  nombre: String
+  creditos: Int
+  tipo: String
+  descripcion: String
+  id_materia: ID!
+}
+
+input CreateMenuComedorInput {
+  fecha: DateTime!
+  titulo: String!
+  descripcion: String!
+  alergenos: String!
+  costo: Int!
+  ciclo_id: Int!
+}
+
+input UpdateMenuComedorInput {
+  fecha: DateTime
+  titulo: String
+  descripcion: String
+  alergenos: String
+  costo: Int
+  ciclo_id: Int
+  id_menu: ID!
+}
+
+input CreatePagoInput {
+  alumno_id: Int!
+  concepto_id: Int!
+  monto_pagado: Int!
+  fecha_pago: DateTime!
+  metodo_pago: String!
+  estado: String!
+  referencia_bancaria: String
+}
+
+input UpdatePagoInput {
+  alumno_id: Int
+  concepto_id: Int
+  monto_pagado: Int
+  fecha_pago: DateTime
+  metodo_pago: String
+  estado: String
+  referencia_bancaria: String
+  id_pago: ID!
+}
+
+input CreatePeriodoInput {
+  nombre: String!
+  tipo: String!
+  fecha_inicio: DateTime!
+  fecha_fin: DateTime!
+  fecha_limite_captura: DateTime!
+  ciclo_id: Int!
+}
+
+input UpdatePeriodoInput {
+  nombre: String
+  tipo: String
+  fecha_inicio: DateTime
+  fecha_fin: DateTime
+  fecha_limite_captura: DateTime
+  ciclo_id: Int
+  id_periodo: ID!
+}
+
+input CreateProfesorInput {
+  empleado_id: Int!
+  especialidad: String!
+  nivel_estudios: String!
+  cedula_profesional: String!
+}
+
+input UpdateProfesorInput {
+  empleado_id: Int
+  especialidad: String
+  nivel_estudios: String
+  cedula_profesional: String
+  id_profesor: ID!
+}
+
+input CreateRolInput {
+  nombre: String!
+  descripcion: String!
+}
+
+input UpdateRolInput {
+  nombre: String
+  descripcion: String
+  id_rol: ID!
+}
+
+input CreateTutorInput {
+  nombre: String!
+  apellido_p: String!
+  apellido_m: String!
+  relacion: String!
+  telefono_principal: String!
+  telefono_emergencia: String!
+  email: String!
+}
+
+input UpdateTutorInput {
+  nombre: String
+  apellido_p: String
+  apellido_m: String
+  relacion: String
+  telefono_principal: String
+  telefono_emergencia: String
+  email: String
+  id_tutor: ID!
+}
+
+input CreateUsuarioInput {
+  username: Int!
+  password_hash: String!
+  rol_id: Int!
+  empleado_id: Int
+  alumno_id: Int
+  tutor_id: Int
+  avatar_url: String!
+  ultimo_acceso: String!
+  activo: String!
+}
+
+input UpdateUsuarioInput {
+  username: Int
+  password_hash: String
+  rol_id: Int
+  empleado_id: Int
+  alumno_id: Int
+  tutor_id: Int
+  avatar_url: String
+  ultimo_acceso: String
+  activo: String
+  id_usuario: ID!
+}

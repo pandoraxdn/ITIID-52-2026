@@ -34,7 +34,7 @@ export const ContactSection = () => (
           </div>
           <Input placeholder="Teléfono" type="tel" />
           <Textarea placeholder="Escribe tu mensaje..." rows={5} />
-          <Button type="submit" className="w-full bg-primary font-semibold">
+          <Button type="submit" variant="secondary" className="w-full neon-gold-border font-semibold">
             Enviar Mensaje
           </Button>
         </motion.form>

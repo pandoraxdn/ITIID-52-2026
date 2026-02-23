@@ -1,11 +1,11 @@
 import {useState, useEffect} from "react";
+import './styles/login.css';
 import {useLogin} from "./hooks/useLogin";
+import {ButtonTheme} from "./components/BottonTheme";
 import {Particles} from "./components/Particles";
-import {ButtonTheme} from "./components/ButtonTheme";
 import {LogoLogin} from "./components/LogoLogin";
 import {FormLogin} from "./components/FormLogin";
 import {CharacterLogin} from "./components/CharacterLogin";
-import './styles/login.css';
 
 export const LoginPage = () => {
 
@@ -32,8 +32,8 @@ export const LoginPage = () => {
         <section className={`form-panel${state.mounted ? " form-mounted" : ""}`}>
           {/* Logo */}
           <LogoLogin
-            title="Pandora's Box"
-            subTitle="Abre la caja, descubre tu mundo"
+            title="Ingresar al sistema"
+            subTitle="Bienvenido al sistema"
           />
           {/* Form */}
           <FormLogin

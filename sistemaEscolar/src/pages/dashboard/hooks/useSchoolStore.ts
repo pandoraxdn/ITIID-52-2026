@@ -1,5 +1,16 @@
 import {useState, useCallback} from "react";
-import {Alumno, Materia, Profesor, Inscripcion, Calificacion, AlumnoForm, MateriaForm, ProfesorForm, InscripcionForm, CalificacionForm} from "./../types/school";
+import {
+  Alumno,
+  AlumnoForm,
+  Calificacion,
+  CalificacionForm,
+  Inscripcion,
+  InscripcionForm,
+  Materia,
+  MateriaForm,
+  Profesor,
+  ProfesorForm
+} from "@/pages/dashboard/types/school";
 
 const KEYS = {
   alumnos: "school_alumnos",

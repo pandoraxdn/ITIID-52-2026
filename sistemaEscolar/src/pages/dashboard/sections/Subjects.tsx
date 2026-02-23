@@ -6,11 +6,11 @@ import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Plus, Search, Pencil, Trash2, BookOpen, Hash, Clock, Award} from "lucide-react";
-import {Materia, MateriaForm} from "../types/school";
+import {Materia, MateriaForm} from "@/types/school";
 
 const empty: MateriaForm = {clave: "", nombre: "", creditos: 0, semestre: 1, horasSemana: 0};
 
-export function Subjects() {
+export const Subjects = () => {
   const {materias, createMateria, updateMateria, deleteMateria} = useSchool();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Materia | null>(null);

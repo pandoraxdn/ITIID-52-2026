@@ -2,199 +2,9 @@
 /* page.tailwind.css — Tailwind v4 compatible (CSS-first) */
 @import "tailwindcss";
 
-/* ---------------------------
-   Theme variables (v4)
-   --------------------------- */
-@theme {
-  /* palette / tokens (light) */
-  --color-background: 40 20% 97%;
-  --color-foreground: 30 10% 10%;
-  --background: 40 20% 97%;
-  --foreground: 30 10% 10%;
-
-  --color-card: 40 15% 95%;
-  --color-card-foreground: 30 10% 10%;
-  --card: 40 15% 95%;
-  --card-foreground: 30 10% 10%;
-
-  --color-popover: 40 20% 97%;
-  --color-popover-foreground: 30 10% 10%;
-
-  --color-primary: 36 60% 45%;
-  --color-primary-foreground: 40 20% 97%;
-
-  --color-secondary: 30 8% 88%;
-  --color-secondary-foreground: 30 10% 15%;
-
-  --color-muted: 35 10% 92%;
-  --color-muted-foreground: 30 5% 45%;
-
-  --color-accent: 36 45% 55%;
-  --color-accent-foreground: 30 10% 10%;
-
-  --color-destructive: 0 84.2% 60.2%;
-  --color-destructive-foreground: 210 40% 98%;
-
-  --color-border: 35 15% 85%;
-  --color-input: 35 15% 85%;
-  --color-ring: 36 60% 45%;
-
-  --radius: 0.5rem;
-
-  /* gold / browns */
-  --color-gold: 36 60% 45%;
-  --color-gold-light: 40 50% 65%;
-  --color-brown: 25 30% 25%;
-  --color-brown-light: 25 15% 40%;
-
-  /* sidebar specifics */
-  --color-sidebar-background: 0 0% 98%;
-  --color-sidebar-foreground: 240 5.3% 26.1%;
-  --color-sidebar-primary: 240 5.9% 10%;
-  --color-sidebar-primary-foreground: 0 0% 98%;
-  --color-sidebar-accent: 240 4.8% 95.9%;
-  --color-sidebar-accent-foreground: 240 5.9% 10%;
-  --color-sidebar-border: 220 13% 91%;
-  --color-sidebar-ring: 217.2 91.2% 59.8%;
-}
-
-/* ---------------------------
-   Back-compat: plain CSS variables
-   --------------------------- */
-:root {
-  --background: 40 20% 97%;
-  --foreground: 30 10% 10%;
-
-  --card: 40 15% 95%;
-  --card-foreground: 30 10% 10%;
-
-  --popover: 40 20% 97%;
-  --popover-foreground: 30 10% 10%;
-
-  --primary: 36 60% 45%;
-  --primary-foreground: 40 20% 97%;
-
-  --secondary: 30 8% 88%;
-  --secondary-foreground: 30 10% 15%;
-
-  --muted: 35 10% 92%;
-  --muted-foreground: 30 5% 45%;
-
-  --accent: 36 45% 55%;
-  --accent-foreground: 30 10% 10%;
-
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-
-  --border: 35 15% 85%;
-  --input: 35 15% 85%;
-  --ring: 36 60% 45%;
-
-  --radius: 0.5rem;
-
-  --gold: 36 60% 45%;
-  --gold-light: 40 50% 65%;
-  --brown: 25 30% 25%;
-  --brown-light: 25 15% 40%;
-
-  --sidebar-background: 0 0% 98%;
-  --sidebar-foreground: 240 5.3% 26.1%;
-  --sidebar-primary: 240 5.9% 10%;
-  --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 240 4.8% 95.9%;
-  --sidebar-accent-foreground: 240 5.9% 10%;
-  --sidebar-border: 220 13% 91%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
-}
-
-/* ---------------------------
-   Dark theme overrides
-   --------------------------- */
-.dark {
-  --background: 25 15% 8%;
-  --foreground: 40 15% 90%;
-
-  --card: 25 12% 12%;
-  --card-foreground: 40 15% 90%;
-
-  --popover: 25 12% 12%;
-  --popover-foreground: 40 15% 90%;
-
-  --primary: 36 55% 50%;
-  --primary-foreground: 25 15% 8%;
-
-  --secondary: 25 10% 18%;
-  --secondary-foreground: 40 15% 85%;
-
-  --muted: 25 10% 18%;
-  --muted-foreground: 35 10% 55%;
-
-  --accent: 36 40% 45%;
-  --accent-foreground: 40 15% 90%;
-
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-
-  --border: 25 10% 20%;
-  --input: 25 10% 20%;
-  --ring: 36 55% 50%;
-
-  --gold: 36 55% 50%;
-  --gold-light: 40 45% 60%;
-  --brown: 25 20% 70%;
-  --brown-light: 25 10% 50%;
-
-  --sidebar-background: 240 5.9% 10%;
-  --sidebar-foreground: 240 4.8% 95.9%;
-  --sidebar-primary: 224.3 76.3% 48%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 240 3.7% 15.9%;
-  --sidebar-accent-foreground: 240 4.8% 95.9%;
-  --sidebar-border: 240 3.7% 15.9%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
-
-  /* Optional: parity for Tailwind-generated utilities */
-  --color-background: 25 15% 8%;
-  --color-foreground: 40 15% 90%;
-  --color-primary: 36 55% 50%;
-  --color-primary-foreground: 25 15% 8%;
-}
-
-/* ---------------------------
-   Base styles scoped under .page-web
-   --------------------------- */
-.page-web {
-  background-color: hsl(var(--color-background));
-  color: hsl(var(--foreground));
-  font-family: 'Source Sans 3', sans-serif;
-}
-
-.page-web *,
-.page-web *::before,
-.page-web *::after {
-  border-color: hsl(var(--border));
-}
-
-.page-web h1,
-.page-web h2,
-.page-web h3,
-.page-web h4,
-.page-web h5,
-.page-web h6 {
-  font-family: 'Monserrat', serif;
-}
-
-.page-web html {
-  scroll-behavior: smooth;
-}
-
-/* ─────────────────────────────
-   Neon Gold Border — Electric (REVISADO)
-   Scope: .page-web
-   ───────────────────────────── */
 
 /* Base element */
-.page-web .neon-gold-border {
+.neon-gold-border {
   position: relative;
   z-index: 0;
   /* sitúa el elemento por encima del glow pseudo-elemento */
@@ -211,7 +21,7 @@
 }
 
 /* Glow halo (suave, difuso) */
-.page-web .neon-gold-border::before {
+.neon-gold-border::before {
   content: '';
   position: absolute;
   inset: -10px;
@@ -230,7 +40,7 @@
 }
 
 /* Electric streaks / ráfagas animadas — evita una "línea recta girando" */
-.page-web .neon-gold-border::after {
+.neon-gold-border::after {
   content: '';
   position: absolute;
   inset: -4px;
@@ -255,8 +65,8 @@
 }
 
 /* Hover / foco: activa y realza el glow y las ráfagas */
-.page-web .neon-gold-border:hover,
-.page-web .neon-gold-border:focus-within {
+.neon-gold-border:hover,
+.neon-gold-border:focus-within {
   border-color: hsl(var(--gold) / 1);
   box-shadow:
     0 0 18px hsl(var(--gold) / 0.9),
@@ -267,25 +77,19 @@
 }
 
 /* Mostrar y animar las ráfagas al interactuar */
-.page-web .neon-gold-border:hover::after,
-.page-web .neon-gold-border:focus-within::after {
+.neon-gold-border:hover::after,
+.neon-gold-border:focus-within::after {
   opacity: 1;
   animation: electric-move 2.2s linear infinite;
 }
 
 /* Opcional: realce del halo al hover */
-.page-web .neon-gold-border:hover::before,
-.page-web .neon-gold-border:focus-within::before {
+.neon-gold-border:hover::before,
+.neon-gold-border:focus-within::before {
   filter: blur(12px) saturate(1.15) brightness(1.05);
   transform: scale(1.02);
   opacity: 1;
 }
-
-/* =========================
-   KEYFRAMES (un único conjunto coherente)
-   - electric-move: desplaza ráfagas y varía intensidad
-   - evita rotación rígida; anima posición y brillo
-========================= */
 
 @keyframes electric-move {
   0% {
@@ -336,7 +140,7 @@
    Botones dorados reutilizables
    Clase: .btn-gold
    --------------------------- */
-.page-web .btn-gold {
+.btn-gold {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -357,22 +161,22 @@
 }
 
 /* Hover/focus states accesibles */
-.page-web .btn-gold:hover {
+.btn-gold:hover {
   transform: translateY(-2px);
   box-shadow: 0 14px 40px hsl(var(--gold) / 0.18), inset 0 1px 0 hsl(0 0% 100% / 0.08);
 }
 
-.page-web .btn-gold:active {
+.btn-gold:active {
   transform: translateY(0);
 }
 
-.page-web .btn-gold:focus-visible {
+.btn-gold:focus-visible {
   outline: 3px solid hsla(var(--ring), 0.18);
   outline-offset: 3px;
 }
 
 /* Adaptación para tema oscuro: asegurar contraste */
-.dark .page-web .btn-gold {
+.dark .btn-gold {
   color: hsl(30 6% 8%);
   /* texto oscuro si el dorado está más pálido en dark mode */
   border-color: hsl(var(--gold) / 0.9);
@@ -420,11 +224,3 @@
 
   transition: all 0.3s ease;
 }
-
-/* -----------------------------------------------------
-   Notas rápidas de integración:
-   - Usa la clase .neon-gold-border en el contenedor que quieras resaltar.
-   - Usa .btn-gold en tus botones (elementos <button>, <a>, etc.).
-   - Si tu layout recorta los pseudo-elementos, asegúrate que el contenedor padre
-     no tenga overflow: hidden; o que el recorte sea intencionado.
-   ----------------------------------------------------- */

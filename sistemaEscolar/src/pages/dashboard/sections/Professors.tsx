@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {Layout, useSchool} from "../components/Layout";
+import {Layout, useSchool} from "@/pages/dashboard/components/Layout";
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
@@ -7,11 +7,11 @@ import {Label} from "@/components/ui/label";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Plus, Search, Pencil, Trash2, UserCheck, Mail, Phone, Briefcase} from "lucide-react";
-import {Profesor, ProfesorForm} from "./../types/school";
+import {Profesor, ProfesorForm} from "@/types/school";
 
 const empty: ProfesorForm = {nombre: "", correo: "", telefono: "", especialidad: "", estatus: "activo"};
 
-export function Professors() {
+export const Professors = () => {
   const {profesores, createProfesor, updateProfesor, deleteProfesor} = useSchool();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Profesor | null>(null);

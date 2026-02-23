@@ -25,7 +25,7 @@ export const GoldenParticles = () => {
         y: Math.random() * canvas.height,
         vx: (Math.random() - 0.5) * 0.4,
         vy: -Math.random() * 0.6 - 0.15,
-        size: Math.random() * 5 + 2,
+        size: Math.random() * 5 + 6,
         opacity: 0,
         life: 0,
         maxLife: Math.random() * 250 + 120,
@@ -36,7 +36,7 @@ export const GoldenParticles = () => {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (particles.length < 80 && Math.random() > 0.75) createParticle();
+      if (particles.length < 200 && Math.random() > 0.75) createParticle();
 
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
@@ -85,4 +85,3 @@ export const GoldenParticles = () => {
     />
   );
 };
-

@@ -1,5 +1,4 @@
 import characterImg from "@/assets/pandora.png";
-
 export const CharacterLogin = () => {
   return (
     <section className="character-panel" aria-hidden="true">

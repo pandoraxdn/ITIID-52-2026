@@ -7,10 +7,10 @@ import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Plus, Search, Pencil, Trash2, ClipboardList, Users, BookOpen, Calendar} from "lucide-react";
-import {Inscripcion, InscripcionForm} from "../types/school";
-import {toast} from "../hooks/use-toast";
+import {Inscripcion, InscripcionForm} from "@/pages/dashboard/types/school";
+import {toast} from "../hooks/useToast";
 
-export function Enrollments() {
+export const Enrollments = () => {
   const {inscripciones, alumnos, materias, createInscripcion, updateInscripcion, deleteInscripcion, getAlumnoName, getMateriaName} = useSchool();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Inscripcion | null>(null);
@@ -138,4 +138,3 @@ export function Enrollments() {
     </div>
   );
 }
-

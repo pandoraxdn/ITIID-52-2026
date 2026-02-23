@@ -3,10 +3,26 @@ import {BookOpen, Eye, Heart, Trophy} from "lucide-react";
 import {Card, CardContent} from "@/components/ui/card";
 
 const values = [
-  {icon: BookOpen, title: "Excelencia Académica", desc: "Programas rigurosos y actualizados que preparan a nuestros estudiantes para los retos del futuro."},
-  {icon: Heart, title: "Valores Humanos", desc: "Fomentamos el respeto, la responsabilidad y la empatía como pilares de la formación integral."},
-  {icon: Eye, title: "Innovación Educativa", desc: "Incorporamos tecnología y metodologías modernas para un aprendizaje significativo."},
-  {icon: Trophy, title: "Desarrollo Integral", desc: "Actividades deportivas, artísticas y culturales que complementan la formación académica."},
+  {
+    icon: BookOpen,
+    title: "Excelencia Académica",
+    desc: "Programas rigurosos y actualizados que preparan a nuestros estudiantes para los retos del futuro."
+  },
+  {
+    icon: Heart,
+    title: "Valores Humanos",
+    desc: "Fomentamos el respeto, la responsabilidad y la empatía como pilares de la formación integral."
+  },
+  {
+    icon: Eye,
+    title: "Innovación Educativa",
+    desc: "Incorporamos tecnología y metodologías modernas para un aprendizaje significativo."
+  },
+  {
+    icon: Trophy,
+    title: "Desarrollo Integral",
+    desc: "Actividades deportivas, artísticas y culturales que complementan la formación académica."
+  },
 ];
 
 const fadeUp = {
@@ -34,7 +50,7 @@ export const AboutSection = () => (
 
       <div className="mx-auto mb-16 grid max-w-4xl gap-6 md:grid-cols-2">
         <motion.div
-          className="rounded-xl border bg-card p-8"
+          className="rounded-xl border color-card p-8"
           initial={{opacity: 0, x: -20}}
           whileInView={{opacity: 1, x: 0}}
           viewport={{once: true}}

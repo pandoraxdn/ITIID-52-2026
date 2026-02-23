@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {Layout, useSchool} from "../components/Layout";
+import {Layout, useSchool} from "@/pages/dashboard/components/Layout";
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
@@ -7,9 +7,9 @@ import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Plus, Search, Pencil, Trash2, Award, FileText} from "lucide-react";
-import {Calificacion, CalificacionForm} from "../types/school";
+import {Calificacion, CalificacionForm} from "@/types/school";
 
-export function Grades() {
+export const Grades = () => {
   const {calificaciones, inscripciones, createCalificacion, updateCalificacion, deleteCalificacion, getInscripcionLabel} = useSchool();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Calificacion | null>(null);
@@ -143,5 +143,3 @@ export function Grades() {
     </div>
   );
 }
-
-export default Grades;

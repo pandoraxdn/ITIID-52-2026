@@ -1,7 +1,6 @@
 import pandoraLogo from "@/assets/pandora.png";
 
 export const Footer = () => {
-
   const scrollTo = (id: string) => {
     document.querySelector(id)?.scrollIntoView({behavior: "smooth"});
   };

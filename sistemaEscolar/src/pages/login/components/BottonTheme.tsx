@@ -1,6 +1,6 @@
-import {Button} from "@/components/ui/button";
+import {Moon, Sun} from "lucide-react";
 import {FormData} from "../hooks/useLogin";
-import {Sun, Moon} from "lucide-react";
+import {Button} from "@/components/ui/button";
 
 interface Props {
   isDark: boolean;
@@ -11,7 +11,7 @@ export const ButtonTheme = ({isDark, setIsDark}: Props) => {
   return (
     <Button
       className="theme-toggle"
-      onClick={() => setIsDark('dark', !isDark)}
+      onClick={() => setIsDark("dark", !isDark)}
       aria-label="Cambiar tema"
       title={isDark ? "Modo claro" : "Modo oscuro"}
     >

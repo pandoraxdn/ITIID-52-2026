@@ -3,10 +3,26 @@ import {ClipboardList, FileText, UserCheck, CalendarCheck} from "lucide-react";
 import {Button} from "@/components/ui/button";
 
 const steps = [
-  {icon: ClipboardList, title: "Solicitud", desc: "Completa el formulario de solicitud de admisión en línea o en nuestras oficinas."},
-  {icon: FileText, title: "Documentación", desc: "Entrega los documentos requeridos: acta de nacimiento, CURP, boletas anteriores y fotografías."},
-  {icon: UserCheck, title: "Evaluación", desc: "Evaluación diagnóstica del alumno y entrevista con los padres de familia."},
-  {icon: CalendarCheck, title: "Inscripción", desc: "Una vez aprobado, formaliza la inscripción y recibe la información de inicio de clases."},
+  {
+    icon: ClipboardList,
+    title: "Solicitud",
+    desc: "Completa el formulario de solicitud de admisión en línea o en nuestras oficinas."
+  },
+  {
+    icon: FileText,
+    title: "Documentación",
+    desc: "Entrega los documentos requeridos: acta de nacimiento, CURP, boletas anteriores y fotografías."
+  },
+  {
+    icon: UserCheck,
+    title: "Evaluación",
+    desc: "Evaluación diagnóstica del alumno y entrevista con los padres de familia."
+  },
+  {
+    icon: CalendarCheck,
+    title: "Inscripción",
+    desc: "Una vez aprobado, formaliza la inscripción y recibe la información de inicio de clases."
+  },
 ];
 
 export const AdmissionsSection = () => (
@@ -46,7 +62,7 @@ export const AdmissionsSection = () => (
       </div>
 
       <div className="mt-12 text-center">
-        <Button size="lg" className="bg-primary font-semibold" onClick={() => document.querySelector("#contacto")?.scrollIntoView({behavior: "smooth"})}>
+        <Button size="lg" variant="secondary" className="neon-gold-border font-semibold" onClick={() => document.querySelector("#contacto")?.scrollIntoView({behavior: "smooth"})}>
           Solicitar Información
         </Button>
       </div>

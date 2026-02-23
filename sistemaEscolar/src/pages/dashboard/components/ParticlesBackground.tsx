@@ -11,7 +11,7 @@ interface Particle {
   pulseSpeed: number;
 }
 
-export function ParticlesBackground() {
+export const ParticlesBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export function ParticlesBackground() {
 
     let animationId: number;
     const particles: Particle[] = [];
-    const PARTICLE_COUNT = 60;
+    const PARTICLE_COUNT = 200;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -35,10 +35,10 @@ export function ParticlesBackground() {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 3 + 1,
+        size: Math.random() * 3 + 3,
         speedX: (Math.random() - 0.5) * 0.4,
         speedY: -Math.random() * 0.3 - 0.1,
-        opacity: Math.random() * 0.6 + 0.2,
+        opacity: Math.random() * 0.9,
         pulse: Math.random() * Math.PI * 2,
         pulseSpeed: Math.random() * 0.02 + 0.01,
       });

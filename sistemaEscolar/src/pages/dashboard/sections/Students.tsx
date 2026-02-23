@@ -7,11 +7,11 @@ import {Label} from "@/components/ui/label";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Plus, Search, Pencil, Trash2, Users, Mail, Phone, Calendar, UserCheck, GraduationCap} from "lucide-react";
-import {Alumno, AlumnoForm} from "../types/school";
+import {Alumno, AlumnoForm} from "@/types/school";
 
 const empty: AlumnoForm = {nombre: "", correo: "", telefono: "", fechaNacimiento: "", fechaIngreso: "", estatus: "activo"};
 
-export function Students() {
+export const Students = () => {
   const {alumnos, createAlumno, updateAlumno, deleteAlumno} = useSchool();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Alumno | null>(null);

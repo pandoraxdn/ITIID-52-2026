@@ -7,7 +7,7 @@ import {Toaster as Sonner} from "@/components/ui/sonner";
 
 const queryClient = new QueryClient();
 
-export const DashboardRootLayout = () => {
+export const DashboardRootLayout: React.FC = () => {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
       <QueryClientProvider client={queryClient}>

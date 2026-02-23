@@ -1,8 +1,8 @@
 import {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link} from "react-router";
 import {Menu, X} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import {ThemeToggle} from "../components/ThemeToggle";
+import {ThemeToggle} from "../componets/ThemeToggle";
 import pandoraLogo from "@/assets/pandora.png";
 
 const navLinks = [
@@ -36,20 +36,33 @@ export const Header = () => {
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 lg:flex">
           {navLinks.map((l) => (
-            <button
+            <Button
               key={l.href}
               onClick={() => scrollTo(l.href)}
-              className="neon-gold-nav rounded-md border border-transparent px-3 py-2 text-sm font-medium text-muted-foreground transition-all hover:text-foreground"
+              variant="ghost"
+              className="
+                neon-gold-border 
+                rounded-md 
+                border 
+                border-transparent 
+                px-3 
+                py-2 
+                text-sm 
+                font-medium 
+                text-muted-foreground 
+                transition-all 
+                hover:text-foreground
+              "
             >
               {l.label}
-            </button>
+            </Button>
           ))}
         </nav>
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <Link to="/login" className="hidden sm:block">
-            <Button className="neon-gold-border bg-primary font-semibold">Iniciar Sesión</Button>
+            <Button variant="secondary" className="neon-gold-border font-semibold">Iniciar Sesión</Button>
           </Link>
           <button
             className="ml-1 lg:hidden"
@@ -68,13 +81,25 @@ export const Header = () => {
             <button
               key={l.href}
               onClick={() => scrollTo(l.href)}
-              className="block w-full py-3 text-left text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="
+                neon-gold-border 
+                block 
+                w-full 
+                py-3 
+                text-left 
+                text-sm 
+                font-medium 
+                text-muted-foreground 
+                transition-colors 
+                hover:text-foreground
+                mt-2
+              "
             >
               {l.label}
             </button>
           ))}
           <Link to="/login" className="mt-2 block sm:hidden">
-            <Button className="neon-gold-border w-full bg-primary font-semibold">Iniciar Sesión</Button>
+            <Button variant="secondary" className="neon-gold-border w-full bg-primary font-semibold">Iniciar Sesión</Button>
           </Link>
         </nav>
       )}

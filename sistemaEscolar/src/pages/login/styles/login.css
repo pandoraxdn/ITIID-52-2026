@@ -1,0 +1,645 @@
+/* ============================================================
+   LOGIN PAGE — PANDORA THEME (Dark Brown · Black · Silver · Gold)
+   ============================================================ */
+
+/* ---- Root / Backgrounds ---- */
+.login-root {
+  position: relative;
+  isolation: isolate;
+  /* agregado mínimo para evitar que blur/backdrop filtre oculte partículas */
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
+  font-family: 'Monserrat', system-ui, sans-serif;
+}
+
+.dark-mode {
+  --lp-bg: #0a0806;
+  --lp-glass: rgba(18, 12, 6, 0.78);
+  --lp-glass-border: rgba(192, 164, 100, 0.22);
+  --lp-text: #f0ebe0;
+  --lp-text-sub: #a89070;
+  --lp-particle: #c9a84c;
+  --lp-particle2: #8b6914;
+  --lp-accent: #c9a84c;
+  --lp-accent2: #a07830;
+  --lp-input-bg: rgba(30, 18, 6, 0.65);
+  --lp-input-border: rgba(192, 164, 100, 0.28);
+  --lp-input-focus: rgba(201, 168, 76, 0.65);
+  --lp-input-text: #f0e8d8;
+  --lp-input-placeholder: rgba(168, 144, 112, 0.45);
+  --lp-label: #c4a87a;
+  --lp-shadow: rgba(201, 168, 76, 0.2);
+  --lp-aura1: rgba(201, 168, 76, 0.14);
+  --lp-aura2: rgba(160, 120, 48, 0.09);
+  --lp-aura3: rgba(100, 70, 20, 0.06);
+  --lp-glow: rgba(201, 168, 76, 0.3);
+  background: radial-gradient(ellipse at 65% 55%, #1e1208 0%, #0a0806 65%);
+}
+
+.light-mode {
+  --lp-bg: #f5f0e8;
+  --lp-glass: rgba(255, 252, 245, 0.6);
+  --lp-glass-border: rgba(160, 120, 48, 0.22);
+  --lp-text: #1a120a;
+  --lp-text-sub: #6b4e2a;
+  --lp-particle: #b8922a;
+  --lp-particle2: #d4af60;
+  --lp-accent: #8b5e1a;
+  --lp-accent2: #6b4410;
+  --lp-input-bg: rgba(255, 250, 240, 0.75);
+  --lp-input-border: rgba(160, 120, 48, 0.28);
+  --lp-input-focus: rgba(139, 94, 26, 0.55);
+  --lp-input-text: #1a120a;
+  --lp-input-placeholder: rgba(107, 78, 42, 0.4);
+  --lp-label: #7a5030;
+  --lp-shadow: rgba(139, 94, 26, 0.18);
+  --lp-aura1: rgba(201, 168, 76, 0.18);
+  --lp-aura2: rgba(245, 220, 140, 0.12);
+  --lp-aura3: rgba(220, 190, 100, 0.07);
+  --lp-glow: rgba(220, 180, 80, 0.35);
+  background: radial-gradient(ellipse at 65% 55%, #ede0c4 0%, #f5f0e8 70%);
+}
+
+/* ---- Particles ---- */
+/* Subimos una capa para que las partículas estén por encima del fondo pero debajo del layout */
+.particles-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  /* mínimo cambio: antes 0, ahora 1 para que no queden totalmente tapadas */
+}
+
+.particle {
+  position: absolute;
+  bottom: -10px;
+  border-radius: 50%;
+  background: var(--lp-particle);
+  box-shadow: 0 0 6px 2px var(--lp-particle2);
+  animation: particle-float linear infinite;
+  will-change: transform, opacity;
+}
+
+/* Smoke/mist particles (larger, blurred) */
+.particle:nth-child(3n) {
+  border-radius: 40% 60% 50% 70%;
+  filter: blur(2px);
+  background: rgba(240, 230, 210, 0.15);
+  box-shadow: none;
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: var(--opacity, 0.5);
+  }
+
+  50% {
+    transform: translateY(-45vh) scale(1.2) translateX(15px) rotate(20deg);
+    opacity: calc(var(--opacity, 0.5) * 0.7);
+  }
+
+  100% {
+    transform: translateY(-100vh) scale(0.5) translateX(-10px) rotate(40deg);
+    opacity: 0;
+  }
+}
+
+/* ---- Theme Toggle ---- */
+.theme-toggle {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid var(--lp-glass-border);
+  background: var(--lp-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 20px var(--lp-shadow);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.12) rotate(12deg);
+  box-shadow: 0 6px 28px var(--lp-shadow);
+}
+
+.theme-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: transform 0.4s ease;
+}
+
+/* ---- Layout ---- */
+/* Subimos layout por encima de las partículas */
+.login-layout {
+  position: relative;
+  z-index: 2;
+  /* antes 1, ahora 2 para que quede sobre particles */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  align-items: center;
+}
+
+/* ---- Form Panel ---- */
+.form-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 3rem 3.5rem;
+  margin: 2rem 0 2rem 2rem;
+  border-radius: 1.5rem;
+  background: var(--lp-glass);
+  border: 1px solid var(--lp-glass-border);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow:
+    0 8px 40px var(--lp-shadow),
+    inset 0 1px 0 rgba(255, 245, 220, 0.06);
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  max-width: 460px;
+}
+
+.form-panel.form-mounted {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---- Logo Area ---- */
+.logo-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: stagger-in 0.5s ease both;
+}
+
+.logo-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.1);
+  border: 1.5px solid rgba(201, 168, 76, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 22px rgba(201, 168, 76, 0.25);
+  margin-bottom: 0.25rem;
+  transition: box-shadow 0.3s;
+}
+
+.logo-icon:hover {
+  box-shadow: 0 0 38px rgba(201, 168, 76, 0.5);
+}
+
+.brand-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #c9a84c 0%, #f0d898 50%, #a07830 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.brand-sub {
+  font-size: 0.875rem;
+  color: var(--lp-text-sub);
+  margin: 0;
+}
+
+/* ---- Form ---- */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  animation: stagger-in 0.5s ease both;
+}
+
+.field-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lp-label);
+}
+
+.field-wrap {
+  position: relative;
+}
+
+.field-icon {
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--lp-text-sub);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  transition: color 0.3s;
+}
+
+.field-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.6rem;
+  border-radius: 0.75rem;
+  border: 1.5px solid var(--lp-input-border);
+  background: var(--lp-input-bg);
+  color: var(--lp-input-text);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(8px);
+  box-sizing: border-box;
+}
+
+.field-input::placeholder {
+  color: var(--lp-input-placeholder);
+}
+
+.field-input:focus {
+  border-color: var(--lp-input-focus);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.12), 0 0 16px rgba(201, 168, 76, 0.18);
+}
+
+.field-wrap:focus-within .field-icon {
+  color: var(--lp-accent);
+}
+
+/* ---- Login Button ---- */
+.login-btn {
+  position: relative;
+  overflow: hidden;
+  margin-top: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 0.875rem;
+  border: none;
+  background: linear-gradient(135deg, #5c3a08 0%, #c9a84c 50%, #a07830 100%);
+  color: #f5ead0;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 20px rgba(201, 168, 76, 0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: stagger-in 0.5s ease both;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(201, 168, 76, 0.5);
+}
+
+.login-btn:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.btn-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg,
+      transparent 30%,
+      rgba(255, 240, 190, 0.28) 50%,
+      transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0s;
+}
+
+.login-btn:hover .btn-shimmer {
+  transform: translateX(100%);
+  transition: transform 0.55s ease;
+}
+
+.btn-arrow {
+  transition: transform 0.3s ease;
+}
+
+.login-btn:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* ---- Forgot link ---- */
+.forgot-link {
+  text-align: center;
+  font-size: 0.8rem;
+  animation: stagger-in 0.5s ease both;
+}
+
+.forgot-link a {
+  color: var(--lp-text-sub);
+  text-decoration: none;
+  transition: color 0.25s;
+}
+
+.forgot-link a:hover {
+  color: var(--lp-accent);
+  text-decoration: underline;
+}
+
+/* ---- Stagger animation ---- */
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.character-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  z-index: 3;
+}
+
+.character-scene {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 380px;
+  height: 500px;
+}
+
+.aura {
+  position: absolute;
+  border-radius: 50%;
+  animation: aura-pulse 3.5s ease-in-out infinite;
+}
+
+.aura-1 {
+  width: 280px;
+  height: 340px;
+  background: radial-gradient(ellipse, var(--lp-aura1) 0%, transparent 70%);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  animation-delay: 0s;
+}
+
+.aura-2 {
+  width: 340px;
+  height: 420px;
+  background: radial-gradient(ellipse, var(--lp-aura2) 0%, transparent 65%);
+  border: 1px solid rgba(160, 120, 48, 0.1);
+  animation-delay: 1s;
+}
+
+.aura-3 {
+  width: 420px;
+  height: 520px;
+  background: radial-gradient(ellipse, var(--lp-aura3) 0%, transparent 60%);
+  animation-delay: 2s;
+}
+
+@keyframes aura-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+.character-glow {
+  position: absolute;
+  width: 200px;
+  height: 350px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, var(--lp-glow) 0%, transparent 70%);
+  filter: blur(28px);
+  animation: glow-breathe 4.5s ease-in-out infinite;
+  bottom: 10px;
+}
+
+@keyframes glow-breathe {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1.06);
+  }
+}
+
+.character-img {
+  position: relative;
+  z-index: 10;
+  max-width: 100%;
+  animation: character-float 6s ease-in-out infinite,
+    fairy-pulse 3s ease-in-out infinite;
+}
+
+.character-panel::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250px;
+  height: 250px;
+  z-index: 1;
+  background: radial-gradient(circle, rgba(139, 101, 8, 0.7) 0%, transparent 70%);
+  filter: blur(40px);
+  transform: translate(-50%, -50%);
+  animation: aura-glow 4s ease-in-out infinite alternate;
+}
+
+.character-panel::after {
+  content: '🦋';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 70px;
+  color: transparent;
+  z-index: 2;
+  pointer-events: none;
+  animation: swarm-evolution 10s ease-in-out infinite alternate;
+}
+
+@keyframes fairy-pulse {
+  0% {
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 25px rgba(255, 200, 0, 0.4));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 20px rgba(255, 223, 0, 1)) drop-shadow(0 0 60px rgba(255, 200, 0, 0.9));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 25px rgba(255, 200, 0, 0.4));
+  }
+}
+
+@keyframes character-float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes aura-glow {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes character-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes aura-glow {
+  from {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+
+  to {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+@keyframes swarm-evolution {
+  0% {
+    transform: translate(-50%, -50%) skewX(0deg) scale(1);
+    text-shadow:
+      -120px -150px 2px #8b6508, 140px -80px 1px #b8860b, -180px 40px 2px #996515,
+      160px 100px 1px #8b6508, -140px 180px 2px #b8860b, 110px 200px 1px #996515,
+      -30px -200px 2px #8b6508, 180px -130px 1px #b8860b, -200px -60px 2px #996515,
+      130px -180px 1px #8b6508, -80px 220px 2px #b8860b, 60px -120px 1px #996515;
+  }
+
+  33% {
+    transform: translate(-52%, -48%) skewX(12deg) scale(1.05);
+    text-shadow:
+      -140px -80px 3px #8b6508, 80px -160px 2px #b8860b, -100px 120px 3px #996515,
+      190px -10px 2px #8b6508, -60px 200px 3px #b8860b, 140px 100px 2px #996515,
+      40px -140px 3px #8b6508, 110px -220px 2px #b8860b, -140px -160px 3px #996515,
+      70px -90px 2px #8b6508, -160px 40px 3px #b8860b, 120px -160px 2px #996515;
+  }
+
+  66% {
+    transform: translate(-48%, -52%) skewX(-12deg) scale(0.95);
+    text-shadow:
+      -90px -190px 1px #8b6508, 160px -40px 2px #b8860b, -210px -10px 1px #996515,
+      110px 140px 2px #8b6508, -190px 70px 1px #b8860b, 30px 220px 2px #996515,
+      -110px -90px 1px #8b6508, 170px -130px 2px #b8860b, -40px -190px 1px #996515,
+      200px -70px 2px #8b6508, -30px 140px 1px #b8860b, 190px -30px 2px #996515;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) skewX(0deg) scale(1);
+    text-shadow:
+      -120px -150px 2px #8b6508, 140px -80px 1px #b8860b, -180px 40px 2px #996515,
+      160px 100px 1px #8b6508, -140px 180px 2px #b8860b, 110px 200px 1px #996515,
+      -30px -200px 2px #8b6508, 180px -130px 1px #b8860b, -200px -60px 2px #996515,
+      130px -180px 1px #8b6508, -80px 220px 2px #b8860b, 60px -120px 1px #996515;
+  }
+}
+
+@keyframes swarm-orbit {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) translateX(70px) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) translateX(70px) rotate(-360deg);
+  }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    align-items: start;
+  }
+
+  .form-panel {
+    margin: 2rem auto;
+    padding: 2rem 1.75rem;
+    max-width: 90vw;
+  }
+
+  .character-panel {
+    min-height: 280px;
+    order: -1;
+  }
+
+  .character-scene {
+    width: 240px;
+    height: 300px;
+  }
+
+  .aura-1 {
+    width: 180px;
+    height: 220px;
+  }
+
+  .aura-2 {
+    width: 220px;
+    height: 270px;
+  }
+
+  .aura-3 {
+    width: 270px;
+    height: 330px;
+  }
+}

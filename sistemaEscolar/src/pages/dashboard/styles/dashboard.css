@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+/* Use the .dashboard container instead of body so all utilities apply inside it */
+.dashboard {
+  /* consume variables directly to avoid unknown utility classes */
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'Raleway', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* keep tailwind helpers if you use them for typography elsewhere */
+}
+
+.dashboard h1,
+.dashboard h2,
+.dashboard h3,
+.dashboard h4,
+.dashboard h5,
+.dashboard h6 {
+  font-family: 'Cinzel', serif;
+  /* if you still want to use the tailwind font-display utility, you can keep @apply font-display here */
+}
+
+/* =============================================
+   Pandora School System – Custom Styles
+   (all selectors scoped under .dashboard)
+   ============================================= */
+
+/* --- Glow & Glass Effects --- */
+.dashboard .glow-gold {
+  box-shadow: 0 0 15px -3px hsl(43 70% 40% / 0.3);
+}
+
+.dashboard .glass-card {
+  /* background using variable with alpha, backdrop blur kept via tailwind utility if available */
+  background-color: hsl(var(--card) / 0.8);
+  backdrop-filter: blur(4px);
+  /* equivalent to backdrop-blur-sm */
+  border: 1px solid hsl(var(--border) / 0.6);
+  box-shadow: 0 4px 24px -4px hsl(0 0% 0% / 0.12), 0 0 0 1px hsl(43 70% 40% / 0.06);
+}
+
+.dashboard.dark .glass-card {
+  box-shadow: 0 4px 24px -4px hsl(0 0% 0% / 0.4), 0 0 0 1px hsl(43 70% 40% / 0.1);
+}
+
+/* --- Page Header --- */
+.dashboard .page-header {
+  @apply relative pb-4 mb-6;
+}
+
+.dashboard .page-header::after {
+  content: "";
+  @apply absolute bottom-0 left-0 h-px w-full;
+  background: linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.2) 50%, transparent 100%);
+}
+
+/* --- Professional Table --- */
+.dashboard .table-pro thead tr {
+  background-color: hsl(var(--muted) / 0.5);
+}
+
+.dashboard .table-pro thead th {
+  @apply text-xs uppercase tracking-wider font-semibold py-3;
+  color: hsl(var(--muted-foreground));
+}
+
+.dashboard .table-pro tbody tr {
+  @apply transition-colors;
+}
+
+.dashboard .table-pro tbody tr:hover {
+  background-color: hsl(var(--muted) / 0.3);
+}
+
+.dashboard .table-pro tbody td {
+  @apply py-3.5;
+}
+
+/* --- Form Section --- */
+.dashboard .form-section {
+  @apply space-y-2;
+}
+
+.dashboard .form-section label {
+  @apply text-xs uppercase tracking-wider font-semibold;
+  color: hsl(var(--muted-foreground));
+}
+
+/* --- Modal --- */
+.dashboard .modal-pro {
+  /* reuse glass-card styles */
+  background-color: hsl(var(--card) / 0.8);
+  backdrop-filter: blur(4px);
+  border-radius: 0.75rem;
+  /* rounded-xl */
+  border: 1px solid hsl(var(--primary) / 0.15);
+}
+
+.dashboard.dark .modal-pro {
+  border: 1px solid hsl(var(--primary) / 0.25);
+}
+
+/* --- Action Buttons --- */
+.dashboard .btn-action-edit {
+  @apply h-8 w-8 rounded-lg transition-colors;
+}
+
+.dashboard .btn-action-edit:hover {
+  background-color: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+}
+
+.dashboard .btn-action-delete {
+  @apply h-8 w-8 rounded-lg transition-colors;
+  color: hsl(var(--destructive) / 0.7);
+}
+
+.dashboard .btn-action-delete:hover {
+  background-color: hsl(var(--destructive) / 0.1);
+  color: hsl(var(--destructive));
+}
+
+/* --- Search Input --- */
+.dashboard .search-pro {
+  padding-left: 2.5rem;
+  /* pl-10 */
+  background-color: hsl(var(--muted) / 0.5);
+  border: 1px solid hsl(var(--border) / 0.6);
+  transition: all 0.2s;
+}
+
+.dashboard .search-pro:focus {
+  border-color: hsl(var(--primary) / 0.4);
+  /* approximate focus ring (tailwind's focus:ring) */
+  box-shadow: 0 0 0 6px hsl(var(--primary) / 0.12);
+  outline: none;
+}
+
+/* --- Status Badge --- */
+.dashboard .stat-badge {
+  @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+}

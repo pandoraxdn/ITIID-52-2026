@@ -24,6 +24,16 @@ export class AlumnoTutorService {
     });
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<AlumnoTutor[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_de_al_tutor: 'ASC'},
+      relations: ['alumnos', 'tutores'],
+    });
+  }
+
   async findOne(id_de_al_tutor: number): Promise<AlumnoTutor> {
     return await this.repository.findOne({
       where: {id_de_al_tutor},
@@ -32,6 +42,7 @@ export class AlumnoTutorService {
   }
 
   async update(id_de_al_tutor: number, data: UpdateAlumnoTutorInput): Promise<AlumnoTutor> {
+    data.id_de_al_tutor = id_de_al_tutor;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_de_al_tutor: ${id_de_al_tutor} not found`);

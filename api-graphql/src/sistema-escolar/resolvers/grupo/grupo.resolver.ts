@@ -13,6 +13,14 @@ export class GrupoResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [Grupo], {name: 'gruposP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => Grupo, {name: 'grupo'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class GrupoResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deleteGrupo'})
+  @Mutation(() => Boolean, {name: 'removeGrupo'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

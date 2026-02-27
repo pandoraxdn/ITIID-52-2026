@@ -21,11 +21,21 @@ export class JornadaLaboralService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<JornadaLaboral[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_jornada: 'ASC'},
+    });
+  }
+
   async findOne(id_jornada: number): Promise<JornadaLaboral> {
     return await this.repository.findOneBy({id_jornada});
   }
 
   async update(id_jornada: number, data: UpdateJornadaLaboralInput): Promise<JornadaLaboral> {
+    data.id_jornada = id_jornada;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_jornada: ${id_jornada} not found`);

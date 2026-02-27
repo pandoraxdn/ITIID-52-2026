@@ -13,6 +13,14 @@ export class RolResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [Rol], {name: 'rolesP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => Rol, {name: 'rol'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class RolResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deleteRol'})
+  @Mutation(() => Boolean, {name: 'removeRol'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

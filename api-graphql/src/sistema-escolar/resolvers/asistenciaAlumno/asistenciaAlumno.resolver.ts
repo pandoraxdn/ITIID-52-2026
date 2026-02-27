@@ -13,6 +13,14 @@ export class AsistenciaAlumnoResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [AsistenciaAlumno], {name: 'asistenciasAlumnosP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => AsistenciaAlumno, {name: 'asistenciaAlumno'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);

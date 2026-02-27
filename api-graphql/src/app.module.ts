@@ -4,30 +4,32 @@ import {AppService} from './app.service';
 import {GraphQLModule} from '@nestjs/graphql';
 import {ApolloDriver, ApolloDriverConfig} from '@nestjs/apollo';
 import {join} from 'path';
-import {TypeOrmModule} from '@nestjs/typeorm';
 import {SistemaEscolarModule} from './sistema-escolar/sistema-escolar.module';
-//import {HelloWorldModule} from './hello-world/hello-world.module';
-//import {TodoModule} from './todo/todo.module';
+import {TypeOrmModule} from '@nestjs/typeorm';
+import {GraphQLDate} from 'graphql-scalars';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql')
       //playground: false,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      buildSchemaOptions: {
+        scalarsMap: [
+          {type: Date, scalar: GraphQLDate},
+        ],
+      },
     }),
     TypeOrmModule.forRoot({
-      type: "postgres",
-      host: "localhost",
+      type: 'postgres',
+      host: 'localhost',
       port: 5432,
       username: 'najimi',
       password: 'pass',
-      database: 'escuela_dsm52',
+      database: 'pandora',
       synchronize: true,
-      autoLoadEntities: true
+      autoLoadEntities: true,
     }),
-    //TodoModule,
-    //HelloWorldModule,
     SistemaEscolarModule,
   ],
   controllers: [AppController],

@@ -13,6 +13,14 @@ export class CalificacionResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [Calificacion], {name: 'calificacionesP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => Calificacion, {name: 'calificacion'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);

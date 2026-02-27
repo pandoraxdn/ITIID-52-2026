@@ -1,7 +1,9 @@
 import characterImg from "@/assets/pandora.png";
-export const CharacterLogin = () => {
+
+export const CharacterLogo = () => {
+  {/* RIGHT — Character */}
   return (
-    <section className="character-panel" aria-hidden="true">
+    <section className="character-panel" aria-hidden="true" >
       <div className="character-scene">
         {/* Aura rings */}
         <div className="aura aura-1" />
@@ -17,6 +19,6 @@ export const CharacterLogin = () => {
           draggable={false}
         />
       </div>
-    </section>
+    </section >
   );
-}
+};

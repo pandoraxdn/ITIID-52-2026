@@ -63,7 +63,7 @@ export class CreateAlumnoInput {
   @IsNotEmpty()
   fecha_ingreso: Date;
 
-  @Field(() => String)
+  @Field(() => Boolean)
   @IsBoolean()
   @IsNotEmpty()
   activo: boolean;

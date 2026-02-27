@@ -21,11 +21,21 @@ export class DetGrupoMateriaService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<DetGrupoMateria[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_det_grupo_materia: 'ASC'},
+    });
+  }
+
   async findOne(id_det_grupo_materia: number): Promise<DetGrupoMateria> {
     return await this.repository.findOneBy({id_det_grupo_materia});
   }
 
   async update(id_det_grupo_materia: number, data: UpdateDetGrupoMateriaInput): Promise<DetGrupoMateria> {
+    data.id_det_grupo_materia = id_det_grupo_materia;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_det_grupo_materia: ${id_det_grupo_materia} not found`);

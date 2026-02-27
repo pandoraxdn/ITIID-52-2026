@@ -13,6 +13,14 @@ export class UsuarioResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [Usuario], {name: 'usuariosP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => Usuario, {name: 'usuario'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class UsuarioResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deleteUsuario'})
+  @Mutation(() => Boolean, {name: 'removeUsuario'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

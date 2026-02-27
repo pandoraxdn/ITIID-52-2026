@@ -21,11 +21,22 @@ export class AlumnoService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<Alumno[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_alumno: 'ASC'},
+    });
+  }
+
+
   async findOne(id_alumno: number): Promise<Alumno> {
     return await this.repository.findOneBy({id_alumno});
   }
 
   async update(id_alumno: number, data: UpdateAlumnoInput): Promise<Alumno> {
+    data.id_alumno = id_alumno;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Not found id_alumno: ${id_alumno}`);

@@ -21,11 +21,21 @@ export class ConceptoPagoService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<ConceptoPago[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_concepto: 'ASC'},
+    });
+  }
+
   async findOne(id_concepto: number): Promise<ConceptoPago | null> {
     return await this.repository.findOneBy({id_concepto});
   }
 
   async update(id_concepto: number, data: UpdateConceptoPagoInput): Promise<ConceptoPago> {
+    data.id_concepto = id_concepto;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_concepto: ${id_concepto} not found`);

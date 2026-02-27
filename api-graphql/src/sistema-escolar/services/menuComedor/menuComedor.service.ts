@@ -21,11 +21,21 @@ export class MenuComedorService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<MenuComedor[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_menu: 'ASC'},
+    });
+  }
+
   async findOne(id_menu: number): Promise<MenuComedor> {
     return await this.repository.findOneBy({id_menu});
   }
 
   async update(id_menu: number, data: UpdateMenuComedorInput): Promise<MenuComedor> {
+    data.id_menu = id_menu;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_menu: ${id_menu} not found`);

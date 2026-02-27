@@ -13,6 +13,14 @@ export class AuditoriaLogResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [AuditoriaLog], {name: 'auditoriasLogP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => AuditoriaLog, {name: 'auditoriaLog'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class AuditoriaLogResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deleteAuditoriaLog'})
+  @Mutation(() => Boolean, {name: 'removeAuditoriaLog'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

@@ -21,11 +21,21 @@ export class AsistenciaEmpleadoService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<AsistenciaEmpleado[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_asistencia_emp: 'ASC'},
+    });
+  }
+
   async findOne(id_asistencia_emp: number): Promise<AsistenciaEmpleado> {
     return await this.repository.findOneBy({id_asistencia_emp});
   }
 
   async update(id_asistencia_emp: number, data: UpdateAsistenciaEmpleadoInput): Promise<AsistenciaEmpleado> {
+    data.id_asistencia_emp = id_asistencia_emp;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_asistencia_emp: ${id_asistencia_emp} not found`);

@@ -13,6 +13,14 @@ export class CicloEscolarResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [CicloEscolar], {name: 'ciclosEscolaresP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => CicloEscolar, {name: 'cicloEscolar'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class CicloEscolarResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deleteCicloEscolar'})
+  @Mutation(() => Boolean, {name: 'removeCicloEscolar'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

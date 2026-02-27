@@ -21,11 +21,21 @@ export class PagoService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<Pago[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_pago: 'ASC'},
+    });
+  }
+
   async findOne(id_pago: number): Promise<Pago> {
     return await this.repository.findOneBy({id_pago});
   }
 
   async update(id_pago: number, data: UpdatePagoInput): Promise<Pago> {
+    data.id_pago = id_pago;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_pago: ${id_pago} not found`);

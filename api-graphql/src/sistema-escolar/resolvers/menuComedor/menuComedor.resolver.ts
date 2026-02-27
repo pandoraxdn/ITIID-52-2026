@@ -13,6 +13,14 @@ export class MenuComedorResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [MenuComedor], {name: 'menusComedorP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => MenuComedor, {name: 'menuComedor'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class MenuComedorResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deleteMenucComedor'})
+  @Mutation(() => Boolean, {name: 'removeMenucComedor'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

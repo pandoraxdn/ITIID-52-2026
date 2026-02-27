@@ -21,11 +21,21 @@ export class GrupoService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<Grupo[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_grupo: 'ASC'},
+    });
+  }
+
   async findOne(id_grupo: number): Promise<Grupo> {
     return await this.repository.findOneBy({id_grupo});
   }
 
   async update(id_grupo: number, data: UpdateGrupoInput): Promise<Grupo> {
+    data.id_grupo = id_grupo;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_grupo: ${id_grupo} not found`);

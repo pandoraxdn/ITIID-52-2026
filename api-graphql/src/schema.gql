@@ -21,22 +21,17 @@ type JornadaLaboral {
   id_jornada: ID!
   empleado_id: Int!
   dia_semana: String!
-  horaEntrada: DateTime!
+  horaEntrada: Date!
   horaSalida: String!
   tolerancia_minutos: Int!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type AsistenciaEmpleado {
   id_asistencia_emp: ID!
   empleado_id: Int!
-  fecha: DateTime!
-  hora_entrada_real: DateTime!
-  hora_salida_real: DateTime!
+  fecha: Date!
+  hora_entrada_real: Date!
+  hora_salida_real: Date!
   estado_asistencia: EstadoAsistencia!
   minutos_retardo: Int!
   observaciones: String!
@@ -53,8 +48,8 @@ type JustificanteEmpleado {
   id_justificante_emp: ID!
   empleado_id: Int!
   tipo_justificante: TipoJustificante!
-  fecha_inicio: DateTime!
-  fecha_fin: DateTime!
+  fecha_inicio: Date!
+  fecha_fin: Date!
   motivo: String!
   estado_aprobacion: EstadoAprobacion!
   documento_url: String!
@@ -111,7 +106,7 @@ type AuditoriaLog {
   registro_id: Int!
   valor_anterior: String!
   valor_nuevo: String!
-  fecha: DateTime!
+  fecha: Date!
   ip: String!
 }
 
@@ -124,7 +119,7 @@ type Usuario {
   alumno_id: Int
   tutor_id: Int
   avatar_url: String!
-  ultimo_acceso: DateTime!
+  ultimo_acceso: Date!
   activo: Boolean!
 }
 
@@ -140,7 +135,7 @@ type Empleado {
   tipo_empleado: TipoEmpleado!
   puesto: TipoPuesto!
   departamento: String!
-  fecha_contratacion: DateTime!
+  fecha_contratacion: Date!
   activo: Boolean!
 }
 
@@ -175,15 +170,15 @@ type HorarioClase {
   id_horario_clase: ID!
   det_grupo_materia_id: Int!
   dia_semana: String!
-  hora_inicio: DateTime!
-  hora_fin: DateTime!
+  hora_inicio: Date!
+  hora_fin: Date!
 }
 
 type AsistenciaAlumno {
   id_asistencia_al: ID!
   inscripcion_id: Int!
   det_grupo_materia_id: Int!
-  fecha: DateTime!
+  fecha: Date!
   estado_asistencia: EstadoAsistenciaAl!
   observaciones: String!
 }
@@ -217,16 +212,16 @@ type Periodo {
   id_periodo: ID!
   nombre: String!
   tipo: String!
-  fecha_inicio: DateTime!
-  fecha_fin: DateTime!
-  fecha_limite_captura: DateTime!
+  fecha_inicio: Date!
+  fecha_fin: Date!
+  fecha_limite_captura: Date!
   ciclo_id: Int!
 }
 
 type ConsumoComedor {
   id_consumo: ID!
   alumno_id: Int!
-  fecha: DateTime!
+  fecha: Date!
   tipo_consumo: TipoConsumo!
   menu_id: Int!
   observaciones: String!
@@ -241,7 +236,7 @@ enum TipoConsumo {
 
 type MenuComedor {
   id_menu: ID!
-  fecha: DateTime!
+  fecha: Date!
   titulo: String!
   descripcion: String!
   alergenos: String!
@@ -252,8 +247,8 @@ type MenuComedor {
 type CicloEscolar {
   id_ciclo: ID!
   nombre: String!
-  fecha_inicio: DateTime!
-  fecha_fin: DateTime!
+  fecha_inicio: Date!
+  fecha_fin: Date!
   activo: Boolean!
 }
 
@@ -285,7 +280,7 @@ type Inscripcion {
   alumno_id: Int!
   grupo_id: Int!
   ciclo_id: Int!
-  fecha_inscripcion: DateTime!
+  fecha_inscripcion: Date!
   beca_porcentaje: Float!
 }
 
@@ -301,7 +296,7 @@ type Pago {
   alumno_id: Int!
   concepto_id: Int!
   monto_pagado: Float!
-  fecha_pago: DateTime!
+  fecha_pago: Date!
   metodo_pago: TipoPago!
   estado: EstadoPago!
   referencia_bancaria: String
@@ -332,135 +327,163 @@ type Alumno {
   tipo_sangre: String!
   alergias: String!
   condiciones_medicas: String!
-  fecha_ingreso: DateTime!
+  fecha_ingreso: Date!
   activo: Boolean!
 }
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
 
 type Query {
   """Hola mundo es lo que retorna"""
   hello: String!
   alumnos: [Alumno!]!
+  alumnosP(page: Int = 1, limit: Int = 10): [Alumno!]!
   alumno(id: Int!): Alumno!
-  findAll: [AlumnoTutor!]!
-  alumnosTutores(id: Int!): AlumnoTutor!
+  alumnosTutores: [AlumnoTutor!]!
+  alumnosTutoresP(page: Int = 1, limit: Int = 10): [AlumnoTutor!]!
+  alumnoTutor(id: Int!): AlumnoTutor!
   asistenciasAlumnos: [AsistenciaAlumno!]!
+  asistenciasAlumnosP(page: Int = 1, limit: Int = 10): [AsistenciaAlumno!]!
   asistenciaAlumno(id: Int!): AsistenciaAlumno!
   asistenciasEmpleados: [AsistenciaEmpleado!]!
+  asistenciasEmpleadoP(page: Int = 1, limit: Int = 10): [AsistenciaEmpleado!]!
   asistenciaEmpleado(id: Int!): AsistenciaEmpleado!
   auditoriasLog: [AuditoriaLog!]!
+  auditoriasLogP(page: Int = 1, limit: Int = 10): [AuditoriaLog!]!
   auditoriaLog(id: Int!): AuditoriaLog!
   calificaciones: [Calificacion!]!
+  calificacionesP(page: Int = 1, limit: Int = 10): [Calificacion!]!
   calificacion(id: Int!): Calificacion!
   ciclosEscolares: [CicloEscolar!]!
+  ciclosEscolaresP(page: Int = 1, limit: Int = 10): [CicloEscolar!]!
   cicloEscolar(id: Int!): CicloEscolar!
-  concetosPago: [ConceptoPago!]!
+  conceptosPago: [ConceptoPago!]!
+  conceptosPagoP(page: Int = 1, limit: Int = 10): [ConceptoPago!]!
   conceptoPago(id: Int!): ConceptoPago!
   consumosComedor: [ConsumoComedor!]!
+  consumosComedorP(page: Int = 1, limit: Int = 10): [ConsumoComedor!]!
   consumoComedor(id: Int!): ConsumoComedor!
   detGruposMaterias: [DetGrupoMateria!]!
+  detGruposMateriasP(page: Int = 1, limit: Int = 10): [DetGrupoMateria!]!
   detGrupoMateria(id: Int!): DetGrupoMateria!
   empleados: [Empleado!]!
+  empleadosP(page: Int = 1, limit: Int = 10): [Empleado!]!
   empleado(id: Int!): Empleado!
   grupos: [Grupo!]!
+  gruposP(page: Int = 1, limit: Int = 10): [Grupo!]!
   grupo(id: Int!): Grupo!
   horariosClase: [HorarioClase!]!
+  horariosClaseP(page: Int = 1, limit: Int = 10): [HorarioClase!]!
   horarioClase(id: Int!): HorarioClase!
   inscripciones: [Inscripcion!]!
+  inscripcionesP(page: Int = 1, limit: Int = 10): [Inscripcion!]!
   inscripcion(id: Int!): Inscripcion!
   jornadasLaborales: [JornadaLaboral!]!
+  jornadasLaboralesP(page: Int = 1, limit: Int = 10): [JornadaLaboral!]!
   jornadaLaboral(id: Int!): JornadaLaboral!
   justificantesEmpleado: [JustificanteEmpleado!]!
+  justificantesEmpleadoP(page: Int = 1, limit: Int = 10): [JustificanteEmpleado!]!
   justificanteEmpleado(id: Int!): JustificanteEmpleado!
   materias: [Materia!]!
+  materiasP(page: Int = 1, limit: Int = 10): [Materia!]!
   materia(id: Int!): Materia!
   menusComedor: [MenuComedor!]!
+  menusComedorP(page: Int = 1, limit: Int = 10): [MenuComedor!]!
   menuComedor(id: Int!): MenuComedor!
   pagos: [Pago!]!
   pago(id: Int!): Pago!
+  pagosP(page: Int = 1, limit: Int = 10): [Pago!]!
   periodos: [Periodo!]!
+  periodosP(page: Int = 1, limit: Int = 10): [Periodo!]!
   periodo(id: Int!): Periodo!
   profesores: [Profesor!]!
+  profesoresP(page: Int = 1, limit: Int = 10): [Profesor!]!
   profesor(id: Int!): Profesor!
   roles: [Rol!]!
+  rolesP(page: Int = 1, limit: Int = 10): [Rol!]!
   rol(id: Int!): Rol!
   tutores: [Tutor!]!
+  tutoresP(page: Int = 1, limit: Int = 10): [Tutor!]!
   tutor(id: Int!): Tutor!
   usuarios: [Usuario!]!
+  usuariosP(page: Int = 1, limit: Int = 10): [Usuario!]!
   usuario(id: Int!): Usuario!
 }
 
 type Mutation {
   createAlumno(input: CreateAlumnoInput!): Alumno!
   updateAlumno(id: Int!, input: UpdateAlumnoInput!): Alumno!
-  deleteAlumno(id: Int!): Boolean!
-  alumnoTutor(input: CreateAlumnoTutorInput!): AlumnoTutor!
+  removeAlumno(id: Int!): Boolean!
+  createAlumnoTutor(input: CreateAlumnoTutorInput!): AlumnoTutor!
   updateAlumnoTutor(id: Int!, input: UpdateAlumnoTutorInput!): AlumnoTutor!
-  alumnoTutorDelete(id: Int!): Boolean!
+  removeAlumnoTutor(id: Int!): Boolean!
   createAsitenciaAlumno(input: CreateAsistenciaAlumnoInput!): AsistenciaAlumno!
   updateAsistenciaAlumno(id: Int!, input: UpdateAsistenciaAlumnoInput!): AsistenciaAlumno!
   removeAsitenciaAlumno(id: Int!): Boolean!
   createAsistenciaEmpleado(input: CreateAsistenciaEmpleadoInput!): AsistenciaEmpleado!
   updateAsistenciaEmpleado(id: Int!, input: UpdateAsistenciaEmpleadoInput!): AsistenciaEmpleado!
-  deleteAsistenciaEmpleado(id: Int!): Boolean!
+  removeAsistenciaEmpleado(id: Int!): Boolean!
   createAuditoriaLog(input: CreateAuditoriaLogInput!): AuditoriaLog!
   updateAuditoriaLog(id: Int!, input: UpdateAuditoriaLogInput!): AuditoriaLog!
-  deleteAuditoriaLog(id: Int!): Boolean!
+  removeAuditoriaLog(id: Int!): Boolean!
   createCalificacion(input: CreateCalificacionInput!): Calificacion!
   updateCalificacion(id: Int!, input: UpdateCalificacionInput!): Calificacion!
   removeCalificacion(id: Int!): Boolean!
   createCicloEscolar(input: CreateCicloEscolarInput!): CicloEscolar!
   updateCicloEscolar(id: Int!, input: UpdateCicloEscolarInput!): CicloEscolar!
-  deleteCicloEscolar(id: Int!): Boolean!
+  removeCicloEscolar(id: Int!): Boolean!
   createConceptoPago(input: CreateConceptoPagoInput!): ConceptoPago!
   updateConceptoPago(id: Int!, input: UpdateConsumoComedorInput!): ConsumoComedor!
   removeConceptoPago(id: Int!): Boolean!
   createConsumoComedor(input: CreateConsumoComedorInput!): ConsumoComedor!
-  deleteConceptoPago(id: Int!): Boolean!
   createDetGrupoMateria(input: CreateDetGrupoMateriaInput!): DetGrupoMateria!
   updateDetGrupoMateria(id: Int!, input: UpdateDetGrupoMateriaInput!): DetGrupoMateria!
-  deleteDetGrupoMateria(id: Int!): Boolean!
+  removeDetGrupoMateria(id: Int!): Boolean!
   createEmpleado(input: CreateEmpleadoInput!): Empleado!
   updateEmpleado(id: Int!, input: UpdateEmpleadoInput!): Empleado!
-  deleteEmpleado(id: Int!): Boolean!
+  removeEmpleado(id: Int!): Boolean!
   createGrupo(input: CreateGrupoInput!): Grupo!
   updateGrupo(id: Int!, input: UpdateGrupoInput!): Grupo!
-  deleteGrupo(id: Int!): Boolean!
+  removeGrupo(id: Int!): Boolean!
   createHorarioClase(input: CreateHorarioClaseInput!): HorarioClase!
   updateHorarioClase(id: Int!, input: UpdateHorarioClaseInput!): HorarioClase!
-  deleteHorarioClase(id: Int!): Boolean!
+  removeHorarioClase(id: Int!): Boolean!
   createInscripcion(input: CreateInscripcionInput!): Inscripcion!
   updateInscripcion(id: Int!, input: UpdateInscripcionInput!): Inscripcion!
-  deleteInscripcion(id: Int!): Boolean!
+  removeInscripcion(id: Int!): Boolean!
   createJornadaLaboral(input: CreateJornadaLaboralInput!): JornadaLaboral!
   updateJornadaLaboral(id: Int!, input: UpdateJornadaLaboralInput!): JornadaLaboral!
-  deleteJornadaLaboral(id: Int!): Boolean!
+  removeJornadaLaboral(id: Int!): Boolean!
   createJustificanteEmpleado(input: CreateJustificanteEmpleadoInput!): JustificanteEmpleado!
   updateJustificanteEmpleado(id: Int!, input: UpdateJustificanteEmpleadoInput!): JustificanteEmpleado!
-  deleteJustificanteEmpleado(id: Int!): JustificanteEmpleado!
+  removeJustificanteEmpleado(id: Int!): JustificanteEmpleado!
   createMateria(input: CreateMateriaInput!): Materia!
   updateMateria(id: Int!, input: UpdateMateriaInput!): Materia!
-  deleteMateria(id: Int!): Boolean!
+  removeMateria(id: Int!): Boolean!
   createMenuComedor(input: CreateMenuComedorInput!): MenuComedor!
   updateMenuComedor(id: Int!, input: UpdateMenuComedorInput!): MenuComedor!
-  deleteMenucComedor(id: Int!): Boolean!
+  removeMenucComedor(id: Int!): Boolean!
   createPago(input: CreatePagoInput!): Pago!
   updatePago(id: Int!, input: UpdatePagoInput!): Pago!
-  deletePago(id: Int!): Boolean!
+  removePago(id: Int!): Boolean!
   createPeriodo(input: CreatePeriodoInput!): Periodo!
   updatePeriodo(id: Int!, input: UpdatePeriodoInput!): Periodo!
-  deletePeriodo(id: Int!): Boolean!
+  removePeriodo(id: Int!): Boolean!
   createProfesor(input: CreateProfesorInput!): Profesor!
   updateProfesor(id: Int!, input: UpdateProfesorInput!): Profesor!
-  deleteProfesor(id: Int!): Boolean!
+  removeProfesor(id: Int!): Boolean!
   createRol(input: CreateRolInput!): Rol!
   updateRol(id: Int!, input: UpdateRolInput!): Rol!
-  deleteRol(id: Int!): Boolean!
+  removeRol(id: Int!): Boolean!
   createTutor(input: CreateTutorInput!): Tutor!
   updateTutor(id: Int!, input: UpdateTutorInput!): Tutor!
-  deleteTutor(id: Int!): Tutor!
+  removeTutor(id: Int!): Tutor!
   createUsuario(input: CreateUsuarioInput!): Usuario!
   updateUsuario(id: Int!, input: UpdateUsuarioInput!): Usuario!
-  deleteUsuario(id: Int!): Boolean!
+  removeUsuario(id: Int!): Boolean!
 }
 
 input CreateAlumnoInput {
@@ -475,8 +498,8 @@ input CreateAlumnoInput {
   tipo_sangre: String!
   alergias: String!
   condiciones_medicas: String!
-  fecha_ingreso: DateTime!
-  activo: String!
+  fecha_ingreso: Date!
+  activo: Boolean!
 }
 
 input UpdateAlumnoInput {
@@ -491,8 +514,8 @@ input UpdateAlumnoInput {
   tipo_sangre: String
   alergias: String
   condiciones_medicas: String
-  fecha_ingreso: DateTime
-  activo: String
+  fecha_ingreso: Date
+  activo: Boolean
   id_alumno: ID!
 }
 
@@ -512,7 +535,7 @@ input UpdateAlumnoTutorInput {
 input CreateAsistenciaAlumnoInput {
   inscripcion_id: Int!
   det_grupo_materia_id: Int!
-  fecha: DateTime!
+  fecha: Date!
   estado_asistencia: EstadoAsistenciaAl!
   observaciones: String!
 }
@@ -520,7 +543,7 @@ input CreateAsistenciaAlumnoInput {
 input UpdateAsistenciaAlumnoInput {
   inscripcion_id: Int
   det_grupo_materia_id: Int
-  fecha: DateTime
+  fecha: Date
   estado_asistencia: EstadoAsistenciaAl
   observaciones: String
   id_asistencia_al: ID!
@@ -528,9 +551,9 @@ input UpdateAsistenciaAlumnoInput {
 
 input CreateAsistenciaEmpleadoInput {
   empleado_id: Int!
-  fecha: DateTime!
-  hora_entrada_real: DateTime!
-  hora_salida_real: DateTime!
+  fecha: Date!
+  hora_entrada_real: Date!
+  hora_salida_real: Date!
   estado_asistencia: String!
   minutos_retardo: Int!
   observaciones: String!
@@ -538,9 +561,9 @@ input CreateAsistenciaEmpleadoInput {
 
 input UpdateAsistenciaEmpleadoInput {
   empleado_id: Int
-  fecha: DateTime
-  hora_entrada_real: DateTime
-  hora_salida_real: DateTime
+  fecha: Date
+  hora_entrada_real: Date
+  hora_salida_real: Date
   estado_asistencia: String
   minutos_retardo: Int
   observaciones: String
@@ -553,7 +576,7 @@ input CreateAuditoriaLogInput {
   tabla_afectada: String!
   valor_anterior: String!
   valor_nuevo: String!
-  fecha: DateTime!
+  fecha: Date!
   ip: String!
 }
 
@@ -563,7 +586,7 @@ input UpdateAuditoriaLogInput {
   tabla_afectada: String
   valor_anterior: String
   valor_nuevo: String
-  fecha: DateTime
+  fecha: Date
   ip: String
   id_log: ID!
 }
@@ -589,15 +612,15 @@ input UpdateCalificacionInput {
 
 input CreateCicloEscolarInput {
   nombre: String!
-  fecha_inicio: DateTime!
-  fecha_fin: DateTime!
+  fecha_inicio: Date!
+  fecha_fin: Date!
   activo: String!
 }
 
 input UpdateCicloEscolarInput {
   nombre: String
-  fecha_inicio: DateTime
-  fecha_fin: DateTime
+  fecha_inicio: Date
+  fecha_fin: Date
   activo: String
   id_ciclo: ID!
 }
@@ -610,7 +633,7 @@ input CreateConceptoPagoInput {
 
 input UpdateConsumoComedorInput {
   alumno_id: Int
-  fecha: DateTime
+  fecha: Date
   tipo_consumo: String
   menu_id: Int
   observaciones: String
@@ -620,7 +643,7 @@ input UpdateConsumoComedorInput {
 
 input CreateConsumoComedorInput {
   alumno_id: Int!
-  fecha: DateTime!
+  fecha: Date!
   tipo_consumo: String!
   menu_id: Int!
   observaciones: String!
@@ -653,8 +676,8 @@ input CreateEmpleadoInput {
   tipo_empleado: String!
   puesto: String!
   departamento: String!
-  fecha_contratacion: DateTime!
-  activo: String!
+  fecha_contratacion: Date!
+  activo: Boolean!
 }
 
 input UpdateEmpleadoInput {
@@ -668,8 +691,8 @@ input UpdateEmpleadoInput {
   tipo_empleado: String
   puesto: String
   departamento: String
-  fecha_contratacion: DateTime
-  activo: String
+  fecha_contratacion: Date
+  activo: Boolean
   id_empleado: ID!
 }
 
@@ -697,15 +720,15 @@ input UpdateGrupoInput {
 input CreateHorarioClaseInput {
   det_grupo_materia_id: Int!
   dia_semana: String!
-  hora_inicio: DateTime!
-  hora_fin: DateTime!
+  hora_inicio: Date!
+  hora_fin: Date!
 }
 
 input UpdateHorarioClaseInput {
   det_grupo_materia_id: Int
   dia_semana: String
-  hora_inicio: DateTime
-  hora_fin: DateTime
+  hora_inicio: Date
+  hora_fin: Date
   id_horario_clase: ID!
 }
 
@@ -713,7 +736,7 @@ input CreateInscripcionInput {
   alumno_id: Int!
   grupo_id: Int!
   ciclo_id: Int!
-  fecha_inscripcion: DateTime!
+  fecha_inscripcion: Date!
   beca_porcentaje: Int!
 }
 
@@ -721,7 +744,7 @@ input UpdateInscripcionInput {
   alumno_id: Int
   grupo_id: Int
   ciclo_id: Int
-  fecha_inscripcion: DateTime
+  fecha_inscripcion: Date
   beca_porcentaje: Int
   id_inscripcion: ID!
 }
@@ -729,7 +752,7 @@ input UpdateInscripcionInput {
 input CreateJornadaLaboralInput {
   empleado_id: Int!
   dia_semana: String!
-  horaEntrada: DateTime!
+  horaEntrada: Date!
   horaSalida: String!
   tolerancia_minutos: Int!
 }
@@ -737,7 +760,7 @@ input CreateJornadaLaboralInput {
 input UpdateJornadaLaboralInput {
   empleado_id: Int
   dia_semana: String
-  horaEntrada: DateTime
+  horaEntrada: Date
   horaSalida: String
   tolerancia_minutos: Int
   id_jornada: ID!
@@ -746,8 +769,8 @@ input UpdateJornadaLaboralInput {
 input CreateJustificanteEmpleadoInput {
   empleado_id: Int!
   tipo_justificante: String!
-  fecha_inicio: DateTime!
-  fecha_fin: DateTime!
+  fecha_inicio: Date!
+  fecha_fin: Date!
   motivo: String!
   estado_aprobacion: String!
   documento_url: String!
@@ -756,12 +779,12 @@ input CreateJustificanteEmpleadoInput {
 input UpdateJustificanteEmpleadoInput {
   empleado_id: Int
   tipo_justificante: String
-  fecha_inicio: DateTime
-  fecha_fin: DateTime
+  fecha_inicio: Date
+  fecha_fin: Date
   motivo: String
   estado_aprobacion: String
   documento_url: String
-  id_justificante: ID!
+  id_justificante_emp: ID!
 }
 
 input CreateMateriaInput {
@@ -782,7 +805,7 @@ input UpdateMateriaInput {
 }
 
 input CreateMenuComedorInput {
-  fecha: DateTime!
+  fecha: Date!
   titulo: String!
   descripcion: String!
   alergenos: String!
@@ -791,7 +814,7 @@ input CreateMenuComedorInput {
 }
 
 input UpdateMenuComedorInput {
-  fecha: DateTime
+  fecha: Date
   titulo: String
   descripcion: String
   alergenos: String
@@ -804,7 +827,7 @@ input CreatePagoInput {
   alumno_id: Int!
   concepto_id: Int!
   monto_pagado: Int!
-  fecha_pago: DateTime!
+  fecha_pago: Date!
   metodo_pago: String!
   estado: String!
   referencia_bancaria: String
@@ -814,7 +837,7 @@ input UpdatePagoInput {
   alumno_id: Int
   concepto_id: Int
   monto_pagado: Int
-  fecha_pago: DateTime
+  fecha_pago: Date
   metodo_pago: String
   estado: String
   referencia_bancaria: String
@@ -824,18 +847,18 @@ input UpdatePagoInput {
 input CreatePeriodoInput {
   nombre: String!
   tipo: String!
-  fecha_inicio: DateTime!
-  fecha_fin: DateTime!
-  fecha_limite_captura: DateTime!
+  fecha_inicio: Date!
+  fecha_fin: Date!
+  fecha_limite_captura: Date!
   ciclo_id: Int!
 }
 
 input UpdatePeriodoInput {
   nombre: String
   tipo: String
-  fecha_inicio: DateTime
-  fecha_fin: DateTime
-  fecha_limite_captura: DateTime
+  fecha_inicio: Date
+  fecha_fin: Date
+  fecha_limite_captura: Date
   ciclo_id: Int
   id_periodo: ID!
 }

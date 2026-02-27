@@ -21,11 +21,21 @@ export class JustificanteEmpleadoService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<JustificanteEmpleado[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_justificante_emp: 'ASC'},
+    });
+  }
+
   async findOne(id_justificante_emp: number): Promise<JustificanteEmpleado> {
     return await this.repository.findOneBy({id_justificante_emp});
   }
 
   async update(id_justificante_emp: number, data: UpdateJustificanteEmpleadoInput): Promise<JustificanteEmpleado> {
+    data.id_justificante_emp = id_justificante_emp;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_justificante_emp: ${id_justificante_emp} not found`);

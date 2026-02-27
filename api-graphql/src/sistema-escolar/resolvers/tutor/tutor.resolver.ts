@@ -13,6 +13,14 @@ export class TutorResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [Tutor], {name: 'tutoresP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => Tutor, {name: 'tutor'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class TutorResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Tutor, {name: 'deleteTutor'})
+  @Mutation(() => Tutor, {name: 'removeTutor'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

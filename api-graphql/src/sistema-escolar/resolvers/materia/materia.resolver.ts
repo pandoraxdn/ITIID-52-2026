@@ -13,6 +13,14 @@ export class MateriaResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [Materia], {name: 'materiasP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => Materia, {name: 'materia'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class MateriaResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deleteMateria'})
+  @Mutation(() => Boolean, {name: 'removeMateria'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

@@ -21,11 +21,21 @@ export class MateriaService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<Materia[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_materia: 'ASC'},
+    });
+  }
+
   async findOne(id_materia: number): Promise<Materia> {
     return await this.repository.findOneBy({id_materia});
   }
 
   async update(id_materia: number, data: UpdateMateriaInput): Promise<Materia> {
+    data.id_materia = id_materia;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_materia: ${id_materia} not found`);

@@ -21,11 +21,21 @@ export class ConsumoComedorService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<ConsumoComedor[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_consumo: 'ASC'},
+    });
+  }
+
   async findOne(id_consumo: number): Promise<ConsumoComedor> {
     return await this.repository.findOneBy({id_consumo});
   }
 
   async update(id_consumo: number, data: UpdateConsumoComedorInput): Promise<ConsumoComedor> {
+    data.id_consumo = id_consumo;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_consumo: ${id_consumo} not found`);

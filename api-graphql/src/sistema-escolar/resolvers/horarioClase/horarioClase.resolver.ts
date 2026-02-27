@@ -13,6 +13,14 @@ export class HorarioClaseResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [HorarioClase], {name: 'horariosClaseP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => HorarioClase, {name: 'horarioClase'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class HorarioClaseResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deleteHorarioClase'})
+  @Mutation(() => Boolean, {name: 'removeHorarioClase'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

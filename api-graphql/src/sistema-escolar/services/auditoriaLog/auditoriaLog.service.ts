@@ -21,11 +21,21 @@ export class AuditoriaLogService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<AuditoriaLog[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_log: 'ASC'},
+    });
+  }
+
   async findOne(id_log: number): Promise<AuditoriaLog> {
     return await this.repository.findOneBy({id_log});
   }
 
   async update(id_log: number, data: UpdateAuditoriaLogInput): Promise<AuditoriaLog> {
+    data.id_log = id_log;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_log: ${id_log} not found`);

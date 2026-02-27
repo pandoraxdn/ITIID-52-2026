@@ -2,12 +2,13 @@ import {School} from "lucide-react";
 
 interface Props {
   title?: string;
-  sunTitle?: string;
+  subTitle?: string;
 }
 
-export const LogoLogin = ({title, sunTitle}: Props) => {
+export const LogoLogin = ({title = "Pandora's Box", subTitle = "Abre la caja"}: Props) => {
+  {/* Logo */}
   return (
-    <div className="logo-area" style={{animationDelay: "0.1s"}}>
+    <div className="logo-area" style={{animationDelay: "0.2s"}}>
       <div className="logo-icon">
         <svg width="40" height="40" viewBox="0 0 24 24">
           <defs>
@@ -26,8 +27,8 @@ export const LogoLogin = ({title, sunTitle}: Props) => {
         {title}
       </h1>
       <p className="brand-sub">
-        {sunTitle}
+        {subTitle}
       </p>
     </div>
   );
-}
+};

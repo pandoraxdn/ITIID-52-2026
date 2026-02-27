@@ -13,6 +13,14 @@ export class PeriodoResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [Periodo], {name: 'periodosP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => Periodo, {name: 'periodo'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class PeriodoResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deletePeriodo'})
+  @Mutation(() => Boolean, {name: 'removePeriodo'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

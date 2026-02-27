@@ -1,6 +1,6 @@
 import {ReactNode, createContext, useContext} from "react";
 import {Link, useLocation} from "react-router-dom";
-import {GraduationCap, Users, BookOpen, UserCheck, ClipboardList, Award, Moon, Sun} from "lucide-react";
+import {GraduationCap, Users, BookOpen, UserCheck, ClipboardList, Award, Moon, Sun, IdCardIcon} from "lucide-react";
 import {useTheme} from "next-themes";
 import {Button} from "@/components/ui/button";
 import pandoraImg from "@/assets/pandora.png";
@@ -22,6 +22,7 @@ const navItems = [
   {to: "/dashboard/profesores", icon: UserCheck, label: "Profesores"},
   {to: "/dashboard/inscripciones", icon: ClipboardList, label: "Inscripciones"},
   {to: "/dashboard/calificaciones", icon: Award, label: "Calificaciones"},
+  {to: "/dashboard/Empleados", icon: IdCardIcon, label: "Empleados"},
 ];
 
 export function Layout({children}: {children: ReactNode}) {

@@ -67,7 +67,7 @@ export class CreateEmpleadoInput {
   @IsNotEmpty()
   fecha_contratacion: Date;
 
-  @Field(() => String)
+  @Field(() => Boolean)
   @IsBoolean()
   @IsNotEmpty()
   activo: boolean;

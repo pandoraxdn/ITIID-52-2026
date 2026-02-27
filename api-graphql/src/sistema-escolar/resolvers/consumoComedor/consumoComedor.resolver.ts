@@ -13,6 +13,14 @@ export class ConsumoComedorResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [ConsumoComedor], {name: 'consumosComedorP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => ConsumoComedor, {name: 'consumoComedor'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class ConsumoComedorResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deleteConceptoPago'})
+  @Mutation(() => Boolean, {name: 'removeConceptoPago'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

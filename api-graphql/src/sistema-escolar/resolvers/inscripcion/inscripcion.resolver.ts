@@ -13,6 +13,14 @@ export class InscripcionResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [Inscripcion], {name: 'inscripcionesP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => Inscripcion, {name: 'inscripcion'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class InscripcionResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deleteInscripcion'})
+  @Mutation(() => Boolean, {name: 'removeInscripcion'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

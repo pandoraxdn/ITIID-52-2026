@@ -13,6 +13,14 @@ export class AsistenciaEmpleadoResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [AsistenciaEmpleado], {name: 'asistenciasEmpleadoP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => AsistenciaEmpleado, {name: 'asistenciaEmpleado'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class AsistenciaEmpleadoResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deleteAsistenciaEmpleado'})
+  @Mutation(() => Boolean, {name: 'removeAsistenciaEmpleado'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

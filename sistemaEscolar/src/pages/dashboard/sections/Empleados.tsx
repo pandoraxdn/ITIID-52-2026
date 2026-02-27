@@ -1,305 +1,186 @@
-import {useState} from "react";
-import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
-} from "@/components/ui/dialog";
-import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select";
-import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from "@/components/ui/table";
-import {Checkbox} from "@/components/ui/checkbox";
-import {
-  Plus, Search, Pencil, Trash2, UserCheck,
-} from "lucide-react";
+import {useState} from 'react';
+import {Button} from '@/components/ui/button';
+import {Input} from '@/components/ui/input';
+import {ChevronLeft, ChevronRight, Plus, Search, Users, Hash, User, Mail, Phone, Briefcase, Calendar} from 'lucide-react';
+import {useEmpleadoForm} from '../hooks/useEmpleadoForm';
+import {TableRegisters, ColumnConfig} from '../components/TableRegisters';
+import {ModalForm, TextFieldConfig, SelectFieldConfig} from '../components/ModalForm';
+import {Empleado, TipoEmpleado, TipoPuesto, CreateEmpleadoInput} from '../interfaces/empleado.interface';
 
-import {useEmpleadoApi} from "../hooks/useEmpleadoApi";
-import {useEmpleadoForm} from "../hooks/useEmpleadoForm";
-import {Empleado, TipoPuesto, TipoEmpleado} from "../interfaces/empleado";
+const empleadoColumns: ColumnConfig<Empleado>[] = [
+  {key: 'numero_empleado', header: 'N° Empleado', className: 'font-medium'},
+  {
+    key: 'nombre_completo',
+    header: 'Nombre Completo',
+    render: (e) => `${e.nombre} ${e.apellido_p} ${e.apellido_m || ''}`.trim(),
+    className: 'font-medium',
+  },
+  {key: 'email_institucional', header: 'Email Institucional', className: 'text-muted-foreground text-sm'},
+  {key: 'telefono', header: 'Teléfono', className: 'text-muted-foreground text-sm'},
+  {
+    key: 'tipo_empleado',
+    header: 'Tipo',
+    render: (e) => <span className="stat-badge bg-muted text-muted-foreground">{e.tipo_empleado}</span>,
+  },
+  {
+    key: 'puesto',
+    header: 'Puesto',
+    render: (e) => <span className="stat-badge bg-muted text-muted-foreground">{e.puesto}</span>,
+  },
+  {key: 'departamento', header: 'Departamento'},
+  {
+    key: 'activo',
+    header: 'Activo',
+    render: (e) => (
+      <span className={`stat-badge ${e.activo ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'}`}>
+        <span className={`h-1.5 w-1.5 rounded-full ${e.activo ? 'bg-success' : 'bg-destructive'}`} />
+        {e.activo ? 'Activo' : 'Inactivo'}
+      </span>
+    ),
+  },
+];
+
+// Configuración de campos de texto para el modal
+const empleadoTextFields: TextFieldConfig<CreateEmpleadoInput>[] = [
+  {name: 'numero_empleado', label: 'Número de Empleado', icon: Hash, placeholder: 'EMP-001', required: true},
+  {name: 'nombre', label: 'Nombre', icon: User, placeholder: 'Juan', required: true},
+  {name: 'apellido_p', label: 'Apellido Paterno', icon: User, placeholder: 'Pérez', required: true},
+  {name: 'apellido_m', label: 'Apellido Materno', icon: User, placeholder: 'García (opcional)', required: false},
+  {name: 'email_personal', label: 'Email Personal', icon: Mail, placeholder: 'personal@email.com', required: true, type: 'email'},
+  {name: 'email_institucional', label: 'Email Institucional', icon: Mail, placeholder: 'institucional@escuela.edu', required: true, type: 'email'},
+  {name: 'telefono', label: 'Teléfono', icon: Phone, placeholder: '555-1234', required: true},
+  {name: 'departamento', label: 'Departamento', icon: Briefcase, placeholder: 'Ventas', required: true},
+  {name: 'fecha_contratacion', label: 'Fecha Contratación', icon: Calendar, type: 'date', required: true},
+];
+
+// Configuración de campos de selección para el modal
+const empleadoSelectFields: SelectFieldConfig<CreateEmpleadoInput>[] = [
+  {name: 'tipo_empleado', label: 'Tipo Empleado', options: Object.values(TipoEmpleado), required: true},
+  {name: 'puesto', label: 'Puesto', options: Object.values(TipoPuesto), required: true},
+  {
+    name: 'activo',
+    label: 'Activo',
+    options: ['true', 'false'],
+    mapValue: (v: string) => v === 'true',
+    required: false,
+    displayLabel: (opt) => opt === 'true' ? 'Activo' : 'Inactivo',
+  },
+];
 
 export const Empleados = () => {
   const {
     empleados,
-    createEmpleado,
-    updateEmpleado,
-    deleteEmpleado,
     loading,
-  } = useEmpleadoApi();
-
-  const [open, setOpen] = useState(false);
-  const [editing, setEditing] = useState<Empleado | null>(null);
-  const [search, setSearch] = useState("");
-
-  const {
+    error,
     form,
+    open,
+    page,
+    hasMore,
     setField,
-    errors,
+    isValid,
+    handleOpenModal,
+    handleCloseModal,
     handleSubmit,
-    reset,
-    isSubmitting,
-  } = useEmpleadoForm({
-    initial: editing,
-    onSubmit: async (data, editingId) => {
-      if (editingId) {
-        await updateEmpleado(editingId, data);
-      } else {
-        await createEmpleado(data);
-      }
-      setOpen(false);
-      setEditing(null);
-      reset();
-    },
-  });
+    handleDelete,
+    isEditing,
+    nextPage,
+    prevPage,
+  } = useEmpleadoForm();
 
-  const filtered = empleados.filter((e) =>
-    `${e.nombre} ${e.apellido_p} ${e.apellido_m}`
-      .toLowerCase()
-      .includes(search.toLowerCase()) ||
-    e.departamento.toLowerCase().includes(search.toLowerCase())
+  const [search, setSearch] = useState('');
+
+  // Filtro local (sobre la página actual)
+  const filtered = empleados.filter(e =>
+    [e.nombre, e.apellido_p, e.apellido_m, e.numero_empleado, e.email_institucional, e.departamento]
+      .some(field => field?.toLowerCase().includes(search.toLowerCase()))
   );
-
-  const handleDelete = async (id: number) => {
-    if (!confirm("¿Eliminar este empleado?")) return;
-    await deleteEmpleado(id);
-  };
 
   return (
     <div className="p-6 md:p-8 space-y-6 animate-fade-in">
-
-      {/* HEADER */}
-      <div className="flex items-center justify-between">
+      {/* Header */}
+      <div className="page-header flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <UserCheck className="h-6 w-6 text-primary" />
+          <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/20">
+            <Users className="h-5 w-5 text-primary" />
+          </div>
           <div>
-            <h1 className="text-2xl font-bold">Empleados</h1>
+            <h1 className="text-2xl font-display font-bold">Empleados</h1>
             <p className="text-sm text-muted-foreground">
-              {empleados.length} registros · {empleados.filter(e => e.activo).length} activos
+              {empleados.length} registros en esta página · {empleados.filter(e => e.activo).length} activos
             </p>
           </div>
         </div>
-        <Button onClick={() => {setEditing(null); setOpen(true);}}>
-          <Plus className="h-4 w-4 mr-2" /> Nuevo Empleado
+        <Button onClick={() => handleOpenModal()} className="gap-2 glow-gold">
+          <Plus className="h-4 w-4" /> Nuevo Empleado
         </Button>
       </div>
 
-      {/* SEARCH */}
+      {/* Búsqueda */}
       <div className="relative max-w-sm">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Buscar por nombre o departamento..."
+          placeholder="Buscar en esta página..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="pl-9"
+          onChange={e => setSearch(e.target.value)}
+          className="search-pro"
         />
       </div>
 
-      {/* TABLE */}
-      <div className="rounded-xl border overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>N°</TableHead>
-              <TableHead>Nombre</TableHead>
-              <TableHead>Correo Inst.</TableHead>
-              <TableHead>Teléfono</TableHead>
-              <TableHead>Tipo</TableHead>
-              <TableHead>Puesto</TableHead>
-              <TableHead>Estatus</TableHead>
-              <TableHead className="text-center w-24">Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody>
-            {filtered.map((e) => (
-              <TableRow key={e.id}>
-                <TableCell>{e.numero_empleado}</TableCell>
-                <TableCell>
-                  {e.nombre} {e.apellido_p} {e.apellido_m}
-                </TableCell>
-                <TableCell>{e.email_institucional}</TableCell>
-                <TableCell>{e.telefono}</TableCell>
-                <TableCell>{e.tipo_empleado}</TableCell>
-                <TableCell>{e.puesto}</TableCell>
-                <TableCell>
-                  {e.activo ? (
-                    <span className="text-green-600 font-medium">Activo</span>
-                  ) : (
-                    <span className="text-red-600 font-medium">Inactivo</span>
-                  )}
-                </TableCell>
-                <TableCell>
-                  <div className="flex gap-2 justify-center">
-                    <Button size="icon" variant="ghost"
-                      onClick={() => {setEditing(e); setOpen(true);}}>
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" variant="ghost"
-                      onClick={() => handleDelete(e.id)}>
-                      <Trash2 className="h-4 w-4 text-red-500" />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-
-            {filtered.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
-                  No se encontraron empleados
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+      {/* Tabla genérica */}
+      <div className="glass-card rounded-xl overflow-hidden">
+        <TableRegisters
+          data={filtered}
+          columns={empleadoColumns}
+          onEdit={handleOpenModal}
+          onDelete={handleDelete}
+          getId={(e) => e.id_empleado}
+          emptyMessage="No se encontraron empleados"
+          loading={loading}
+          actions={true}
+        />
       </div>
 
-      {/* MODAL */}
-      <Dialog open={open} onOpenChange={() => {setOpen(false); setEditing(null);}}>
-        <DialogContent className="sm:max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>
-              {editing ? "Editar Empleado" : "Nuevo Empleado"}
-            </DialogTitle>
-            <DialogDescription>
-              Completa la información del empleado
-            </DialogDescription>
-          </DialogHeader>
+      {/* Controles de paginación */}
+      <div className="flex items-center justify-center gap-4 mt-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={prevPage}
+          disabled={page === 1 || loading}
+          className="gap-2"
+        >
+          <ChevronLeft className="h-4 w-4" /> Anterior
+        </Button>
+        <span className="text-sm text-muted-foreground">
+          Página {page}
+        </span>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={nextPage}
+          disabled={!hasMore || loading}
+          className="gap-2"
+        >
+          Siguiente <ChevronRight className="h-4 w-4" />
+        </Button>
+      </div>
 
-          <form
-            onSubmit={(e) => handleSubmit(e, editing?.id ?? null)}
-            className="space-y-4"
-          >
-
-            {/* Numero */}
-            <div>
-              <Label>Número de Empleado</Label>
-              <Input
-                value={form.numero_empleado}
-                onChange={(e) => setField("numero_empleado", e.target.value)}
-              />
-              {errors.numero_empleado && (
-                <p className="text-sm text-red-500">{errors.numero_empleado}</p>
-              )}
-            </div>
-
-            {/* Nombre */}
-            <div className="grid grid-cols-3 gap-3">
-              <div>
-                <Label>Nombre</Label>
-                <Input value={form.nombre}
-                  onChange={(e) => setField("nombre", e.target.value)} />
-              </div>
-              <div>
-                <Label>Apellido P.</Label>
-                <Input value={form.apellido_p}
-                  onChange={(e) => setField("apellido_p", e.target.value)} />
-              </div>
-              <div>
-                <Label>Apellido M.</Label>
-                <Input value={form.apellido_m}
-                  onChange={(e) => setField("apellido_m", e.target.value)} />
-              </div>
-            </div>
-
-            {/* Correos */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <Label>Email Personal</Label>
-                <Input value={form.email_personal}
-                  onChange={(e) => setField("email_personal", e.target.value)} />
-              </div>
-              <div>
-                <Label>Email Institucional</Label>
-                <Input value={form.email_institucional}
-                  onChange={(e) => setField("email_institucional", e.target.value)} />
-              </div>
-            </div>
-
-            {/* Teléfono y Departamento */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <Label>Teléfono</Label>
-                <Input value={form.telefono}
-                  onChange={(e) => setField("telefono", e.target.value)} />
-              </div>
-              <div>
-                <Label>Departamento</Label>
-                <Input value={form.departamento}
-                  onChange={(e) => setField("departamento", e.target.value)} />
-              </div>
-            </div>
-
-            {/* TipoEmpleado y Puesto */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <Label>Tipo Empleado</Label>
-                <Select
-                  value={form.tipo_empleado}
-                  onValueChange={(v) => setField("tipo_empleado", v as TipoEmpleado)}
-                >
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {Object.values(TipoEmpleado).map((t) => (
-                      <SelectItem key={t} value={t}>{t}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label>Puesto</Label>
-                <Select
-                  value={form.puesto}
-                  onValueChange={(v) => setField("puesto", v as TipoPuesto)}
-                >
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {Object.values(TipoPuesto).map((p) => (
-                      <SelectItem key={p} value={p}>{p}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* Fecha y Activo */}
-            <div className="grid grid-cols-2 gap-3 items-center">
-              <div>
-                <Label>Fecha Contratación</Label>
-                <Input
-                  type="date"
-                  value={form.fecha_contratacion}
-                  onChange={(e) => setField("fecha_contratacion", e.target.value)}
-                />
-              </div>
-
-              <div className="flex items-center gap-2 mt-6">
-                <Checkbox
-                  checked={form.activo}
-                  onCheckedChange={(v) => setField("activo", Boolean(v))}
-                />
-                <Label>Empleado Activo</Label>
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-3 pt-4 border-t">
-              <Button type="button" variant="outline"
-                onClick={() => {setOpen(false); setEditing(null);}}>
-                Cancelar
-              </Button>
-              <Button type="submit" disabled={isSubmitting}>
-                {editing ? "Actualizar" : "Crear"}
-              </Button>
-            </div>
-
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      {loading && <p className="text-sm text-muted-foreground">Cargando...</p>}
+      {/* Modal genérico */}
+      <ModalForm
+        open={open}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmit}
+        form={form}
+        setField={setField}
+        isValid={isValid}
+        isEditing={isEditing}
+        loading={loading}
+        title={isEditing ? 'Editar Empleado' : 'Nuevo Empleado'}
+        description={isEditing ? 'Modifica los datos del empleado' : 'Registra un nuevo empleado'}
+        textFields={empleadoTextFields}
+        selectFields={empleadoSelectFields}
+        headerIcon={Users}
+      />
     </div>
   );
 };

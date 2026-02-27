@@ -21,11 +21,21 @@ export class CicloEscolarService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<CicloEscolar[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_ciclo: 'ASC'},
+    });
+  }
+
   async findOne(id_ciclo: number): Promise<CicloEscolar> {
     return await this.repository.findOneBy({id_ciclo});
   }
 
   async update(id_ciclo: number, data: UpdateCicloEscolarInput): Promise<CicloEscolar> {
+    data.id_ciclo = id_ciclo;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_ciclo: ${id_ciclo} not found`);

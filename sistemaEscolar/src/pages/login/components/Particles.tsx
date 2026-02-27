@@ -1,10 +1,11 @@
-import {Particle} from "../hooks/useLogin";
+import {Particle} from "../hooks/useLoginPage";
 
 interface Props {
   arrParticles: Particle[];
 }
 
 export const Particles = ({arrParticles}: Props) => {
+  {/* Particles */}
   return (
     <div className="particles-container" aria-hidden="true">
       {arrParticles.map((p) => (
@@ -23,4 +24,4 @@ export const Particles = ({arrParticles}: Props) => {
       ))}
     </div>
   );
-}
+};

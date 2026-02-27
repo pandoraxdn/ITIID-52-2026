@@ -18,6 +18,14 @@ export class PagoResolver {
     return this.service.findOne(id);
   }
 
+  @Query(() => [Pago], {name: 'pagosP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Mutation(() => Pago, {name: 'createPago'})
   create(@Args('input') input: CreatePagoInput) {
     return this.service.create(input);
@@ -28,7 +36,7 @@ export class PagoResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'deletePago'})
+  @Mutation(() => Boolean, {name: 'removePago'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

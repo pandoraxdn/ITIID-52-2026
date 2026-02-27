@@ -21,11 +21,21 @@ export class HorarioClaseService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<HorarioClase[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_horario_clase: 'ASC'},
+    });
+  }
+
   async findOne(id_horario_clase: number): Promise<HorarioClase> {
     return await this.repository.findOneBy({id_horario_clase});
   }
 
   async update(id_horario_clase: number, data: UpdateHorarioClaseInput): Promise<HorarioClase> {
+    data.id_horario_clase = id_horario_clase;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_horario_clase: ${id_horario_clase} not found`);

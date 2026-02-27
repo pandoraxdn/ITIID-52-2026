@@ -13,6 +13,14 @@ export class JustificanteEmpleadoResolver {
     return this.service.findAll();
   }
 
+  @Query(() => [JustificanteEmpleado], {name: 'justificantesEmpleadoP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
   @Query(() => JustificanteEmpleado, {name: 'justificanteEmpleado'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
@@ -28,7 +36,7 @@ export class JustificanteEmpleadoResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => JustificanteEmpleado, {name: 'deleteJustificanteEmpleado'})
+  @Mutation(() => JustificanteEmpleado, {name: 'removeJustificanteEmpleado'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

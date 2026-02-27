@@ -6,5 +6,5 @@ import {CreateJustificanteEmpleadoInput} from './create-justificanteEmpleado.inp
 export class UpdateJustificanteEmpleadoInput extends PartialType(CreateJustificanteEmpleadoInput) {
   @Field(() => ID)
   @IsNumber()
-  id_justificante: number;
+  id_justificante_emp: number;
 }

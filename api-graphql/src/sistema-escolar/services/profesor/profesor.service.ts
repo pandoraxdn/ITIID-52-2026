@@ -21,11 +21,21 @@ export class ProfesorService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<Profesor[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_profesor: 'ASC'},
+    });
+  }
+
   async findOne(id_profesor: number): Promise<Profesor> {
     return await this.repository.findOneBy({id_profesor});
   }
 
   async update(id_profesor: number, data: UpdateProfesorInput): Promise<Profesor> {
+    data.id_profesor = id_profesor;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_profesor: ${id_profesor} not found`);

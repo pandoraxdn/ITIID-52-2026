@@ -74,7 +74,7 @@ export class Empleado {
   @Column()
   departamento: string;
 
-  @Field()
+  @Field(() => Date)
   @Column({type: 'date'})
   fecha_contratacion: Date;
 

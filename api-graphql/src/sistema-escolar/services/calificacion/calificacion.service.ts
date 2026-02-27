@@ -21,11 +21,21 @@ export class CalificacionService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<Calificacion[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_calificacion: 'ASC'},
+    });
+  }
+
   async findOne(id_calificacion: number): Promise<Calificacion> {
     return await this.repository.findOneBy({id_calificacion});
   }
 
   async update(id_calificacion: number, data: UpdateCalificacionInput): Promise<Calificacion> {
+    data.id_calificacion = id_calificacion;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_calificacion: ${id_calificacion} not found`);

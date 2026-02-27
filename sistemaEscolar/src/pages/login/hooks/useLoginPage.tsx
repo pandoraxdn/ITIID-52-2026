@@ -1,6 +1,6 @@
 import {useReducer} from "react";
 
-export interface Particle {
+interface Particle {
   id: number;
   x: number;
   size: number;
@@ -16,25 +16,26 @@ export interface FormData {
   mounted: boolean;
 }
 
-interface UseLogin {
-  handleInputChange: (fieldName: keyof FormData, value: string | boolean) => void;
-  particles: Particle[];
-  setMount: () => void;
-  state: FormData;
+export interface UseLoginPage {
+  form: FormData;
+  handleInputChange: (fieldName: keyof FormUserData, value: string | boolean) => void;
+  handleSubmit: () => void;
+  particles: () => Particle[];
+  setMounted: () => void;
 }
 
-export const useLogin = (PARTICLE_COUNT?: number = 80): UseLogin => {
+export const useLoginPage = (PARTICLE_COUNT?: number = 80): UseLogin => {
 
   const generateParticles = (): Particle[] => {
     return Array.from({length: PARTICLE_COUNT}, (_, i) => ({
       id: i,
       x: Math.random() * 100,
-      size: Math.random() * 4 + 2,
+      size: Math.random() * 4 + 6,
       duration: Math.random() * 8 + 6,
       delay: Math.random() * 8,
       opacity: Math.random() * 0.6 + 0.2,
     }));
-  }
+  };
 
   const particles: Particle[] = generateParticles();
 
@@ -59,7 +60,7 @@ export const useLogin = (PARTICLE_COUNT?: number = 80): UseLogin => {
 
   const [state, dispatch] = useReducer(formReducer, initialForm);
 
-  const setMount = () => {
+  const setMounted = () => {
     dispatch({type: "handleInputChange", payload: {fieldName: 'mounted', value: true}});
   }
 
@@ -69,5 +70,5 @@ export const useLogin = (PARTICLE_COUNT?: number = 80): UseLogin => {
 
   const handleSubmit = () => console.log(state);
 
-  return {state, handleInputChange, particles, setMount};
+  return {state, handleInputChange, handleSubmit, particles, setMounted};
 }

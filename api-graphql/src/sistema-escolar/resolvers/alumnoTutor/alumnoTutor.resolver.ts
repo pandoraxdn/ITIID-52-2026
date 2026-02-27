@@ -8,17 +8,25 @@ import {UpdateAlumnoTutorInput} from 'src/sistema-escolar/dtos/alumnoTutor/updat
 export class AlumnoTutorResolver {
   constructor(private readonly service: AlumnoTutorService) {}
 
-  @Query(() => [AlumnoTutor])
+  @Query(() => [AlumnoTutor], {name: 'alumnosTutores'})
   findAll() {
     return this.service.findAll();
   }
 
-  @Query(() => AlumnoTutor, {name: 'alumnosTutores'})
+  @Query(() => [AlumnoTutor], {name: 'alumnosTutoresP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
+  }
+
+  @Query(() => AlumnoTutor, {name: 'alumnoTutor'})
   findOne(@Args('id', {type: () => Int}) id: number) {
     return this.service.findOne(id);
   }
 
-  @Mutation(() => AlumnoTutor, {name: 'alumnoTutor'})
+  @Mutation(() => AlumnoTutor, {name: 'createAlumnoTutor'})
   create(@Args('input') input: CreateAlumnoTutorInput) {
     return this.service.create(input);
   }
@@ -28,7 +36,7 @@ export class AlumnoTutorResolver {
     return this.service.update(id, input);
   }
 
-  @Mutation(() => Boolean, {name: 'alumnoTutorDelete'})
+  @Mutation(() => Boolean, {name: 'removeAlumnoTutor'})
   remove(@Args('id', {type: () => Int}) id: number) {
     return this.service.remove(id);
   }

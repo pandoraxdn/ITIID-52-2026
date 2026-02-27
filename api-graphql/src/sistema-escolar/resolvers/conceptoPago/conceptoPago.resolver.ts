@@ -8,9 +8,17 @@ import {UpdateConceptoPagoInput} from '../../dtos/conceptoPago/update-conceptoPa
 export class ConceptoPagoResolver {
   constructor(private readonly service: ConceptoPagoService) {}
 
-  @Query(() => [ConceptoPago], {name: 'concetosPago'})
+  @Query(() => [ConceptoPago], {name: 'conceptosPago'})
   findAll() {
     return this.service.findAll();
+  }
+
+  @Query(() => [ConceptoPago], {name: 'conceptosPagoP'})
+  findAllPaginate(
+    @Args('page', {type: () => Int, nullable: true, defaultValue: 1}) page: number,
+    @Args('limit', {type: () => Int, nullable: true, defaultValue: 10}) limit: number,
+  ) {
+    return this.service.findAllPaginate(page, limit);
   }
 
   @Query(() => ConceptoPago, {name: 'conceptoPago'})

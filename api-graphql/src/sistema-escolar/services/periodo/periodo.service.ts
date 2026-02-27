@@ -21,11 +21,21 @@ export class PeriodoService {
     return await this.repository.find();
   }
 
+  async findAllPaginate(page: number = 1, limit: number = 10): Promise<Periodo[]> {
+    const skip = (page - 1) * limit;
+    return await this.repository.find({
+      skip,
+      take: limit,
+      order: {id_periodo: 'ASC'},
+    });
+  }
+
   async findOne(id_periodo: number): Promise<Periodo> {
     return await this.repository.findOneBy({id_periodo});
   }
 
   async update(id_periodo: number, data: UpdatePeriodoInput): Promise<Periodo> {
+    data.id_periodo = id_periodo;
     const register = await this.repository.preload(data);
     if (!register) {
       throw new NotFoundException(`Register with id_periodo: ${id_periodo} not found`);

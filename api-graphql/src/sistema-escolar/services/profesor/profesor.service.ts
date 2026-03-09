@@ -35,8 +35,10 @@ export class ProfesorService {
   }
 
   async update(id_profesor: number, data: UpdateProfesorInput): Promise<Profesor> {
-    data.id_profesor = id_profesor;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_profesor,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_profesor: ${id_profesor} not found`);
     }

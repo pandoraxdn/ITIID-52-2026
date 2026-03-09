@@ -35,8 +35,10 @@ export class GrupoService {
   }
 
   async update(id_grupo: number, data: UpdateGrupoInput): Promise<Grupo> {
-    data.id_grupo = id_grupo;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_grupo,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_grupo: ${id_grupo} not found`);
     }

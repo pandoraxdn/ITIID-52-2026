@@ -35,8 +35,10 @@ export class PeriodoService {
   }
 
   async update(id_periodo: number, data: UpdatePeriodoInput): Promise<Periodo> {
-    data.id_periodo = id_periodo;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_periodo,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_periodo: ${id_periodo} not found`);
     }

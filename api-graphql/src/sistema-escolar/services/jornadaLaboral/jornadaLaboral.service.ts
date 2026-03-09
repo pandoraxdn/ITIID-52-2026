@@ -35,8 +35,10 @@ export class JornadaLaboralService {
   }
 
   async update(id_jornada: number, data: UpdateJornadaLaboralInput): Promise<JornadaLaboral> {
-    data.id_jornada = id_jornada;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_jornada,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_jornada: ${id_jornada} not found`);
     }

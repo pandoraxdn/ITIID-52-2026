@@ -35,8 +35,10 @@ export class EmpleadoService {
   }
 
   async update(id_empleado: number, data: UpdateEmpleadoInput): Promise<Empleado> {
-    data.id_empleado = id_empleado;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_empleado,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_empleado: ${id_empleado} not found`);
     }

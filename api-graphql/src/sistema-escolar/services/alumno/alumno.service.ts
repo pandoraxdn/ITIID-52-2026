@@ -36,8 +36,10 @@ export class AlumnoService {
   }
 
   async update(id_alumno: number, data: UpdateAlumnoInput): Promise<Alumno> {
-    data.id_alumno = id_alumno;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_alumno,
+    });
     if (!register) {
       throw new NotFoundException(`Not found id_alumno: ${id_alumno}`);
     }

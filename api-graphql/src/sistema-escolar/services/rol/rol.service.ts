@@ -35,8 +35,10 @@ export class RolService {
   }
 
   async update(id_rol: number, data: UpdateRolInput): Promise<Rol> {
-    data.id_rol = id_rol;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_rol,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_rol: ${id_rol} not found`);
     }

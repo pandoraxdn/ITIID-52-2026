@@ -35,8 +35,10 @@ export class AuditoriaLogService {
   }
 
   async update(id_log: number, data: UpdateAuditoriaLogInput): Promise<AuditoriaLog> {
-    data.id_log = id_log;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_log,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_log: ${id_log} not found`);
     }

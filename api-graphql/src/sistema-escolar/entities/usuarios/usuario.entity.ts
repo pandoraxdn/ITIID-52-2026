@@ -15,7 +15,7 @@ export class Usuario {
 
   @Field(() => String)
   @Column({unique: true})
-  username: number;
+  username: string;
 
   @Field(() => String)
   @Column()
@@ -38,7 +38,7 @@ export class Usuario {
   tutor_id?: number;
 
   @Field(() => String)
-  @Column()
+  @Column({type: 'text'})
   avatar_url: string;
 
   @Field(() => Date)

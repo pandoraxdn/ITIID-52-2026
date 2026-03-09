@@ -35,8 +35,10 @@ export class InscripcionService {
   }
 
   async update(id_inscripcion: number, data: UpdateInscripcionInput): Promise<Inscripcion> {
-    data.id_inscripcion = id_inscripcion;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_inscripcion,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_inscripcion: ${id_inscripcion} not found`);
     }

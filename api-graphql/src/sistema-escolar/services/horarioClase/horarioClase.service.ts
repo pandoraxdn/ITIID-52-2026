@@ -35,8 +35,10 @@ export class HorarioClaseService {
   }
 
   async update(id_horario_clase: number, data: UpdateHorarioClaseInput): Promise<HorarioClase> {
-    data.id_horario_clase = id_horario_clase;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_horario_clase,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_horario_clase: ${id_horario_clase} not found`);
     }

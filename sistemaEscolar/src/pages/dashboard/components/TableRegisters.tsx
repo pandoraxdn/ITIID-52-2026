@@ -1,67 +1,44 @@
 // ============================================
 // ARCHIVO: TableRegisters.tsx
+// PROPÓSITO: Componente genérico que muestra una tabla de registros con columnas configurables.
+//            Puede incluir botones de editar y eliminar, así como acciones personalizadas.
+//            También maneja estados de carga y mensajes cuando no hay datos.
 // ============================================
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table';
 import {Button} from '@/components/ui/button';
 import {Pencil, Trash2, Users} from 'lucide-react';
 import {ReactNode} from 'react';
 
-/**
- * Configuración de una columna de la tabla.
- * @template T - Tipo de los datos de cada fila.
- */
+// ============================================
+// CONFIGURACIÓN DE UNA COLUMNA
+// ============================================
 export interface ColumnConfig<T> {
-  /** Clave del dato en el objeto (o identificador único si se usa render personalizado). */
-  key: keyof T | string;
-  /** Texto a mostrar en el encabezado. */
-  header: string;
-  /** Función opcional para renderizar el contenido de la celda (si no se provee, se usa el valor directo). */
-  render?: (item: T) => ReactNode;
-  /** Clases CSS adicionales para la celda de datos. */
-  className?: string;
-  /** Clases CSS adicionales para la celda de encabezado. */
-  headerClassName?: string;
+  key: keyof T | string;                // Clave del dato en el objeto (o identificador si se usa render)
+  header: string;                        // Texto del encabezado
+  render?: (item: T) => ReactNode;       // Función opcional para renderizar la celda (si no se usa, se muestra el valor directo)
+  className?: string;                     // Clase CSS para la celda de datos
+  headerClassName?: string;                // Clase CSS para la celda de encabezado
 }
 
-/**
- * Props del componente TableRegisters.
- * @template T - Tipo de los datos de las filas.
- */
+// ============================================
+// PROPS DEL COMPONENTE
+// ============================================
 interface Props<T> {
-  /** Arreglo de elementos a mostrar. */
-  data: T[];
-  /** Configuración de las columnas. */
-  columns: ColumnConfig<T>[];
-  /** Función que se ejecuta al hacer clic en el botón de editar (recibe el item completo). */
-  onEdit?: (item: T) => void;
-  /** Función que se ejecuta al hacer clic en el botón de eliminar (recibe el ID). */
-  onDelete?: (id: number | string) => void;
-  /** Función que retorna JSX para acciones personalizadas por fila (se muestra junto a los botones estándar). */
-  customActions?: (item: T) => ReactNode;
-  /** Función que extrae el ID único de un item. Si no se provee, se intenta con 'id', 'id_empleado', etc. */
-  getId?: (item: T) => string | number;
-  /** Mensaje a mostrar cuando no hay datos. */
-  emptyMessage?: string;
-  /** Estado de carga (muestra "Cargando..." si es true). */
-  loading?: boolean;
-  /** Indica si se debe mostrar la columna de acciones (por defecto true). */
-  actions?: boolean;
+  data: T[];                              // Lista de elementos a mostrar
+  columns: ColumnConfig<T>[];              // Configuración de columnas
+  onEdit?: (item: T) => void;              // Función al hacer clic en editar (recibe el item completo)
+  onDelete?: (id: number | string) => void; // Función al hacer clic en eliminar (recibe el ID)
+  customActions?: (item: T) => ReactNode;   // Renderizado personalizado de acciones por fila
+  getId?: (item: T) => string | number;     // Función para obtener el ID único de un item
+  emptyMessage?: string;                     // Mensaje cuando no hay datos
+  loading?: boolean;                         // Estado de carga
+  actions?: boolean;                         // Si se debe mostrar la columna de acciones
 }
 
-/**
- * Componente de tabla genérico que muestra una lista de registros con columnas configurables
- * y botones de acción (editar/eliminar) opcionales.
- *
- * @template T - Tipo de los datos de las filas.
- */
+// ============================================
+// COMPONENTE TABLEREGISTERS
+// ============================================
 export function TableRegisters<T>({
   data,
   columns,
@@ -73,14 +50,14 @@ export function TableRegisters<T>({
   loading = false,
   actions = true,
 }: Props<T>) {
-  // Estado de carga
+  // Estado de carga: mostramos un mensaje simple
   if (loading) {
     return (
       <div className="text-center py-12 text-muted-foreground">Cargando...</div>
     );
   }
 
-  // Sin datos
+  // Sin datos: mostramos un icono y el mensaje
   if (!data || data.length === 0) {
     return (
       <div className="text-center py-12 text-muted-foreground">
@@ -90,22 +67,14 @@ export function TableRegisters<T>({
     );
   }
 
-  /**
-   * Obtiene un identificador único para el item.
-   * Si se proporciona la función getId, la usa; de lo contrario, intenta obtener
-   * propiedades comunes como id, id_empleado, id_profesor. Si no encuentra ninguna,
-   * genera un id aleatorio (solo para evitar errores, pero se recomienda siempre
-   * proporcionar getId).
-   */
+  // Función para obtener el ID de un item. Si no se provee getId, intentamos adivinarlo
+  // buscando propiedades comunes como 'id', 'id_empleado', 'id_profesor'.
   const getItemId = (item: T): string | number => {
     if (getId) return getId(item);
-    const possibleId =
-      (item as any).id ?? (item as any).id_empleado ?? (item as any).id_profesor;
+    const possibleId = (item as any).id ?? (item as any).id_empleado ?? (item as any).id_profesor;
     if (possibleId === undefined) {
-      console.warn(
-        "No se pudo determinar el ID del item. Proporciona 'getId' prop para evitar este warning."
-      );
-      return Math.random().toString();
+      console.warn("No se pudo determinar el ID del item. Proporciona 'getId' prop.");
+      return Math.random().toString(); // ID temporal para evitar errores, pero no debería pasar
     }
     return possibleId;
   };
@@ -119,7 +88,7 @@ export function TableRegisters<T>({
               {col.header}
             </TableHead>
           ))}
-          {/* Columna de acciones (solo si hay al menos un manejador o customActions) */}
+          {/* Columna de acciones: solo si hay al menos una acción */}
           {(actions && (onEdit || onDelete)) || customActions ? (
             <TableHead className="w-24 text-center">Acciones</TableHead>
           ) : null}

@@ -35,8 +35,10 @@ export class PagoService {
   }
 
   async update(id_pago: number, data: UpdatePagoInput): Promise<Pago> {
-    data.id_pago = id_pago;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_pago,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_pago: ${id_pago} not found`);
     }

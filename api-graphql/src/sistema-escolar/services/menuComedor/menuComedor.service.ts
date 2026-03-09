@@ -35,8 +35,10 @@ export class MenuComedorService {
   }
 
   async update(id_menu: number, data: UpdateMenuComedorInput): Promise<MenuComedor> {
-    data.id_menu = id_menu;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_menu,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_menu: ${id_menu} not found`);
     }

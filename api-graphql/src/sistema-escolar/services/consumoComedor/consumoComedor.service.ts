@@ -35,8 +35,10 @@ export class ConsumoComedorService {
   }
 
   async update(id_consumo: number, data: UpdateConsumoComedorInput): Promise<ConsumoComedor> {
-    data.id_consumo = id_consumo;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_consumo,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_consumo: ${id_consumo} not found`);
     }

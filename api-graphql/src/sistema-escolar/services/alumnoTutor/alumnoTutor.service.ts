@@ -42,8 +42,10 @@ export class AlumnoTutorService {
   }
 
   async update(id_de_al_tutor: number, data: UpdateAlumnoTutorInput): Promise<AlumnoTutor> {
-    data.id_de_al_tutor = id_de_al_tutor;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_de_al_tutor,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_de_al_tutor: ${id_de_al_tutor} not found`);
     }

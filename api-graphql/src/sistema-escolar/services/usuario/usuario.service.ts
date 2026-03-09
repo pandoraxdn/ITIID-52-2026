@@ -4,6 +4,7 @@ import {Repository} from 'typeorm';
 import {Usuario} from '../../entities/usuarios/usuario.entity';
 import {CreateUsuarioInput} from '../../dtos/usuario/create-usuario.input';
 import {UpdateUsuarioInput} from '../../dtos/usuario/update-usuario.input';
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UsuarioService {
@@ -13,8 +14,11 @@ export class UsuarioService {
   ) {}
 
   async create(data: CreateUsuarioInput): Promise<Usuario> {
-    const register = this.repository.create(data);
-    return await this.repository.save(register);
+    const saltOrRounds = 10;
+    const hash = await bcrypt.hash(data.password_hash, saltOrRounds);
+    const register = {...data, password_hash: hash};
+    const new_user = this.repository.create(register);
+    return await this.repository.save(new_user);
   }
 
   async findAll(): Promise<Usuario[]> {
@@ -35,8 +39,15 @@ export class UsuarioService {
   }
 
   async update(id_usuario: number, data: UpdateUsuarioInput): Promise<Usuario> {
-    data.id_usuario = id_usuario;
-    const register = await this.repository.preload(data);
+    if (data.password_hash) {
+      const saltOrRounds = 10;
+      const hash = await bcrypt.hash(data.password_hash, saltOrRounds);
+      data.password_hash = hash;
+    }
+    const register = await this.repository.preload({
+      ...data,
+      id_usuario,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_usuario: ${id_usuario} not found`);
     }

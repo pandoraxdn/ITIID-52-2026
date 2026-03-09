@@ -35,8 +35,10 @@ export class ConceptoPagoService {
   }
 
   async update(id_concepto: number, data: UpdateConceptoPagoInput): Promise<ConceptoPago> {
-    data.id_concepto = id_concepto;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_concepto,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_concepto: ${id_concepto} not found`);
     }

@@ -1,44 +1,37 @@
 // ============================================
 // ARCHIVO: ModalForm.tsx
+// PROPÓSITO: Componente reutilizable que muestra un modal (ventana emergente)
+//            con un formulario. Puede usarse para crear o editar cualquier tipo de registro.
+//            Es genérico, lo que significa que funciona con diferentes tipos de datos
+//            (alumnos, profesores, etc.) gracias al uso de TypeScript.
 // ============================================
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
+// Importaciones de componentes UI de la librería shadcn/ui
+import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription} from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {Label} from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {Users} from 'lucide-react';
-import {ReactNode} from 'react';
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
+import {Users} from 'lucide-react'; // Ícono por defecto
+
+// ============================================
+// CONFIGURACIÓN DE TIPOS (INTERFACES)
+// ============================================
+// Estas interfaces definen la estructura de las props que el componente puede recibir.
+// Al ser genéricas (<T = any>), podemos especificar el tipo de datos del formulario
+// (por ejemplo, Alumno, Profesor, etc.) y TypeScript verificará que los nombres de campo coincidan.
 
 /**
  * Configuración de un campo de texto en el formulario.
- * @template T - Tipo del objeto que contiene el formulario.
+ * @template T - Tipo del objeto que contiene el formulario (ej. Alumno, Profesor).
  */
 export interface TextFieldConfig<T = any> {
-  /** Nombre del campo (debe coincidir con una clave de T). */
-  name: keyof T;
-  /** Etiqueta visible para el campo. */
-  label: string;
-  /** Icono opcional a mostrar junto a la etiqueta. */
-  icon?: React.ElementType;
-  /** Texto de placeholder. */
-  placeholder?: string;
-  /** Indica si el campo es obligatorio (se muestra asterisco). */
-  required?: boolean;
-  /** Tipo de input (text, email, date, etc.). Por defecto 'text'. */
-  type?: string;
+  name: keyof T;          // Nombre del campo (debe ser una clave válida de T)
+  label: string;          // Etiqueta visible
+  icon?: React.ElementType; // Ícono opcional (componente de lucide-react)
+  placeholder?: string;   // Texto de placeholder
+  required?: boolean;     // Si es obligatorio (muestra asterisco)
+  type?: string;          // Tipo de input (text, email, date, password, etc.)
 }
 
 /**
@@ -46,68 +39,39 @@ export interface TextFieldConfig<T = any> {
  * @template T - Tipo del objeto que contiene el formulario.
  */
 export interface SelectFieldConfig<T = any> {
-  /** Nombre del campo (debe coincidir con una clave de T). */
-  name: keyof T;
-  /** Etiqueta visible. */
-  label: string;
-  /** Arreglo de opciones como strings (los valores que se enviarán al backend). */
-  options: string[];
-  /** Indica si es obligatorio. */
-  required?: boolean;
-  /**
-   * Función opcional para transformar el valor seleccionado (string) al tipo esperado por el formulario.
-   * Útil para booleanos o números.
-   */
-  mapValue?: (value: string) => any;
-  /**
-   * Función opcional para mostrar una etiqueta diferente en la interfaz (por ejemplo, "Activo" en lugar de "true").
-   */
-  displayLabel?: (option: string) => string;
+  name: keyof T;          // Nombre del campo
+  label: string;          // Etiqueta visible
+  options: string[];      // Lista de opciones (valores que se enviarán)
+  required?: boolean;     // Si es obligatorio
+  mapValue?: (value: string) => any;  // Función opcional para transformar el valor seleccionado (ej. convertir 'true' a booleano)
+  displayLabel?: (option: string) => string; // Función opcional para mostrar una etiqueta diferente en la UI (ej. "Activo" en lugar de "true")
 }
 
 /**
- * Props del componente ModalForm.
- * @template T - Tipo del objeto que maneja el formulario.
+ * Props que recibe el componente ModalForm.
+ * @template T - Tipo de los datos del formulario.
  */
 interface Props<T = any> {
-  /** Controla si el modal está abierto. */
-  open: boolean;
-  /** Función para cerrar el modal. */
-  onClose: () => void;
-  /** Función a ejecutar al enviar el formulario. */
-  onSubmit: (e: React.FormEvent) => void;
-  /** Objeto con los valores actuales del formulario. */
-  form: T;
-  /** Función para actualizar un campo del formulario. */
-  setField: (field: keyof T, value: any) => void;
-  /** Función que valida el formulario (retorna true si es válido). */
-  isValid: () => boolean;
-  /** Indica si está en modo edición (cambia el texto del botón submit). */
-  isEditing: boolean;
-  /** Estado de carga (deshabilita el botón submit). */
-  loading: boolean;
-  /** Título del modal (si no se provee, se usa uno genérico). */
-  title?: string;
-  /** Descripción del modal. */
-  description?: string;
-  /** Configuración de los campos de texto. */
-  textFields: TextFieldConfig<T>[];
-  /** Configuración de los campos select. */
-  selectFields: SelectFieldConfig<T>[];
-  /** Icono a mostrar en el encabezado (por defecto Users). */
-  headerIcon?: React.ElementType;
-  /** Contenido adicional (puede usarse para campos personalizados no cubiertos por textFields/selectFields). */
-  children?: React.ReactNode;
+  open: boolean;                          // Controla si el modal está abierto o cerrado
+  onClose: () => void;                     // Función para cerrar el modal
+  onSubmit: (e: React.FormEvent) => void;  // Función que se ejecuta al enviar el formulario
+  form: T;                                 // Objeto con los valores actuales del formulario
+  setField: (field: keyof T, value: any) => void; // Función para actualizar un campo específico
+  isValid: () => boolean;                   // Función que valida el formulario (retorna true si es válido)
+  isEditing: boolean;                       // Indica si estamos en modo edición (cambia el texto del botón)
+  loading: boolean;                         // Estado de carga (deshabilita el botón de submit)
+  title?: string;                           // Título del modal (si no se provee, se usa uno por defecto)
+  description?: string;                      // Descripción del modal
+  textFields: TextFieldConfig<T>[];          // Lista de campos de texto a renderizar
+  selectFields: SelectFieldConfig<T>[];      // Lista de campos select a renderizar
+  headerIcon?: React.ElementType;            // Ícono a mostrar en el encabezado (por defecto Users)
+  children?: React.ReactNode;                 // Contenido adicional (campos personalizados que no entran en textFields o selectFields)
 }
 
-/**
- * Componente modal genérico para formularios.
- * Renderiza un diálogo con un formulario que incluye campos de texto y selectores,
- * configurados mediante props. Se integra con el estado del formulario proporcionado
- * por el hook useEmpleadoForm o cualquier otro hook similar.
- *
- * @template T - Tipo del formulario.
- */
+// ============================================
+// COMPONENTE PRINCIPAL: ModalForm
+// ============================================
+// Este componente es genérico: <T> se especificará cuando se use (ej. <ModalForm<Alumno> ... />)
 export function ModalForm<T>({
   open,
   onClose,
@@ -121,16 +85,20 @@ export function ModalForm<T>({
   description,
   textFields,
   selectFields,
-  headerIcon: HeaderIcon = Users,
+  headerIcon: HeaderIcon = Users, // Si no se pasa icono, usamos Users por defecto
   children,
 }: Props<T>) {
+  // Si no se proporciona título, usamos uno por defecto según el modo (edición o creación)
   const modalTitle = title ?? (isEditing ? 'Editar Registro' : 'Nuevo Registro');
-  const modalDescription =
-    description ?? (isEditing ? 'Modifica los datos' : 'Registra un nuevo elemento');
+  // Si no se proporciona descripción, usamos una por defecto
+  const modalDescription = description ?? (isEditing ? 'Modifica los datos' : 'Registra un nuevo elemento');
 
   return (
+    // Componente Dialog de shadcn/ui: controla la apertura/cierre del modal
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
+      {/* Contenido del modal con ancho máximo personalizado */}
       <DialogContent className="modal-pro sm:max-w-2xl">
+        {/* Cabecera del modal: ícono, título y descripción */}
         <DialogHeader>
           <div className="flex items-center gap-3 mb-1">
             <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
@@ -143,8 +111,9 @@ export function ModalForm<T>({
           </div>
         </DialogHeader>
 
+        {/* Formulario */}
         <form onSubmit={onSubmit} className="space-y-5 pt-2">
-          {/* Campos de texto */}
+          {/* Campos de texto: se renderizan en un grid de 2 columnas */}
           {textFields.length > 0 && (
             <div className="grid grid-cols-2 gap-4">
               {textFields.map((field) => (
@@ -166,11 +135,11 @@ export function ModalForm<T>({
             </div>
           )}
 
-          {/* Campos select */}
+          {/* Campos de selección (select) */}
           {selectFields.length > 0 && (
             <div className="grid grid-cols-2 gap-4">
               {selectFields.map((field) => {
-                // Determinamos el valor actual; si es booleano lo convertimos a string para el select
+                // Determinamos el valor actual: si es booleano, lo convertimos a string 'true'/'false'
                 let currentValue: string;
                 if (typeof form[field.name] === 'boolean') {
                   currentValue = form[field.name] ? 'true' : 'false';
@@ -205,7 +174,7 @@ export function ModalForm<T>({
             </div>
           )}
 
-          {/* Contenido adicional (campos personalizados) */}
+          {/* Contenido adicional (children) que se renderiza después de los campos estándar */}
           {children}
 
           {/* Botones de acción */}
@@ -213,11 +182,7 @@ export function ModalForm<T>({
             <Button type="button" variant="outline" onClick={onClose}>
               Cancelar
             </Button>
-            <Button
-              type="submit"
-              className="glow-gold"
-              disabled={!isValid() || loading}
-            >
+            <Button type="submit" className="glow-gold" disabled={!isValid() || loading}>
               {isEditing ? 'Actualizar' : 'Crear'}
             </Button>
           </div>

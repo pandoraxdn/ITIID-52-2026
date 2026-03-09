@@ -6,13 +6,13 @@ import {LoginPage} from "@/pages/login/LoginPage";
 import {DashboardRootLayout} from "@/pages/dashboard/components/DashboardRootLayout";
 import {DashboardPage} from "@/pages/dashboard/DashboardPage";
 import {DashboardIndex} from "@/pages/dashboard/sections/DashboardIndex";
-import {Students} from "@/pages/dashboard/sections/Students";
-import {Subjects} from "@/pages/dashboard/sections/Subjects";
 import {Profesores} from "@/pages/dashboard/sections/Profesores";
-import {Enrollments} from "@/pages/dashboard/sections/Enrollments";
-import {Grades} from "@/pages/dashboard/sections/Grades";
-import {NotFound} from "@/pages/dashboard/sections/NotFound";
 import {Empleados} from "@/pages/dashboard/sections/Empleados";
+import {Alumnos} from "@/pages/dashboard/sections/Alumnos";
+import {Roles} from "@/pages/dashboard/sections/Roles";
+import {Usuarios} from "@/pages/dashboard/sections/Usuarios";
+import {Tutores} from "@/pages/dashboard/sections/Tutores";
+import {NotFound} from "@/pages/dashboard/sections/NotFound";
 
 export const appRouter = createBrowserRouter([
   {
@@ -31,12 +31,12 @@ export const appRouter = createBrowserRouter([
         element: <DashboardPage />,
         children: [
           {index: true, element: <DashboardIndex />},
-          {path: "alumnos", element: <Students />},
-          {path: "materias", element: <Subjects />},
           {path: "profesores", element: <Profesores />},
-          {path: "inscripciones", element: <Enrollments />},
-          {path: "calificaciones", element: <Grades />},
           {path: "empleados", element: <Empleados />},
+          {path: "alumnos", element: <Alumnos />},
+          {path: "roles", element: <Roles />},
+          {path: "tutores", element: <Tutores />},
+          {path: "usuarios", element: <Usuarios />},
           {path: "*", element: <NotFound />},
         ],
       },

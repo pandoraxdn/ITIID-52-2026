@@ -911,7 +911,7 @@ input UpdateTutorInput {
 }
 
 input CreateUsuarioInput {
-  username: Int!
+  username: String!
   password_hash: String!
   rol_id: Int!
   empleado_id: Int
@@ -919,11 +919,11 @@ input CreateUsuarioInput {
   tutor_id: Int
   avatar_url: String!
   ultimo_acceso: String!
-  activo: String!
+  activo: Boolean!
 }
 
 input UpdateUsuarioInput {
-  username: Int
+  username: String
   password_hash: String
   rol_id: Int
   empleado_id: Int
@@ -931,6 +931,6 @@ input UpdateUsuarioInput {
   tutor_id: Int
   avatar_url: String
   ultimo_acceso: String
-  activo: String
+  activo: Boolean
   id_usuario: ID!
 }

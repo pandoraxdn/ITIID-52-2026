@@ -35,8 +35,10 @@ export class JustificanteEmpleadoService {
   }
 
   async update(id_justificante_emp: number, data: UpdateJustificanteEmpleadoInput): Promise<JustificanteEmpleado> {
-    data.id_justificante_emp = id_justificante_emp;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_justificante_emp,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_justificante_emp: ${id_justificante_emp} not found`);
     }

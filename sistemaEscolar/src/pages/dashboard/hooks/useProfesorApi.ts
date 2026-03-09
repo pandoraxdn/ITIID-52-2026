@@ -1,9 +1,3 @@
-// ============================================
-// ARCHIVO: useProfesorApi.ts
-// Módulo: Profesores
-// Descripción: Hook personalizado que encapsula todas las operaciones GraphQL relacionadas con profesores.
-// ============================================
-
 import {pandoraApi} from '@/api/pandoraApi';
 import {useState, useCallback} from 'react';
 import {
@@ -20,40 +14,24 @@ import {
   REMOVE_PROFESOR
 } from '../graphql/profesores';
 
-/**
- * Función auxiliar para ejecutar cualquier consulta o mutación GraphQL.
- * Realiza una petición POST al endpoint de GraphQL usando la instancia axios preconfigurada.
- *
- * @template T - Tipo de la respuesta esperada (data.data).
- * @param {string} query - La consulta GraphQL (puede ser query o mutation).
- * @param {any} [variables] - Variables para la consulta (opcional).
- * @returns {Promise<T>} - Promesa que resuelve con la propiedad 'data' de la respuesta.
- * @throws {Error} - Si la respuesta contiene errores GraphQL.
- */
 async function executeQuery<T>(query: string, variables?: any): Promise<T> {
-  const response = await pandoraApi.post('', {query, variables});
-  if (response.data.errors) {
-    throw new Error(response.data.errors[0].message);
+  try {
+    const response = await pandoraApi.post('', {query, variables});
+    if (response.data.errors) {
+      console.error('GraphQL Errors:', response.data.errors);
+      throw new Error(response.data.errors[0].message);
+    }
+    return response.data.data;
+  } catch (error) {
+    console.error('ExecuteQuery error:', error);
+    throw error;
   }
-  return response.data.data;
 }
 
-/**
- * Hook que proporciona métodos para interactuar con la API de profesores.
- * Gestiona estados de carga y error, y expone funciones para cada operación CRUD.
- *
- * @returns {Object} Objeto con estados loading/error y las funciones API.
- */
 export const useProfesorApi = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // -----------------------------------------------------------------
-  // Obtener todos los profesores (sin paginación)
-  // -----------------------------------------------------------------
-  /**
-   * @returns {Promise<Profesor[]>} Lista completa de profesores.
-   */
   const getProfesores = useCallback(async (): Promise<Profesor[]> => {
     setLoading(true);
     setError(null);
@@ -62,20 +40,12 @@ export const useProfesorApi = () => {
       return data.profesores;
     } catch (err: any) {
       setError(err.message);
-      return [];
+      throw err;
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // -----------------------------------------------------------------
-  // Obtener profesores paginados
-  // -----------------------------------------------------------------
-  /**
-   * @param {number} page - Número de página (por defecto 1).
-   * @param {number} limit - Cantidad por página (por defecto 10).
-   * @returns {Promise<Profesor[]>} Lista de profesores de la página solicitada.
-   */
   const getProfesoresPaginate = useCallback(
     async (page: number = 1, limit: number = 10): Promise<Profesor[]> => {
       setLoading(true);
@@ -88,7 +58,7 @@ export const useProfesorApi = () => {
         return data.profesoresP;
       } catch (err: any) {
         setError(err.message);
-        return [];
+        throw err;
       } finally {
         setLoading(false);
       }
@@ -96,13 +66,6 @@ export const useProfesorApi = () => {
     []
   );
 
-  // -----------------------------------------------------------------
-  // Obtener un profesor por ID
-  // -----------------------------------------------------------------
-  /**
-   * @param {number} id - ID del profesor.
-   * @returns {Promise<Profesor | null>} El profesor encontrado o null.
-   */
   const getProfesor = useCallback(async (id: number): Promise<Profesor | null> => {
     setLoading(true);
     setError(null);
@@ -111,21 +74,14 @@ export const useProfesorApi = () => {
       return data.profesor;
     } catch (err: any) {
       setError(err.message);
-      return null;
+      throw err;
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // -----------------------------------------------------------------
-  // Crear un nuevo profesor
-  // -----------------------------------------------------------------
-  /**
-   * @param {CreateProfesorInput} input - Datos del nuevo profesor.
-   * @returns {Promise<Profesor | null>} El profesor creado o null si falla.
-   */
   const createProfesor = useCallback(
-    async (input: CreateProfesorInput): Promise<Profesor | null> => {
+    async (input: CreateProfesorInput): Promise<Profesor> => {
       setLoading(true);
       setError(null);
       try {
@@ -135,7 +91,7 @@ export const useProfesorApi = () => {
         return data.createProfesor;
       } catch (err: any) {
         setError(err.message);
-        return null;
+        throw err;
       } finally {
         setLoading(false);
       }
@@ -143,16 +99,8 @@ export const useProfesorApi = () => {
     []
   );
 
-  // -----------------------------------------------------------------
-  // Actualizar un profesor existente
-  // -----------------------------------------------------------------
-  /**
-   * @param {number} id - ID del profesor a actualizar.
-   * @param {UpdateProfesorInput} input - Campos a modificar (todos opcionales).
-   * @returns {Promise<Profesor | null>} El profesor actualizado o null.
-   */
   const updateProfesor = useCallback(
-    async (id: number, input: UpdateProfesorInput): Promise<Profesor | null> => {
+    async (id: number, input: UpdateProfesorInput): Promise<Profesor> => {
       setLoading(true);
       setError(null);
       try {
@@ -163,7 +111,7 @@ export const useProfesorApi = () => {
         return data.updateProfesor;
       } catch (err: any) {
         setError(err.message);
-        return null;
+        throw err;
       } finally {
         setLoading(false);
       }
@@ -171,13 +119,6 @@ export const useProfesorApi = () => {
     []
   );
 
-  // -----------------------------------------------------------------
-  // Eliminar un profesor
-  // -----------------------------------------------------------------
-  /**
-   * @param {number} id - ID del profesor a eliminar.
-   * @returns {Promise<boolean>} true si se eliminó correctamente, false en caso contrario.
-   */
   const removeProfesor = useCallback(async (id: number): Promise<boolean> => {
     setLoading(true);
     setError(null);
@@ -186,7 +127,7 @@ export const useProfesorApi = () => {
       return data.removeProfesor;
     } catch (err: any) {
       setError(err.message);
-      return false;
+      throw err;
     } finally {
       setLoading(false);
     }

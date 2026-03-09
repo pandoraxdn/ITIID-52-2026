@@ -35,8 +35,10 @@ export class MateriaService {
   }
 
   async update(id_materia: number, data: UpdateMateriaInput): Promise<Materia> {
-    data.id_materia = id_materia;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_materia,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_materia: ${id_materia} not found`);
     }

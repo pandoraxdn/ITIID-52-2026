@@ -11,11 +11,10 @@ import {
 
 @InputType()
 export class CreateUsuarioInput {
-  @Field(() => Int)
-  @IsNumber()
-  @IsPositive()
+  @Field(() => String)
+  @IsString()
   @IsNotEmpty()
-  username: number;
+  username: string;
 
   @Field(() => String)
   @IsString()
@@ -51,7 +50,7 @@ export class CreateUsuarioInput {
   @IsNotEmpty()
   ultimo_acceso: Date;
 
-  @Field(() => String)
+  @Field(() => Boolean)
   @IsBoolean()
   @IsNotEmpty()
   activo: boolean;

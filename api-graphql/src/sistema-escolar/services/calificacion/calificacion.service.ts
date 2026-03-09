@@ -35,8 +35,10 @@ export class CalificacionService {
   }
 
   async update(id_calificacion: number, data: UpdateCalificacionInput): Promise<Calificacion> {
-    data.id_calificacion = id_calificacion;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_calificacion,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_calificacion: ${id_calificacion} not found`);
     }

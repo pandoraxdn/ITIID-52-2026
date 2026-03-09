@@ -35,8 +35,10 @@ export class CicloEscolarService {
   }
 
   async update(id_ciclo: number, data: UpdateCicloEscolarInput): Promise<CicloEscolar> {
-    data.id_ciclo = id_ciclo;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_ciclo,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_ciclo: ${id_ciclo} not found`);
     }

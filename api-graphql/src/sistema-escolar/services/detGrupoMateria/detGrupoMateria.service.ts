@@ -35,8 +35,10 @@ export class DetGrupoMateriaService {
   }
 
   async update(id_det_grupo_materia: number, data: UpdateDetGrupoMateriaInput): Promise<DetGrupoMateria> {
-    data.id_det_grupo_materia = id_det_grupo_materia;
-    const register = await this.repository.preload(data);
+    const register = await this.repository.preload({
+      ...data,
+      id_det_grupo_materia,
+    });
     if (!register) {
       throw new NotFoundException(`Register with id_det_grupo_materia: ${id_det_grupo_materia} not found`);
     }

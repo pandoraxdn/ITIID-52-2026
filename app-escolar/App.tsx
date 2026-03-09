@@ -1,22 +1,12 @@
-import {View, Text} from "react-native";
-import {Button} from "@/components/ui/button";
-import RootLayout from "./app/_layout";
+import './global.css';
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import DrawerNavigator from '@/navigation/DrawerNavigator';
 
-const App = () => {
+export default function App() {
   return (
-    <RootLayout>
-      <View className="items-center justify-center flex-1 bg-black">
-        <Text className="text-xl font-bold text-white">
-          NativeWind funcionando
-        </Text>
-        <Button
-          variant="secondary"
-        >
-          Entrar
-        </Button>
-      </View>
-    </RootLayout>
+    <NavigationContainer>
+      <DrawerNavigator />
+    </NavigationContainer>
   );
 }
-
-export default App;

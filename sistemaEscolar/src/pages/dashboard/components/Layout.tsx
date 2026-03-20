@@ -1,4 +1,5 @@
 // ============================================
+// RUTA: src/pages/dashboard/components/Layout.tsx
 // ARCHIVO: Layout.tsx
 // PROPÓSITO: Este componente define la estructura visual principal de la aplicación.
 //            Contiene el menú lateral (sidebar), el encabezado superior y el área
@@ -7,14 +8,13 @@
 // ============================================
 
 // Importaciones de React y React Router
-import {ReactNode, createContext, useContext, useState} from "react";
+import {type ReactNode, createContext, useContext, useState} from "react";
 import {Link, useLocation} from "react-router-dom";
 
 // Importación de íconos desde lucide-react (una librería de íconos)
 import {
   GraduationCap,
   Users,
-  BookOpen,
   UserCheck,
   ClipboardList,
   Award,
@@ -25,7 +25,8 @@ import {
   ChevronRight,
   UserRoundPen,
   FileUser,
-  HeartHandshake
+  HeartHandshake,
+  LogOut
 } from "lucide-react";
 
 // Importaciones de componentes de UI y utilidades
@@ -34,6 +35,8 @@ import {Button} from "@/components/ui/button"; // Botón personalizado
 import pandoraImg from "@/assets/pandora.png";    // Logo de la aplicación
 import {useSchoolStore} from "../hooks/useSchoolStore"; // Hook que trae datos de la escuela
 import {ParticlesBackground} from "./ParticlesBackground"; // Fondo animado de partículas
+import {useAuth} from "@/context/AuthContext"; // Contexto de autenticación
+import {useNavigate} from "react-router-dom";
 
 // ============================================
 // CONTEXTO GLOBAL DE LA ESCUELA
@@ -119,6 +122,18 @@ export function Layout({children}: {children: ReactNode}) {
 
   // Hook personalizado que trae los datos de la escuela (ej. nombre, configuración).
   const store = useSchoolStore();
+
+  // Obtenemos el usuario logueado y la función para cerrar sesión del contexto.
+  const {user, cerrarSesion} = useAuth();
+
+  // Hook para redirigir al usuario después de cerrar sesión.
+  const navigate = useNavigate();
+
+  // Función que cierra la sesión y manda al usuario a la página de login.
+  const handleLogout = () => {
+    cerrarSesion();
+    navigate('/login');
+  };
 
   // Estado para controlar qué grupos del menú están expandidos (abiertos).
   // Inicialmente, ambos grupos empiezan cerrados (false).
@@ -241,8 +256,28 @@ export function Layout({children}: {children: ReactNode}) {
 
         {/* CONTENIDO PRINCIPAL (lado derecho) */}
         <div className="flex-1 flex flex-col overflow-auto">
-          {/* Header superior con botón de cambio de tema */}
-          <header className="flex items-center justify-end p-4 border-b border-border/60 bg-background/60 backdrop-blur-sm">
+          {/* Header superior */}
+          <header className="flex items-center justify-end p-4 border-b border-border/60 bg-background/60 backdrop-blur-sm gap-3">
+
+            {/* Foto de perfil y nombre del usuario logueado */}
+            <div className="flex items-center gap-2">
+              <img
+                src={
+                  // Si ya trae el prefijo "data:" lo usamos directo,
+                  // si no, le agregamos el prefijo base64 para que el navegador lo entienda
+                  user?.avatar_url?.startsWith('data:')
+                    ? user.avatar_url
+                    : `data:image/jpeg;base64,${user?.avatar_url}`
+                }
+                alt={user?.username}
+                className="h-8 w-8 rounded-full object-cover ring-2 ring-primary/40"
+              />
+              <span className="text-sm text-muted-foreground">
+                Hola, <span className="font-medium text-foreground">{user?.username}</span>
+              </span>
+            </div>
+
+            {/* Botón cambio de tema */}
             <Button
               variant="ghost"
               size="icon"
@@ -250,6 +285,17 @@ export function Layout({children}: {children: ReactNode}) {
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             >
               {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
+
+            {/* Botón cerrar sesión */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+              onClick={handleLogout}
+              title="Cerrar sesión"
+            >
+              <LogOut className="h-4 w-4" />
             </Button>
           </header>
 

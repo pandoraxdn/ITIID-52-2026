@@ -121,3 +121,32 @@ export const REMOVE_USUARIO = `
     removeUsuario(id: $id)
   }
 `;
+
+// ============================================
+// QUERY: LOGIN
+// ============================================
+// Esta query llama al resolver "login" del backend.
+// Le enviamos el username y el password (como password_hash).
+// El backend compara la contraseña con bcrypt y devuelve
+// el objeto Usuario si es correcta, o null si no lo es.
+// Usamos UpdateUsuarioInput porque es el DTO que acepta ese resolver.
+// ============================================
+/**
+ * Autentica un usuario con su username y contraseña.
+ * @param {UpdateUsuarioInput!} input - { username, password_hash }
+ */
+export const LOGIN_USUARIO = `
+  query Login($input: UpdateUsuarioInput!) {
+    login(input: $input) {
+      id_usuario
+      username
+      rol_id
+      empleado_id
+      alumno_id
+      tutor_id
+      avatar_url
+      ultimo_acceso
+      activo
+    }
+  }
+`;

@@ -1,49 +1,63 @@
-import React from "react";
-import {createBrowserRouter, Navigate} from "react-router-dom";
-import {HomePage} from "../pages/home/HomePage";
-import {LoginPage} from "@/pages/login/LoginPage";
+// ============================================
+// RUTA: src/router/app.router.tsx
+// ARCHIVO: app.router.tsx
+// PROPÓSITO: Define todas las rutas de la aplicación.
+//            Las rutas del dashboard están protegidas con <ProtectedRoute>,
+//            lo que significa que solo se pueden visitar si hay sesión activa.
+// ============================================
+import {createBrowserRouter, Navigate} from 'react-router-dom';
 
-import {DashboardRootLayout} from "@/pages/dashboard/components/DashboardRootLayout";
-import {DashboardPage} from "@/pages/dashboard/DashboardPage";
-import {DashboardIndex} from "@/pages/dashboard/sections/DashboardIndex";
-import {Profesores} from "@/pages/dashboard/sections/Profesores";
-import {Empleados} from "@/pages/dashboard/sections/Empleados";
-import {Alumnos} from "@/pages/dashboard/sections/Alumnos";
-import {Roles} from "@/pages/dashboard/sections/Roles";
-import {Usuarios} from "@/pages/dashboard/sections/Usuarios";
-import {Tutores} from "@/pages/dashboard/sections/Tutores";
-import {NotFound} from "@/pages/dashboard/sections/NotFound";
+import {HomePage} from '../pages/home/HomePage';
+import {LoginPage} from '@/pages/login/LoginPage';
+
+import {DashboardRootLayout} from '@/pages/dashboard/components/DashboardRootLayout';
+import {DashboardPage} from '@/pages/dashboard/DashboardPage';
+import {DashboardIndex} from '@/pages/dashboard/sections/DashboardIndex';
+import {Profesores} from '@/pages/dashboard/sections/Profesores';
+import {Empleados} from '@/pages/dashboard/sections/Empleados';
+import {Alumnos} from '@/pages/dashboard/sections/Alumnos';
+import {Roles} from '@/pages/dashboard/sections/Roles';
+import {Usuarios} from '@/pages/dashboard/sections/Usuarios';
+import {Tutores} from '@/pages/dashboard/sections/Tutores';
+import {NotFound} from '@/pages/dashboard/sections/NotFound';
+import {ProtectedRoute} from './ProtectedRoute';
 
 export const appRouter = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <HomePage />,
   },
   {
-    path: "/login",
+    path: '/login',
     element: <LoginPage />,
   },
   {
-    path: "/dashboard",
-    element: <DashboardRootLayout />,
+    // Ruta del dashboard protegida con <ProtectedRoute>.
+    // Si no hay sesión, ProtectedRoute redirige automáticamente a /login.
+    path: '/dashboard',
+    element: (
+      <ProtectedRoute>
+        <DashboardRootLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         element: <DashboardPage />,
         children: [
           {index: true, element: <DashboardIndex />},
-          {path: "profesores", element: <Profesores />},
-          {path: "empleados", element: <Empleados />},
-          {path: "alumnos", element: <Alumnos />},
-          {path: "roles", element: <Roles />},
-          {path: "tutores", element: <Tutores />},
-          {path: "usuarios", element: <Usuarios />},
-          {path: "*", element: <NotFound />},
+          {path: 'profesores', element: <Profesores />},
+          {path: 'empleados', element: <Empleados />},
+          {path: 'alumnos', element: <Alumnos />},
+          {path: 'roles', element: <Roles />},
+          {path: 'tutores', element: <Tutores />},
+          {path: 'usuarios', element: <Usuarios />},
+          {path: '*', element: <NotFound />},
         ],
       },
     ],
   },
   {
-    path: "*",
+    path: '*',
     element: <Navigate to="/" replace />,
   },
 ]);

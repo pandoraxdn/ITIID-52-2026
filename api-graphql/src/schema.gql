@@ -408,9 +408,23 @@ type Query {
   tutores: [Tutor!]!
   tutoresP(page: Int = 1, limit: Int = 10): [Tutor!]!
   tutor(id: Int!): Tutor!
+  login(input: UpdateUsuarioInput!): Usuario!
   usuarios: [Usuario!]!
   usuariosP(page: Int = 1, limit: Int = 10): [Usuario!]!
   usuario(id: Int!): Usuario!
+}
+
+input UpdateUsuarioInput {
+  username: String
+  password_hash: String
+  rol_id: Int
+  empleado_id: Int
+  alumno_id: Int
+  tutor_id: Int
+  avatar_url: String
+  ultimo_acceso: String
+  activo: Boolean
+  id_usuario: ID!
 }
 
 type Mutation {
@@ -920,17 +934,4 @@ input CreateUsuarioInput {
   avatar_url: String!
   ultimo_acceso: String!
   activo: Boolean!
-}
-
-input UpdateUsuarioInput {
-  username: String
-  password_hash: String
-  rol_id: Int
-  empleado_id: Int
-  alumno_id: Int
-  tutor_id: Int
-  avatar_url: String
-  ultimo_acceso: String
-  activo: Boolean
-  id_usuario: ID!
 }

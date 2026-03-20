@@ -13,6 +13,15 @@ export class UsuarioService {
     private repository: Repository<Usuario>
   ) {}
 
+  async login( data: UpdateUsuarioInput ){
+    try{
+      const user: Usuario = await this.repository.findOneBy({ username: data.username });
+      return ( await bcrypt.compare(data.password_hash, user.password_hash) ) ? user : false;
+    }catch(error){
+      return false;
+    }
+  }
+
   async create(data: CreateUsuarioInput): Promise<Usuario> {
     const saltOrRounds = 10;
     const hash = await bcrypt.hash(data.password_hash, saltOrRounds);

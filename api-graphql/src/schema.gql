@@ -408,8 +408,8 @@ type Query {
   tutores: [Tutor!]!
   tutoresP(page: Int = 1, limit: Int = 10): [Tutor!]!
   tutor(id: Int!): Tutor!
-  login(input: UpdateUsuarioInput!): Usuario!
   usuarios: [Usuario!]!
+  login(input: UpdateUsuarioInput!): Usuario!
   usuariosP(page: Int = 1, limit: Int = 10): [Usuario!]!
   usuario(id: Int!): Usuario!
 }

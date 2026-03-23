@@ -13,9 +13,9 @@ export class UsuarioService {
     private repository: Repository<Usuario>
   ) {}
 
-  async login( data: UpdateUsuarioInput ){
+  async login(data: UpdateUsuarioInput){
     try{
-      const user: Usuario = await this.repository.findOneBy({ username: data.username });
+      const user: Usuario = await this.repository.findOneBy({ username: data.username })
       return ( await bcrypt.compare(data.password_hash, user.password_hash) ) ? user : false;
     }catch(error){
       return false;

@@ -6,10 +6,10 @@
 // ============================================
 
 // Importar interfaces relacionadas (asumiendo que existen)
-import {Rol} from './rol.interface';
-import {Empleado} from './empleado.interface';
-import {Alumno} from './alumno.interface';
-import {Tutor} from './tutor.interface'; // Ajustar según ubicación real
+import {type Rol} from './rol.interface';
+import {type Empleado} from './empleado.interface';
+import {type Alumno} from './alumno.interface';
+import {type Tutor} from './tutor.interface';
 
 /**
  * Interfaz principal de un usuario.

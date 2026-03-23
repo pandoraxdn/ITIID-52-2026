@@ -6,7 +6,7 @@ const capabibara = async () => {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: '*',
+    origin: (origin, callback) => callback(null, origin),
     credentials: true,
   });
   app.use(json({limit: "100mb"}));

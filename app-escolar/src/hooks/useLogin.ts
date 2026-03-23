@@ -1,8 +1,5 @@
 // ============================================
 // RUTA: src/hooks/useLogin.ts
-// PROPÓSITO: Lógica del login separada de la vista.
-//            Dos reducers: uno para el formulario,
-//            otro para el estado de la petición.
 // ============================================
 
 import {useReducer} from 'react';
@@ -10,9 +7,6 @@ import {graphqlRequest} from '@/api/pandoraApi';
 import {useAuth} from '@/context/AuthContext';
 import {Usuario} from '@/interfaces/usuario.interface';
 
-// ── Query de login ─────────────────────────────────────────────────────────────
-// Mandamos id_usuario: 0 porque el DTO lo requiere
-// pero el servicio de login no lo usa.
 const LOGIN_QUERY = `
   query Login($input: UpdateUsuarioInput!) {
     login(input: $input) {
@@ -29,7 +23,6 @@ const LOGIN_QUERY = `
   }
 `;
 
-// ── Reducer del formulario ────────────────────────────────────────────────────
 export interface FormData {
   username: string;
   password: string;
@@ -49,7 +42,6 @@ const formReducer = (state: FormData, action: FormAction): FormData => {
   }
 };
 
-// ── Reducer del proceso de login ──────────────────────────────────────────────
 interface LoginState {
   loading: boolean;
   loginError: string | null;
@@ -64,57 +56,60 @@ const initialLoginState: LoginState = {loading: false, loginError: null};
 
 const loginReducer = (state: LoginState, action: LoginAction): LoginState => {
   switch (action.type) {
-    case 'iniciar':  return {loading: true, loginError: null};
+    case 'iniciar':  return {loading: true,  loginError: null};
     case 'error':    return {loading: false, loginError: action.payload};
-    case 'limpiar':  return {...state, loading: false};
+    case 'limpiar':  return {loading: false, loginError: state.loginError};
   }
 };
 
-// ── Hook principal ─────────────────────────────────────────────────────────────
 export const useLogin = () => {
   const [form, formDispatch]        = useReducer(formReducer, initialForm);
   const [loginState, loginDispatch] = useReducer(loginReducer, initialLoginState);
-
   const {guardarSesion} = useAuth();
 
   const handleInputChange = (fieldName: keyof FormData, value: string) => {
     formDispatch({type: 'handleInputChange', payload: {fieldName, value}});
   };
 
-  // onSuccess es la función de navegación que le pasa LoginScreen
-  const handleSubmit = async (onSuccess: () => void) => {
-
-    if (!form.username || !form.password) {
+  // onSuccess es OPCIONAL — no necesita llamar navigate().
+  // guardarSesion() ya provoca el re-render del DrawerNavigator.
+  const handleSubmit = async (onSuccess?: () => void) => {
+    if (!form.username.trim() || !form.password.trim()) {
       loginDispatch({type: 'error', payload: 'Ingresa tu usuario y contraseña.'});
       return;
     }
 
     loginDispatch({type: 'iniciar'});
+    let exitoso = false;
 
     try {
       const data = await graphqlRequest<{login: Usuario | null}>(LOGIN_QUERY, {
         input: {
-          id_usuario: 0,          // requerido por el DTO pero no se usa
-          username: form.username,
+          id_usuario:    0,
+          username:      form.username.trim(),
           password_hash: form.password,
         },
       });
 
-      const usuario = data.login;
-
-      if (!usuario) {
+      if (!data.login) {
         loginDispatch({type: 'error', payload: 'Usuario o contraseña incorrectos.'});
         return;
       }
 
-      // Login exitoso — guardamos sesión y navegamos
-      await guardarSesion(usuario);
-      onSuccess();
+      exitoso = true;
+      await guardarSesion(data.login);
+      onSuccess?.();
 
-    } catch {
-      loginDispatch({type: 'error', payload: 'No se pudo conectar con el servidor.'});
+    } catch (err: any) {
+      const msg = err?.message?.toLowerCase().includes('network')
+        ? 'Sin conexión. Verifica tu red.'
+        : 'No se pudo conectar con el servidor.';
+      loginDispatch({type: 'error', payload: msg});
     } finally {
-      loginDispatch({type: 'limpiar'});
+      // No despachar sobre componente desmontado en caso exitoso
+      if (!exitoso) {
+        loginDispatch({type: 'limpiar'});
+      }
     }
   };
 
@@ -122,7 +117,7 @@ export const useLogin = () => {
     form,
     handleInputChange,
     handleSubmit,
-    loading: loginState.loading,
+    loading:    loginState.loading,
     loginError: loginState.loginError,
   };
 };

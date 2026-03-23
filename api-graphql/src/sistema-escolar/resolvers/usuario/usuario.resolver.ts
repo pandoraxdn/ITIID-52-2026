@@ -8,14 +8,14 @@ import {UpdateUsuarioInput} from '../../dtos/usuario/update-usuario.input';
 export class UsuarioResolver {
   constructor(private readonly service: UsuarioService) {}
 
-  @Query(() => Usuario, {name: 'login'})
-  login(@Args('input') input: UpdateUsuarioInput) {
-    return this.service.login(input);
-  }
-
   @Query(() => [Usuario], {name: 'usuarios'})
   findAll() {
     return this.service.findAll();
+  }
+
+  @Query(() => Usuario, {name: 'login'})
+  login(@Args('input') input: UpdateUsuarioInput) {
+    return this.service.login(input);
   }
 
   @Query(() => [Usuario], {name: 'usuariosP'})

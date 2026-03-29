@@ -1,13 +1,9 @@
 import {useState, useEffect, useReducer} from 'react';
 import {useProfesorApi} from './useProfesorApi';
 import {useEmpleadoApi} from './useEmpleadoApi';
-import {
-  Profesor,
-  TipoNivelEstudio,
-  CreateProfesorInput,
-  UpdateProfesorInput,
-} from '../interfaces/profesor.interface';
-import {Empleado} from '../interfaces/empleado.interface';
+import type { Profesor, CreateProfesorInput, UpdateProfesorInput } from '../interfaces/profesor.interface'
+import { TipoNivelEstudio } from '../interfaces/profesor.interface';
+import type { Empleado } from '../interfaces/empleado.interface';
 
 const INITIAL_STATE: CreateProfesorInput = {
   empleado_id: 0,
@@ -93,12 +89,7 @@ export const useProfesorForm = () => {
     dispatch({type: 'SET_FIELD', field, value});
   };
 
-  const reset = () => {
-    dispatch({type: 'RESET'});
-    setEditing(null);
-    setOpen(false);
-    setSelectedEmpleadoNombre('');
-  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   const isValid = () => {
     return (

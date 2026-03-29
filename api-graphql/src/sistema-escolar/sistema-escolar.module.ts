@@ -1,6 +1,7 @@
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {SistemaEscolarResolver} from './sistema-escolar.resolver';
+import {SistemaEscolarService} from './sistema-escolar.service';
 import {
   Alumno,
   AlumnoTutor,
@@ -111,6 +112,7 @@ import {
   ],
   providers: [
     SistemaEscolarResolver,
+    SistemaEscolarService,
     AlumnoResolver,
     AlumnoService,
     AlumnoTutorResolver,

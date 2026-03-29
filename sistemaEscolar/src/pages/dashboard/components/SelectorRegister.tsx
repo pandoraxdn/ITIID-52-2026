@@ -11,7 +11,8 @@ import {useState, useEffect} from 'react';
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription} from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
-import {TableRegisters, ColumnConfig} from './TableRegisters';
+import {TableRegisters} from './TableRegisters';
+import type {ColumnConfig} from './TableRegisters';
 import {ChevronLeft, ChevronRight, Search, Users, Check} from 'lucide-react';
 import {useNavigate} from 'react-router-dom';
 

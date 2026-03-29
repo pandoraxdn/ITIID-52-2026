@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const GRAPHQL_URL: string = 'http://localhost:3000/graphql';
+const GRAPHQL_URL: string = 'https://api-azami.utvt.cloud/graphql';
 
 export const pandoraApi = axios.create({
   baseURL: GRAPHQL_URL,

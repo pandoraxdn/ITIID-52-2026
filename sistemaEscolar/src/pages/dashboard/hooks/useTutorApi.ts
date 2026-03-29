@@ -6,11 +6,7 @@
 
 import {pandoraApi} from '@/api/pandoraApi';
 import {useState, useCallback} from 'react';
-import {
-  Tutor,
-  CreateTutorInput,
-  UpdateTutorInput,
-} from '../interfaces/tutor.interface';
+import type { Tutor, CreateTutorInput, UpdateTutorInput } from '../interfaces/tutor.interface';
 import {
   GET_TUTORES,
   GET_TUTORES_PAGINATE,

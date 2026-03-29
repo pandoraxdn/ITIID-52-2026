@@ -4,15 +4,11 @@ import {useEmpleadoApi} from './useEmpleadoApi';
 import {useAlumnoApi} from './useAlumnoApi';
 import {useTutorApi} from './useTutorApi';
 import {useRolApi} from './useRolApi';
-import {
-  Usuario,
-  CreateUsuarioInput,
-  UpdateUsuarioInput,
-} from '../interfaces/usuario.interface';
-import {Empleado} from '../interfaces/empleado.interface';
-import {Alumno} from '../interfaces/alumno.interface';
-import {Tutor} from '../interfaces/tutor.interface';
-import {Rol} from '../interfaces/rol.interface';
+import type { Usuario, CreateUsuarioInput, UpdateUsuarioInput } from '../interfaces/usuario.interface';
+import type { Empleado } from '../interfaces/empleado.interface';
+import type { Alumno } from '../interfaces/alumno.interface';
+import type { Tutor } from '../interfaces/tutor.interface';
+import type { Rol } from '../interfaces/rol.interface';
 
 const DEFAULT_AVATAR = 'https://via.placeholder.com/150?text=Avatar';
 

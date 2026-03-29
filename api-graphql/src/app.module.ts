@@ -12,7 +12,7 @@ import {GraphQLDate} from 'graphql-scalars';
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      //playground: false,
+      playground: false,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       buildSchemaOptions: {
         scalarsMap: [
@@ -22,11 +22,11 @@ import {GraphQLDate} from 'graphql-scalars';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'db.utvt.cloud',
       port: 5432,
-      username: 'najimi',
-      password: 'pass',
-      database: 'pandora',
+      username: 'azami',
+      password: 'hd9chx8VIb*6',
+      database: 'db_azami',
       synchronize: true,
       autoLoadEntities: true,
     }),

@@ -1,10 +1,6 @@
 import {pandoraApi} from '@/api/pandoraApi';
 import {useState, useCallback} from 'react';
-import {
-  Empleado,
-  CreateEmpleadoInput,
-  UpdateEmpleadoInput
-} from '../interfaces/empleado.interface';
+import type { Empleado, CreateEmpleadoInput, UpdateEmpleadoInput } from '../interfaces/empleado.interface';
 import {
   GET_EMPLEADOS,
   GET_EMPLEADOS_PAGINATE,

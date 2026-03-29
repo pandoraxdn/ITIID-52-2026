@@ -6,11 +6,7 @@
 
 import {pandoraApi} from '@/api/pandoraApi';
 import {useState, useCallback} from 'react';
-import {
-  Usuario,
-  CreateUsuarioInput,
-  UpdateUsuarioInput,
-} from '../interfaces/usuario.interface';
+import type { Usuario, CreateUsuarioInput, UpdateUsuarioInput } from '../interfaces/usuario.interface';
 import {
   GET_USUARIOS,
   GET_USUARIOS_PAGINATE,

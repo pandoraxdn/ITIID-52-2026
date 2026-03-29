@@ -1,8 +1,9 @@
-export enum TipoNivelEstudio {
-  LICENCIATURA = 'LICENCIATURA',
-  MAESTRIA = 'MAESTRIA',
-  DOCTORADO = 'DOCTORADO',
-}
+export const TipoNivelEstudio = {
+  LICENCIATURA: 'LICENCIATURA',
+  MAESTRIA: 'MAESTRIA',
+  DOCTORADO: 'DOCTORADO',
+} as const
+export type TipoNivelEstudio = typeof TipoNivelEstudio[keyof typeof TipoNivelEstudio]
 
 export interface Profesor {
   id_profesor: number;

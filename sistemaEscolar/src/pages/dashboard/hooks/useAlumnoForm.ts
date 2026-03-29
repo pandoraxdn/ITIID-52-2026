@@ -6,13 +6,8 @@
 
 import {useState, useEffect, useReducer} from 'react';
 import {useAlumnoApi} from './useAlumnoApi';
-import {
-  Alumno,
-  Genero,
-  TipoSangre,
-  CreateAlumnoInput,
-  UpdateAlumnoInput,
-} from '../interfaces/alumno.interface';
+import type { Alumno, CreateAlumnoInput, UpdateAlumnoInput } from '../interfaces/alumno.interface'
+import { Genero, TipoSangre } from '../interfaces/alumno.interface';
 
 /**
  * Estado inicial del formulario para crear un alumno.
@@ -104,11 +99,7 @@ export const useAlumnoForm = () => {
     dispatch({type: 'SET_FIELD', field, value});
   };
 
-  const reset = () => {
-    dispatch({type: 'RESET'});
-    setEditing(null);
-    setOpen(false);
-  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   // Validación básica: campos obligatorios no vacíos
   const isValid = () => {
@@ -141,7 +132,7 @@ export const useAlumnoForm = () => {
         fecha_ingreso:
           typeof alumno.fecha_ingreso === 'string'
             ? alumno.fecha_ingreso
-            : alumno.fecha_ingreso.toISOString().split('T')[0],
+            : (alumno.fecha_ingreso as Date).toISOString().split('T')[0],
         activo: alumno.activo,
       };
       dispatch({type: 'SET_FORM', payload});

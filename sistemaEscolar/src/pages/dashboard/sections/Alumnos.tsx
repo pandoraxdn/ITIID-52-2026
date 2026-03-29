@@ -18,14 +18,16 @@ import {
   User,
   Mail,
   MapPin,
-  Droplet,
   Calendar,
   Activity,
 } from 'lucide-react';
 import {useAlumnoForm} from '../hooks/useAlumnoForm';
-import {TableRegisters, ColumnConfig} from '../components/TableRegisters';
-import {ModalForm, TextFieldConfig, SelectFieldConfig} from '../components/ModalForm';
-import {Alumno, Genero, TipoSangre, CreateAlumnoInput} from '../interfaces/alumno.interface';
+import type { ColumnConfig } from '../components/TableRegisters'
+import { TableRegisters } from '../components/TableRegisters';
+import type { TextFieldConfig, SelectFieldConfig } from '../components/ModalForm'
+import { ModalForm } from '../components/ModalForm';
+import type { Alumno, CreateAlumnoInput } from '../interfaces/alumno.interface'
+import { Genero, TipoSangre } from '../interfaces/alumno.interface';
 
 // -------------------------------------------------------------------
 // Configuración de columnas para la tabla de alumnos
@@ -101,7 +103,6 @@ export const Alumnos = () => {
   const {
     alumnos,
     loading,
-    error,
     form,
     open,
     page,

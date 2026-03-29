@@ -1,12 +1,7 @@
 import {useState, useEffect, useReducer} from 'react';
 import {useEmpleadoApi} from './useEmpleadoApi';
-import {
-  Empleado,
-  TipoPuesto,
-  TipoEmpleado,
-  CreateEmpleadoInput,
-  UpdateEmpleadoInput,
-} from '../interfaces/empleado.interface';
+import type { Empleado, CreateEmpleadoInput, UpdateEmpleadoInput } from '../interfaces/empleado.interface'
+import { TipoPuesto, TipoEmpleado } from '../interfaces/empleado.interface';
 
 const INITIAL_STATE: CreateEmpleadoInput = {
   numero_empleado: '',
@@ -89,11 +84,7 @@ export const useEmpleadoForm = () => {
     dispatch({type: 'SET_FIELD', field, value});
   };
 
-  const reset = () => {
-    dispatch({type: 'RESET'});
-    setEditing(null);
-    setOpen(false);
-  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   const isValid = () => {
     return (
@@ -124,7 +115,7 @@ export const useEmpleadoForm = () => {
         fecha_contratacion:
           typeof empleado.fecha_contratacion === 'string'
             ? empleado.fecha_contratacion
-            : empleado.fecha_contratacion.toISOString().split('T')[0],
+            : (empleado.fecha_contratacion as Date).toISOString().split('T')[0],
         activo: empleado.activo,
       };
       dispatch({type: 'SET_FORM', payload});

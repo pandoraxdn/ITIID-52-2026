@@ -13,16 +13,18 @@ import {
   ChevronRight,
   Plus,
   Search,
-  Users,
   User,
   Phone,
   Mail,
   HeartHandshake,
 } from 'lucide-react';
 import {useTutorForm} from '../hooks/useTutorForm';
-import {TableRegisters, ColumnConfig} from '../components/TableRegisters';
-import {ModalForm, TextFieldConfig, SelectFieldConfig} from '../components/ModalForm';
-import {Tutor, TipoRelacion, CreateTutorInput} from '../interfaces/tutor.interface';
+import type { ColumnConfig } from '../components/TableRegisters'
+import { TableRegisters } from '../components/TableRegisters';
+import type { TextFieldConfig, SelectFieldConfig } from '../components/ModalForm'
+import { ModalForm } from '../components/ModalForm';
+import type { Tutor, CreateTutorInput } from '../interfaces/tutor.interface'
+import { TipoRelacion } from '../interfaces/tutor.interface';
 
 // -------------------------------------------------------------------
 // Configuración de columnas para la tabla de tutores

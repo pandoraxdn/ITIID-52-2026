@@ -1,4 +1,4 @@
-import {Particle} from "../hooks/useLoginPage";
+import type {Particle} from "../hooks/useLoginPage";
 
 interface Props {
   arrParticles: Particle[];

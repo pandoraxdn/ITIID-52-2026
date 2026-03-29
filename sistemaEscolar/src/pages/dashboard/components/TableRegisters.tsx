@@ -8,7 +8,7 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table';
 import {Button} from '@/components/ui/button';
 import {Pencil, Trash2, Users} from 'lucide-react';
-import {ReactNode} from 'react';
+import type { ReactNode } from 'react';
 
 // ============================================
 // CONFIGURACIÓN DE UNA COLUMNA
@@ -31,7 +31,8 @@ interface Props<T> {
   onDelete?: (id: number | string) => void; // Función al hacer clic en eliminar (recibe el ID)
   customActions?: (item: T) => ReactNode;   // Renderizado personalizado de acciones por fila
   getId?: (item: T) => string | number;     // Función para obtener el ID único de un item
-  emptyMessage?: string;                     // Mensaje cuando no hay datos
+  emptyMessage?: string
+  emptyIcon?: React.ComponentType<{ className?: string }>;                     // Mensaje cuando no hay datos
   loading?: boolean;                         // Estado de carga
   actions?: boolean;                         // Si se debe mostrar la columna de acciones
 }

@@ -7,7 +7,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Hash,
-  Icon,
   IdCardIcon,
   Mail,
   Phone,
@@ -17,9 +16,12 @@ import {
   Users
 } from 'lucide-react';
 import {useEmpleadoForm} from '../hooks/useEmpleadoForm';
-import {TableRegisters, ColumnConfig} from '../components/TableRegisters';
-import {ModalForm, TextFieldConfig, SelectFieldConfig} from '../components/ModalForm';
-import {Empleado, TipoEmpleado, TipoPuesto, CreateEmpleadoInput} from '../interfaces/empleado.interface';
+import type { ColumnConfig } from '../components/TableRegisters'
+import { TableRegisters } from '../components/TableRegisters';
+import type { TextFieldConfig, SelectFieldConfig } from '../components/ModalForm'
+import { ModalForm } from '../components/ModalForm';
+import type { Empleado, CreateEmpleadoInput } from '../interfaces/empleado.interface'
+import { TipoEmpleado, TipoPuesto } from '../interfaces/empleado.interface';
 
 const empleadoColumns: ColumnConfig<Empleado>[] = [
   {key: 'numero_empleado', header: 'N° Empleado', className: 'font-medium'},
@@ -85,7 +87,6 @@ export const Empleados = () => {
   const {
     empleados,
     loading,
-    error,
     form,
     open,
     page,

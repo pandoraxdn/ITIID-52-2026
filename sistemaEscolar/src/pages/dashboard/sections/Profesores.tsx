@@ -2,14 +2,17 @@ import {useState} from 'react';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {Label} from '@/components/ui/label';
-import {ChevronLeft, ChevronRight, Plus, Search, Users, GraduationCap, FileText, UserCheck, IdCardIcon} from 'lucide-react';
+import {ChevronLeft, ChevronRight, Plus, Search, Users, GraduationCap, FileText, UserCheck} from 'lucide-react';
 import {useProfesorForm} from '../hooks/useProfesorForm';
-import {TableRegisters, ColumnConfig} from '../components/TableRegisters';
-import {ModalForm, TextFieldConfig, SelectFieldConfig} from '../components/ModalForm';
+import type { ColumnConfig } from '../components/TableRegisters'
+import { TableRegisters } from '../components/TableRegisters';
+import type { TextFieldConfig, SelectFieldConfig } from '../components/ModalForm'
+import { ModalForm } from '../components/ModalForm';
 import {SelectorRegister} from '../components/SelectorRegister';
 import {useEmpleadoApi} from '../hooks/useEmpleadoApi';
-import {Empleado} from '../interfaces/empleado';
-import {Profesor, TipoNivelEstudio, CreateProfesorInput} from '../interfaces/profesor.interface';
+import type {Empleado} from '../interfaces/empleado.interface';
+import type { Profesor, CreateProfesorInput } from '../interfaces/profesor.interface'
+import { TipoNivelEstudio } from '../interfaces/profesor.interface';
 
 // Columnas para la tabla de profesores (sin ID)
 const profesorColumns: ColumnConfig<Profesor>[] = [

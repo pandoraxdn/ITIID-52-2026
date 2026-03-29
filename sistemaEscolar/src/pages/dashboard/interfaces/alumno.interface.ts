@@ -8,25 +8,27 @@
 /**
  * Enumerado para el género (puede ampliarse según necesidades).
  */
-export enum Genero {
-  MASCULINO = 'MASCULINO',
-  FEMENINO = 'FEMENINO',
-  OTRO = 'OTRO',
-}
+export const Genero = {
+  MASCULINO: 'MASCULINO',
+  FEMENINO: 'FEMENINO',
+  OTRO: 'OTRO',
+} as const
+export type Genero = typeof Genero[keyof typeof Genero]
 
 /**
  * Enumerado para tipo de sangre (valores comunes).
  */
-export enum TipoSangre {
-  A_POSITIVO = 'A+',
-  A_NEGATIVO = 'A-',
-  B_POSITIVO = 'B+',
-  B_NEGATIVO = 'B-',
-  AB_POSITIVO = 'AB+',
-  AB_NEGATIVO = 'AB-',
-  O_POSITIVO = 'O+',
-  O_NEGATIVO = 'O-',
-}
+export const TipoSangre = {
+  A_POSITIVO: 'A+',
+  A_NEGATIVO: 'A-',
+  B_POSITIVO: 'B+',
+  B_NEGATIVO: 'B-',
+  AB_POSITIVO: 'AB+',
+  AB_NEGATIVO: 'AB-',
+  O_POSITIVO: 'O+',
+  O_NEGATIVO: 'O-',
+} as const
+export type TipoSangre = typeof TipoSangre[keyof typeof TipoSangre]
 
 /**
  * Interfaz principal de un alumno.

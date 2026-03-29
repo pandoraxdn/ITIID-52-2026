@@ -12,16 +12,18 @@ import {
   Key,
 } from 'lucide-react';
 import {useUsuarioForm} from '../hooks/useUsuarioForm';
-import {TableRegisters, ColumnConfig} from '../components/TableRegisters';
-import {ModalForm, TextFieldConfig, SelectFieldConfig} from '../components/ModalForm';
+import type { ColumnConfig } from '../components/TableRegisters'
+import { TableRegisters } from '../components/TableRegisters';
+import type { TextFieldConfig, SelectFieldConfig } from '../components/ModalForm'
+import { ModalForm } from '../components/ModalForm';
 import {SelectorRegister} from '../components/SelectorRegister';
 import {useEmpleadoApi} from '../hooks/useEmpleadoApi';
 import {useAlumnoApi} from '../hooks/useAlumnoApi';
 import {useTutorApi} from '../hooks/useTutorApi';
-import {Empleado} from '../interfaces/empleado.interface';
-import {Alumno} from '../interfaces/alumno.interface';
-import {Tutor} from '../interfaces/tutor.interface';
-import {Usuario, CreateUsuarioInput} from '../interfaces/usuario.interface';
+import type { Empleado } from '../interfaces/empleado.interface';
+import type { Alumno } from '../interfaces/alumno.interface';
+import type { Tutor } from '../interfaces/tutor.interface';
+import type { Usuario, CreateUsuarioInput } from '../interfaces/usuario.interface';
 
 // Función auxiliar para formatear nombre completo
 const formatNombreCompleto = (

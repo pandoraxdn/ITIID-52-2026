@@ -14,10 +14,10 @@ export const ThemeToggle = () => {
   useEffect(() => {
     const root = document.querySelector("#root");
     if (isDark) {
-      root.classList.add("dark");
+      root?.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
-      root.classList.remove("dark");
+      root?.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
   }, [isDark]);

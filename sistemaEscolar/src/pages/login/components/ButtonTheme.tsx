@@ -1,9 +1,8 @@
 import {Sun, Moon} from "lucide-react";
-import {FormData} from "../hooks/useLogin";
 
 interface Props {
   isDark: boolean;
-  setIsDark: (fieldName: keyof FormData, value: string | boolean) => void;
+  setIsDark: (fieldName: string, value: string | boolean) => void;
 }
 
 export const ButtonTheme = ({isDark, setIsDark}: Props) => {

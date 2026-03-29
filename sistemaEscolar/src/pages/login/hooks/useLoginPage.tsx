@@ -19,7 +19,7 @@ import {type Usuario} from '@/pages/dashboard/interfaces/usuario.interface';
 // ============================================
 
 // Representa cada partícula animada del fondo de la pantalla de login.
-interface Particle {
+export interface Particle {
   id: number;
   x: number;
   size: number;

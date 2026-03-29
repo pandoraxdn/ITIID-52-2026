@@ -19,9 +19,11 @@ import {
   FileUser
 } from 'lucide-react';
 import {useRolForm} from '../hooks/useRolForm';
-import {TableRegisters, ColumnConfig} from '../components/TableRegisters';
-import {ModalForm, TextFieldConfig} from '../components/ModalForm';
-import {Rol, CreateRolInput} from '../interfaces/rol.interface';
+import type { ColumnConfig } from '../components/TableRegisters'
+import { TableRegisters } from '../components/TableRegisters';
+import type { TextFieldConfig } from '../components/ModalForm'
+import { ModalForm } from '../components/ModalForm';
+import type { Rol, CreateRolInput } from '../interfaces/rol.interface';
 
 // -------------------------------------------------------------------
 // Configuración de columnas para la tabla de roles
@@ -57,7 +59,6 @@ export const Roles = () => {
   const {
     roles,
     loading,
-    error,
     form,
     open,
     page,

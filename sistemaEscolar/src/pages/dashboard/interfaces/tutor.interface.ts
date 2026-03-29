@@ -9,12 +9,13 @@
  * Enumerado para el tipo de relación del tutor con el alumno.
  * Coincide con el definido en el backend.
  */
-export enum TipoRelacion {
-  PADRE = 'PADRE',
-  MADRE = 'MADRE',
-  TIO = 'TIO',
-  ABUELO = 'ABUELO',
-}
+export const TipoRelacion = {
+  PADRE: 'PADRE',
+  MADRE: 'MADRE',
+  TIO: 'TIO',
+  ABUELO: 'ABUELO',
+} as const
+export type TipoRelacion = typeof TipoRelacion[keyof typeof TipoRelacion]
 
 /**
  * Interfaz principal de un tutor.

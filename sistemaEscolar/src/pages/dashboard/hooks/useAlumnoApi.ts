@@ -6,11 +6,7 @@
 
 import {pandoraApi} from '@/api/pandoraApi';
 import {useState, useCallback} from 'react';
-import {
-  Alumno,
-  CreateAlumnoInput,
-  UpdateAlumnoInput,
-} from '../interfaces/alumno.interface';
+import type { Alumno, CreateAlumnoInput, UpdateAlumnoInput } from '../interfaces/alumno.interface';
 import {
   GET_ALUMNOS,
   GET_ALUMNOS_PAGINATE,

@@ -6,12 +6,8 @@
 
 import {useState, useEffect, useReducer} from 'react';
 import {useTutorApi} from './useTutorApi';
-import {
-  Tutor,
-  TipoRelacion,
-  CreateTutorInput,
-  UpdateTutorInput,
-} from '../interfaces/tutor.interface';
+import type { Tutor, CreateTutorInput, UpdateTutorInput } from '../interfaces/tutor.interface'
+import { TipoRelacion } from '../interfaces/tutor.interface';
 
 /**
  * Estado inicial del formulario para crear un tutor.

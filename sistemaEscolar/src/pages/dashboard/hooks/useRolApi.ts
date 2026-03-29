@@ -6,11 +6,7 @@
 
 import {pandoraApi} from '@/api/pandoraApi';
 import {useState, useCallback} from 'react';
-import {
-  Rol,
-  CreateRolInput,
-  UpdateRolInput,
-} from '../interfaces/rol.interface';
+import type { Rol, CreateRolInput, UpdateRolInput } from '../interfaces/rol.interface';
 import {
   GET_ROLES,
   GET_ROLES_PAGINATE,

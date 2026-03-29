@@ -1,10 +1,6 @@
 import {pandoraApi} from '@/api/pandoraApi';
 import {useState, useCallback} from 'react';
-import {
-  Profesor,
-  CreateProfesorInput,
-  UpdateProfesorInput,
-} from '../interfaces/profesor.interface';
+import type { Profesor, CreateProfesorInput, UpdateProfesorInput } from '../interfaces/profesor.interface';
 import {
   GET_PROFESORES,
   GET_PROFESORES_PAGINATE,

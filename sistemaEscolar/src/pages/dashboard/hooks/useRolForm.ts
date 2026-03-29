@@ -6,11 +6,7 @@
 
 import {useState, useEffect, useReducer} from 'react';
 import {useRolApi} from './useRolApi';
-import {
-  Rol,
-  CreateRolInput,
-  UpdateRolInput,
-} from '../interfaces/rol.interface';
+import type { Rol, CreateRolInput, UpdateRolInput } from '../interfaces/rol.interface';
 
 /**
  * Estado inicial del formulario para crear un rol.
@@ -90,11 +86,7 @@ export const useRolForm = () => {
     dispatch({type: 'SET_FIELD', field, value});
   };
 
-  const reset = () => {
-    dispatch({type: 'RESET'});
-    setEditing(null);
-    setOpen(false);
-  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   // Validación básica: campos obligatorios no vacíos
   const isValid = () => {

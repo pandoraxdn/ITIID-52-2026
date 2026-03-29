@@ -34,7 +34,7 @@ export const LoginPage = () => {
   return (
     <div className={`login-root${state.dark ? ' dark-mode' : ' light-mode'}`}>
       <Particles arrParticles={particles} />
-      <ButtonTheme isDark={state.dark} setIsDark={handleInputChange} />
+      <ButtonTheme isDark={state.dark} setIsDark={handleInputChange as (fieldName: string, value: string | boolean) => void} />
 
       <main className="login-layout">
         {/* Panel izquierdo: formulario */}

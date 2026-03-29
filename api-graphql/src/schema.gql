@@ -331,14 +331,441 @@ type Alumno {
   activo: Boolean!
 }
 
+type CicloType {
+  id_ciclo: ID!
+  nombre: String!
+  fecha_inicio: String!
+  fecha_fin: String!
+  activo: Boolean!
+}
+
+type PeriodoType {
+  id_periodo: ID!
+  nombre: String!
+  tipo: String!
+  fecha_inicio: String!
+  fecha_fin: String!
+  ciclo_id: Int!
+}
+
+type MateriaType {
+  id_materia: ID!
+  clave_oficial: String!
+  nombre: String!
+  creditos: Int!
+  tipo: String!
+  descripcion: String!
+}
+
+type EmpleadoType {
+  id_empleado: ID!
+  numero_empleado: String!
+  nombre: String!
+  apellido_p: String!
+  apellido_m: String!
+  email_institucional: String!
+  telefono: String!
+  tipo_empleado: String!
+  puesto: String!
+  departamento: String!
+  fecha_contratacion: String!
+  activo: Boolean!
+}
+
+type ConceptoPagoType {
+  id_concepto: ID!
+  nombre: String!
+  monto: Float!
+  es_recurrente: Boolean!
+}
+
+type MenuComedorType {
+  id_menu: ID!
+  fecha: String!
+  titulo: String!
+  descripcion: String!
+  costo: Float!
+}
+
+type JornadaLaboralType {
+  id_jornada: ID!
+  dia_semana: String!
+  horaEntrada: String!
+  horaSalida: String!
+  tolerancia_minutos: Int!
+}
+
+type AsistenciaEmpleadoType {
+  id_asistencia_emp: ID!
+  fecha: String!
+  hora_entrada_real: String!
+  hora_salida_real: String!
+  estado_asistencia: String!
+  minutos_retardo: Int!
+  observaciones: String!
+}
+
+type ProfesorType {
+  id_profesor: ID!
+  empleado_id: Int!
+  especialidad: String!
+  nivel_estudios: String!
+  cedula_profesional: String!
+  empleado: EmpleadoType
+}
+
+type GrupoType {
+  id_grupo: ID!
+  nombre: String!
+  grupo: String!
+  turno: String!
+  nivel: String!
+  cupo_maximo: Int!
+  aula: String!
+  ciclo_id: Int!
+  ciclo: CicloType
+}
+
+type DetGrupoMateriaType {
+  id_det_grupo_materia: ID!
+  grupo_id: Int!
+  materia_id: Int!
+  profesor_id: Int!
+  salon_asignado: String
+  grupo: GrupoType
+  materia: MateriaType
+  profesor: ProfesorType
+}
+
+type AlumnoType {
+  id_alumno: ID!
+  matricula: String!
+  nombre: String!
+  apellido_p: String!
+  apellido_m: String!
+  genero: String!
+  email_institucional: String!
+  tipo_sangre: String!
+  fecha_ingreso: String!
+  activo: Boolean!
+}
+
+type InscripcionType {
+  id_inscripcion: ID!
+  alumno_id: Int!
+  grupo_id: Int!
+  ciclo_id: Int!
+  fecha_inscripcion: String!
+  beca_porcentaje: Float!
+  alumno: AlumnoType
+  grupo: GrupoType
+  ciclo: CicloType
+}
+
+type PagoType {
+  id_pago: ID!
+  alumno_id: Int!
+  concepto_id: Int!
+  monto_pagado: Float!
+  fecha_pago: String!
+  metodo_pago: String!
+  estado: String!
+  referencia_bancaria: String
+  alumno: AlumnoType
+  concepto: ConceptoPagoType
+}
+
+type ConsumoComedorOutputType {
+  id_consumo: ID!
+  alumno_id: Int!
+  fecha: String!
+  tipo_consumo: String!
+  observaciones: String!
+  alumno: AlumnoType
+  menu: MenuComedorType
+}
+
+type CalificacionType {
+  id_calificacion: ID!
+  inscripcion_id: Int!
+  det_grupo_materia_id: Int!
+  periodo_id: Int!
+  valor: Float!
+  faltas_periodo: Int!
+  observaciones: String!
+  inscripcion: InscripcionType
+  detGrupoMateria: DetGrupoMateriaType
+  periodo: PeriodoType
+}
+
+type AsistenciaAlumnoType {
+  id_asistencia_al: ID!
+  inscripcion_id: Int!
+  det_grupo_materia_id: Int!
+  fecha: String!
+  estado_asistencia: String!
+  observaciones: String!
+  inscripcion: InscripcionType
+  detGrupoMateria: DetGrupoMateriaType
+}
+
+type AlumnoConInscripcionType {
+  id_alumno: ID!
+  matricula: String!
+  nombre: String!
+  apellido_p: String!
+  apellido_m: String!
+  genero: String!
+  activo: Boolean!
+  inscripciones: [InscripcionType!]
+}
+
+type ProfesorConCargaType {
+  id_profesor: ID!
+  empleado_id: Int!
+  especialidad: String!
+  nivel_estudios: String!
+  cedula_profesional: String!
+  empleado: EmpleadoType
+  detGruposMaterias: [DetGrupoMateriaType!]
+}
+
+type GrupoConDetalleType {
+  id_grupo: ID!
+  nombre: String!
+  turno: String!
+  nivel: String!
+  cupo_maximo: Int!
+  aula: String!
+  ciclo: CicloType
+  inscripciones: [InscripcionType!]
+  detGruposMaterias: [DetGrupoMateriaType!]
+}
+
+type InscripcionConExpedienteType {
+  id_inscripcion: ID!
+  fecha_inscripcion: String!
+  beca_porcentaje: Float!
+  alumno: AlumnoType
+  grupo: GrupoType
+  calificaciones: [CalificacionType!]
+}
+
+type MateriaConAsignacionType {
+  id_materia: ID!
+  clave_oficial: String!
+  nombre: String!
+  creditos: Int!
+  tipo: String!
+  detGruposMaterias: [DetGrupoMateriaType!]
+}
+
+type CicloConGruposType {
+  id_ciclo: ID!
+  nombre: String!
+  fecha_inicio: String!
+  fecha_fin: String!
+  activo: Boolean!
+  grupos: [GrupoType!]
+  periodos: [PeriodoType!]
+}
+
+type EmpleadoConAsistenciaType {
+  id_empleado: ID!
+  nombre: String!
+  apellido_p: String!
+  apellido_m: String!
+  tipo_empleado: String!
+  puesto: String!
+  departamento: String!
+  activo: Boolean!
+  asistencias: [AsistenciaEmpleadoType!]
+  jornadas: [JornadaLaboralType!]
+  profesor: ProfesorType
+}
+
+type ResumenAlumnosType {
+  total: Int!
+  activos: Int!
+  inactivos: Int!
+  masculino: Int!
+  femenino: Int!
+}
+
+type PromedioMateriaType {
+  materia: String!
+  tipo: String!
+  promedio: Float!
+  total: Int!
+  aprobados: Int!
+  reprobados: Int!
+}
+
+type AlumnosPorNivelType {
+  nivel: String!
+  total: Int!
+}
+
+type PagoMesType {
+  mes: String!
+  pagado: Float!
+  pendiente: Float!
+  total_operaciones: Int!
+}
+
+type AsistenciaMesType {
+  mes: String!
+  total: Int!
+  asistencias: Int!
+  faltas: Int!
+  retardos: Int!
+  tasa_pct: Float!
+}
+
+type PagoMetodoType {
+  metodo: String!
+  total: Int!
+  monto: Float!
+}
+
+type RendimientoNivelType {
+  nivel: String!
+  turno: String!
+  promedio: Float!
+  alumnos: Int!
+  aprobados: Int!
+  reprobados: Int!
+}
+
+type AlumnoFaltasType {
+  matricula: String!
+  alumno: String!
+  nivel: String!
+  promedio: Float!
+  total_faltas: Int!
+  materias_cursadas: Int!
+}
+
+type KpisDashboardType {
+  alumnos_total: Int!
+  alumnos_activos: Int!
+  pagos_total: Int!
+  pagos_completados: Int!
+  monto_cobrado: Float!
+  monto_pendiente: Float!
+  promedio_calificacion: Float!
+  aprobados: Int!
+  reprobados: Int!
+  tasa_asistencia_pct: Float!
+  total_grupos: Int!
+  pct_ocupacion_grupos: Float!
+}
+
+type PrediccionAsistenciaType {
+  mes_predicho: String!
+  tasa_asistencia_predicha: Float!
+  faltas_predichas: Float!
+  factor_alpha: Float!
+  varianza_historica: Float!
+  confianza_pct: Float!
+  meses_analizados: Int!
+}
+
+type PrediccionCalificacionType {
+  periodo_predicho: String!
+  materia: String!
+  promedio_predicho: Float!
+  factor_alpha: Float!
+  riesgo_reprobacion_pct: Float!
+  tendencia: Float!
+  confianza_pct: Float!
+}
+
+type PrediccionDemandaGrupoType {
+  ciclo_predicho: String!
+  nivel: String!
+  grupos_necesarios: Int!
+  alumnos_esperados: Int!
+  factor_alpha: Float!
+  crecimiento_pct: Float!
+  confianza_pct: Float!
+}
+
+type PrediccionRetardosEmpleadoType {
+  mes_predicho: String!
+  departamento: String!
+  retardos_esperados: Float!
+  empleados_en_riesgo: Float!
+  factor_alpha: Float!
+  tendencia: Float!
+  confianza_pct: Float!
+}
+
+type PrediccionConsumoComedorType {
+  semana_predicha: String!
+  consumos_esperados: Float!
+  ingreso_comedor_estimado: Float!
+  factor_alpha: Float!
+  variacion_estacional: Float!
+  confianza_pct: Float!
+  semanas_analizadas: Int!
+}
+
 """
 A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar Date
 
 type Query {
-  """Hola mundo es lo que retorna"""
   hello: String!
+  alumnosConInscripcionActiva: [AlumnoConInscripcionType!]!
+  calificacionesConDetalle(limit: Int! = 100): [CalificacionType!]!
+  profesoresConCargaAcademica(limit: Int! = 20): [ProfesorConCargaType!]!
+  gruposConDetalle(nivel: String): [GrupoConDetalleType!]!
+  pagosConDetalle(estado: String, limit: Int! = 50): [PagoType!]!
+  inscripcionesConExpediente(cicloActivo: Boolean! = true): [InscripcionConExpedienteType!]!
+  materiasConAsignaciones(tipo: String): [MateriaConAsignacionType!]!
+  ciclosConGruposYPeriodos: [CicloConGruposType!]!
+  consumosComedorConDetalle(limit: Int! = 50): [ConsumoComedorOutputType!]!
+  asistenciasAlumnosConDetalle(limit: Int! = 100): [AsistenciaAlumnoType!]!
+  empleadosConAsistenciasYJornadas(limit: Int! = 30): [EmpleadoConAsistenciaType!]!
+  resumenAlumnos: ResumenAlumnosType!
+  promedioCalificacionesPorMateria(limit: Int! = 10): [PromedioMateriaType!]!
+  alumnosPorNivel: [AlumnosPorNivelType!]!
+  pagosPorMes(meses: Int! = 8): [PagoMesType!]!
+  asistenciaMensualAlumnos(meses: Int! = 8): [AsistenciaMesType!]!
+  pagosPorMetodo: [PagoMetodoType!]!
+  rendimientoPorNivel: [RendimientoNivelType!]!
+  alumnosConMasFaltas(limit: Int! = 10): [AlumnoFaltasType!]!
+  kpisDashboard: KpisDashboardType!
+
+  """
+  Predice la tasa de asistencia mensual. s=0.10 → α≈0.905 (señal estable).
+  """
+  prediccionAsistenciaProximoMes(mesesHistorico: Int! = 8, factorS: Float! = 0.1): PrediccionAsistenciaType!
+
+  """
+  Predice el promedio por materia e identifica riesgo de reprobación. s=0.20 → α≈0.819.
+  """
+  prediccionCalificacionProximoPeriodo(
+    factorS: Float! = 0.2
+
+    """Si true, devuelve solo las materias con riesgo de reprobación > 20%."""
+    soloRiesgo: Boolean! = false
+  ): [PrediccionCalificacionType!]!
+
+  """
+  Predice grupos y alumnos por nivel en el siguiente ciclo. s=0.12 → α≈0.887 (señal lenta).
+  """
+  prediccionDemandaGruposSiguienteCiclo(factorS: Float! = 0.12): [PrediccionDemandaGrupoType!]!
+
+  """
+  Predice retardos y empleados en riesgo por departamento. s=0.22 → α≈0.803 (señal volátil).
+  """
+  prediccionRetardosEmpleados(mesesHistorico: Int! = 6, factorS: Float! = 0.22): [PrediccionRetardosEmpleadoType!]!
+
+  """Predice consumos del comedor con ajuste estacional. s=0.17 → α≈0.844."""
+  prediccionConsumoComedor(semanasHistorico: Int! = 8, factorS: Float! = 0.17): PrediccionConsumoComedorType!
   alumnos: [Alumno!]!
   alumnosP(page: Int = 1, limit: Int = 10): [Alumno!]!
   alumno(id: Int!): Alumno!
